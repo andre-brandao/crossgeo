@@ -6,6 +6,9 @@ import {
   // customType,
 } from 'drizzle-orm/sqlite-core'
 import { sql } from 'drizzle-orm'
+export const DEFAULT_USER_PERMISSIONS: UserPermissions = {
+  role: 'user',
+} as const
 
 export const userTable = sqliteTable('user', {
   id: text('id').notNull().primaryKey(),
@@ -23,7 +26,10 @@ export const userTable = sqliteTable('user', {
   permissions: text('permissions', { mode: 'json' })
     .notNull()
     .$type<UserPermissions>()
-    .default({ isAdmin: false }),
+    .default(DEFAULT_USER_PERMISSIONS),
+
+  used_credits: integer('used_credits').default(0),
+  max_credits: integer('max_credits').default(200),
 })
 
 export type SelectUser = typeof userTable.$inferSelect
@@ -39,7 +45,7 @@ export interface DatabaseUser {
 }
 
 export type UserPermissions = {
-  isAdmin: boolean
+  role: 'admin' | 'user'
 }
 
 // AUTH TABLES
@@ -85,5 +91,3 @@ export const magicLinkTable = sqliteTable('magic_link', {
   email: text('email').notNull(),
   expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
 })
-
-

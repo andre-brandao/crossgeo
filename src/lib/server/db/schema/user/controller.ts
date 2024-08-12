@@ -9,6 +9,7 @@ import {
   type UserPermissions,
   type SelectUser,
   sessionTable,
+  DEFAULT_USER_PERMISSIONS,
 } from '$db/schema'
 
 import { TimeSpan, createDate, isWithinExpirationDate } from 'oslo'
@@ -16,10 +17,6 @@ import { generateRandomString, alphabet, sha256 } from 'oslo/crypto'
 import type { User } from 'lucia'
 import { encodeHex } from 'oslo/encoding'
 import { generateIdFromEntropySize } from 'lucia'
-
-const DEFAULT_PERMISSIONS: UserPermissions = {
-  isAdmin: false,
-}
 
 function getUserByUsername(username: string) {
   return db
@@ -181,5 +178,5 @@ export const user = {
   createMagicLinkToken,
   getMagicLinkToken,
   deleteMagicLinkToken,
-  DEFAULT_PERMISSIONS,
+  DEFAULT_USER_PERMISSIONS,
 }
