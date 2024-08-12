@@ -6,7 +6,7 @@ import { error } from '@sveltejs/kit'
 export const load = (async ({ params }) => {
   const mapID = Number(params.id)
 
-  const map_info = map.queryMapWithPoints(mapID)
+  const map_info = await map.queryMapWithPoints(mapID)
 
   if (!map_info) {
     return error(404, 'Map not found')

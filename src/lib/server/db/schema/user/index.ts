@@ -5,7 +5,8 @@ import {
 
   // customType,
 } from 'drizzle-orm/sqlite-core'
-import { sql } from 'drizzle-orm'
+import { sql, relations } from 'drizzle-orm'
+import { groupToUserTable, mapTable } from '../map'
 export const DEFAULT_USER_PERMISSIONS: UserPermissions = {
   role: 'user',
 } as const
@@ -31,6 +32,11 @@ export const userTable = sqliteTable('user', {
   used_credits: integer('used_credits').default(0),
   max_credits: integer('max_credits').default(200),
 })
+
+export const userRelations = relations(userTable, ({ many }) => ({
+  groupToUserTable: many(groupToUserTable),
+  maps: many(mapTable),
+}))
 
 export type SelectUser = typeof userTable.$inferSelect
 export type InsertUser = typeof userTable.$inferInsert

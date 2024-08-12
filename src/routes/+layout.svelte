@@ -24,9 +24,9 @@
   $: user.set(data.user)
   const cart = createCartContext()
 
-  onMount(() => {
-    changeTheme('bumblebee')
-  })
+  // onMount(() => {
+  //   changeTheme('bumblebee')
+  // })
 </script>
 
 <ParaglideJS {i18n}>

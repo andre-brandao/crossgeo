@@ -40,7 +40,7 @@
 
   export let locations: {
     latLong: L.LatLng
-    metadata?: Record<string, any>
+    metadata?: Record<string, any> | null
   }[] = []
 
   export let initialLocation: [number, number] = [-20.1260665, -44.833004]
@@ -183,6 +183,14 @@
           lasso.enable()
         },
         click_table: toogle_table,
+        changeHeatOptions: opts => {
+          const {blur, radius} = opts
+          markersHeat.setOptions({
+            blur,
+            radius
+          })
+          markersHeat.redraw()
+        },
       },
     })
 
@@ -257,7 +265,7 @@
 
   function markerIcon(count: number, selected = false) {
     let html = `<div class="map-marker"><div>${icons.pin({
-      stroke: selected ? 'red' : 'currentColor',
+      stroke: selected ? 'red' : 'black',
     })}</div><div class="marker-text">${count}</div></div>`
     return L.divIcon({
       html,
@@ -286,6 +294,7 @@
       width: size,
       height: size,
       fill: color,
+      stroke: 'black',
     })}</div><div class="marker-text">${count}</div></div>`
     return L.divIcon({
       html,
@@ -344,15 +353,18 @@
 
     markersHeat = L.heatLayer([], { radius: 35, blur: 35 })
 
+    markersHeat.setOptions({ radius: 35, blur: 35, gradient: { 0.4: 'blue', 0.65: 'lime', 1: 'red' } })
+    console.log(locations)
+
     for (let location of locations) {
-      let m = createMarker(location.latLong, location.metadata)
+      let m = createMarker(location.latLong, location.metadata ?? undefined)
       markerLayers.addLayer(m)
       markersCluster.addLayer(m)
       markersHeat.addLatLng(location.latLong)
     }
     markersCluster.addTo(map)
 
-    console.log(markerLayers)
+    console.log(markerLayers.getLayers())
 
     return {
       destroy: () => {
@@ -405,7 +417,7 @@
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
   crossorigin=""
 />
-<div class="map" style="height:100%;width:100%" use:mapAction></div>
+<div class="map z-10" style="height:100%;width:100%" use:mapAction></div>
 
 <style>
   .map :global(.marker-text) {

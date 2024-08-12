@@ -19,7 +19,7 @@ export const mapGroupTable = sqliteTable('group', {
 })
 export const mapGroupRelations = relations(mapGroupTable, ({ many }) => ({
   users: many(userTable),
-
+  groupToUserTable: many(groupToUserTable),
   maps: many(mapTable),
 }))
 

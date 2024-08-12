@@ -2,14 +2,14 @@ import { publicProcedure, router } from '../t'
 
 import { z } from 'zod'
 import { map as mapController } from '$db/controller'
-import { insertMapSchema, type InsertMapPoint } from '$db/schema'
+// import { insertMapSchema, type InsertMapPoint } from '$db/schema'
 
 import { geocodeAddress } from '$utils/geo'
 
 import { middleware } from '../middleware'
 import { TRPCError } from '@trpc/server'
 
-export const pushNotification = router({
+export const mapa = router({
   creteMap: publicProcedure
     .use(middleware.auth)
     .input(
@@ -25,7 +25,7 @@ export const pushNotification = router({
         raw_points: z
           .object({
             address: z.string(),
-            meta: z.record(z.any()),
+            meta: z.any(),
           })
           .array(),
       }),
@@ -53,6 +53,7 @@ export const pushNotification = router({
         })
         .returning()
 
+      let center = { lat: 0, lng: 0 }
       for (const point of raw_points) {
         try {
           const geocoded_point = await geocodeAddress(point.address)
@@ -64,11 +65,20 @@ export const pushNotification = router({
               map_id: newMap.id,
               meta_data: point.meta,
             })
+            center = {
+              lat: geocoded_point.lat,
+              lng: geocoded_point.lng,
+            }
           }
         } catch (error) {
           console.error(error)
         }
       }
+
+      await mapController.updateMap(newMap.id, {
+        lat: center.lat,
+        long: center.lng,
+      })
 
       return {
         success: true,

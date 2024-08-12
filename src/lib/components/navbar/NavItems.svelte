@@ -29,81 +29,20 @@
       href: '/',
       icon: icons.home(),
     },
+
     {
-      name: 'Chart',
-      href: '/chart',
-      icon: icons.chart.bar(),
-    },
-    {
-      name: 'Cardapio',
-      href: '/products',
-    },
-    {
-      name: 'Admin',
-      href: '/admin',
+      name: 'Maps',
+      href: '/maps/index',
       subItems: [
         {
-          name: 'Products',
-          href: '/admin/products',
+          name: 'Seus Mapas',
+          href: '/map',
           // icon: icons.cube(),
         },
         {
-          name: 'Users',
-          href: '/admin/users',
+          name: 'Create New Map',
+          href: '/map/create',
           // icon: icons.users(),
-        },
-        {
-          name: 'Customers',
-          href: '/admin/customer',
-          // icon: icons.users(),
-        },
-        {
-          name: 'Orders',
-          href: '/admin/orders',
-          icon: icons.cart(),
-        },
-      ],
-    },
-    {
-      name: 'Testing',
-      icon: icons.warning(),
-      href: '/testing',
-      subItems: [
-        {
-          name: 'Datatable',
-          href: '/datatable',
-          icon: icons.table(),
-        },
-        {
-          name: 'Modal',
-          href: '/modal',
-        },
-        {
-          name: 'Cardapio',
-          href: '/products',
-        },
-        {
-          name: 'Tanner',
-          href: '/tanstack',
-        },
-        {
-          name: 'Checkout',
-          href: '/checkout',
-          icon: icons.cart(),
-        },
-        {
-          name: 'Inner Parent',
-          href: '/inner-parent',
-          subItems: [
-            {
-              name: 'Item 1',
-              href: '/item-1',
-            },
-            {
-              name: 'Item 2',
-              href: '/item-2',
-            },
-          ],
         },
       ],
     },

@@ -11,6 +11,7 @@ import { middleware } from './middleware'
 // ROUTES
 import { auth } from './routes/auth'
 import { pushNotification } from './routes/push-notification'
+import { mapa as map } from './routes/map'
 
 export const router = t.router({
   reportBug: publicProcedure
@@ -71,6 +72,7 @@ export const router = t.router({
   auth,
 
   pushNotification,
+  map,
 })
 
 export type Router = typeof router

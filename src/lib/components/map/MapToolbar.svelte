@@ -13,6 +13,11 @@
   export let click_lasso = () => {}
   export let click_table = (/** @type {boolean} */ table: boolean) => {}
 
+  export let changeHeatOptions = (options: {
+    radius: number
+    blur: number
+  }) => {}
+
   function clickHeat() {
     heat = !heat
     click_heat(heat)
@@ -20,6 +25,11 @@
   function clickEye() {
     eye = !eye
     click_eye(eye)
+  }
+
+  let heatValues = {
+    radius: 35,
+    blur: 35,
   }
 </script>
 
@@ -30,7 +40,7 @@
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="none"
-        stroke="currentColor"
+        stroke="gray"
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -62,17 +72,17 @@
       stroke-linejoin="round"
       stroke-width="2"
       viewBox="0 0 24 24"
-      stroke="currentColor"
+      stroke="gray"
     >
       <path
         d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
       ></path>
     </svg>
   </button>
-
   <button
     type="button"
-    on:click={() => {
+    on:click={e => {
+      e.preventDefault()
       cluster = !cluster
       click_cluster(cluster)
     }}
@@ -94,27 +104,54 @@
     </svg>
   </button>
 
-  <button
-    type="button"
-    on:click={clickHeat}
-    class:selected={heat}
-    title="Heatmap"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-flame"
+  <div class="dropdown dropdown-end dropdown-hover">
+    <button
+      type="button"
+      on:click={clickHeat}
+      class:selected={heat}
+      title="Heatmap"
     >
-      <path
-        d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"
-      />
-    </svg>
-  </button>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="gray"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-flame"
+      >
+        <path
+          d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"
+        />
+      </svg>
+    </button>
+    <div
+      tabindex="0"
+      class="card dropdown-content card-compact z-[1] w-64 bg-base-300 p-2 text-base-content shadow"
+    >
+      <div>
+        Blur <input
+          type="range"
+          min="0"
+          max="50"
+          bind:value={heatValues.blur}
+          class="range"
+          on:change={() => changeHeatOptions(heatValues)}
+        />
+      </div>
+      <div>
+        Radius <input
+          type="range"
+          min="15"
+          max="100"
+          bind:value={heatValues.radius}
+          class="range"
+          on:change={() => changeHeatOptions(heatValues)}
+        />
+      </div>
+    </div>
+  </div>
 
   <button type="button" on:click={clickEye} class:selected={eye}>
     <svg
@@ -123,7 +160,7 @@
       stroke-linejoin="round"
       stroke-width={eye ? 2 : 1}
       viewBox="0 0 24 24"
-      stroke="currentColor"
+      stroke="gray"
     >
       {#if eye}
         <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -148,7 +185,7 @@
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="currentColor"
+      stroke="gray"
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
@@ -163,8 +200,6 @@
 </div>
 
 <style>
-
-
   button {
     width: 2rem;
     height: 2rem;
