@@ -13,6 +13,8 @@
     "paths": {
       "$lib/*": ["./src/lib/*"],
       "$lib": ["./src/lib"],
+      "$static": ["./static"],
+      "$static/*": ["./static/*"],
       "$components/*": ["./src/lib/components/*"],
       "$components": ["./src/lib/components"],
       "$utils": ["./src/lib/utils"],

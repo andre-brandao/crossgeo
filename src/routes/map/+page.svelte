@@ -3,6 +3,9 @@
 
   export let data: PageData
   const { user_maps, groups } = data
+
+  import { getUserContext } from '$lib/stores/user'
+  const user = getUserContext()
 </script>
 
 <main class="container mx-auto">
@@ -10,6 +13,9 @@
   <div class="mb-8">
     <h2 class="mb-4 text-xl font-semibold">Your Maps:</h2>
 
+    <div>
+      Seus Geopoints: {$user?.used_credits}/ {$user?.max_credits}
+    </div>
     <section
       class="grid grid-cols-1 gap-6 p-4 sm:grid-cols-2 md:grid-cols-3 md:p-6 lg:grid-cols-4"
     >

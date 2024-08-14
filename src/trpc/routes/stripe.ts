@@ -7,6 +7,8 @@ import { middleware } from '../middleware'
 import { TRPCError } from '@trpc/server'
 import { stripe } from '$lib/server/stripe'
 
+import { user as userController } from '$lib/server/db/controller'
+
 export const checkout = router({
   createCheckoutSession: publicProcedure
     .use(middleware.auth)
@@ -30,6 +32,15 @@ export const checkout = router({
       const { items } = input
       const { url } = ctx
 
+      const { user } = ctx.locals
+
+      if (!user) {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'You must be logged in to checkout',
+        })
+      }
+
       const lineItems = items.map(item => ({
         price_data: {
           currency: 'usd',
@@ -46,8 +57,25 @@ export const checkout = router({
         payment_method_types: ['card'],
         line_items: lineItems,
         mode: 'payment',
-        success_url: `${url.origin}/checkout/success`,
+        success_url: `${url.origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${url.origin}/checkout/cancel`,
+        customer_email: user.email,
+        metadata: {
+          user_id: user.id,
+        },
+      })
+
+      console.log(session)
+
+      const geoPoints = items[0].quantity
+      await userController.insertCheckoutSession({
+        id: session.id,
+        userId: user.id,
+        expiresAt: new Date(session.expires_at),
+        stripe_json: session,
+        geopoints: geoPoints,
+        credited: false,
+        expired: false,
       })
 
       return {

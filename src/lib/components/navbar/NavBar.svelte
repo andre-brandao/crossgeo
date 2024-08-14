@@ -10,6 +10,7 @@
   import { trpc } from '$trpc/client'
   import { page } from '$app/stores'
   import NavItems from './NavItems.svelte'
+  import Breadcrumbs from './Breadcrumbs.svelte'
 
   import { icons } from '$lib/utils/icons'
   import { goto } from '$app/navigation'
@@ -53,6 +54,8 @@
         <a href="/" class="btn btn-ghost text-xl max-sm:hidden">
           {website.siteShortTitle}
         </a>
+
+        <Breadcrumbs />
       </div>
 
       <div class="hidden flex-none lg:block">
@@ -76,6 +79,11 @@
               <li><a href="/myprofile">{@html icons.user()} Meu Perfil</a></li>
               <li>
                 <button onclick={logout}>{@html icons.logout()} Logout</button>
+              </li>
+              <li>
+                <a href="/checkout">
+                  GeoPoints: {$user?.used_credits}/ {$user?.max_credits}
+                </a>
               </li>
             </ul>
           </div>

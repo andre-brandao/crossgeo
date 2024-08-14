@@ -21,6 +21,7 @@ const config = {
     adapter: adapter(),
     alias: {
       $lib: './src/lib',
+      $static: './static',
       $components: './src/lib/components',
       $utils: './src/lib/utils',
       $db: './src/lib/server/db',

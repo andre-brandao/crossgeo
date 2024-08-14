@@ -29,6 +29,11 @@
       href: '/',
       icon: icons.home(),
     },
+    {
+      name: 'Comprar Geopoints',
+      href: '/checkout',
+      icon: icons.home(),
+    },
 
     {
       name: 'Maps',
