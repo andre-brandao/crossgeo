@@ -91,7 +91,7 @@
           <a class="btn" href="/login">{@html icons.login()}Login</a>
         {/if}
 
-        <Cart />
+        <!-- <Cart /> -->
 
         <ThemeSwiter />
 
