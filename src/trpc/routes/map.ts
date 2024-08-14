@@ -1,7 +1,7 @@
 import { publicProcedure, router } from '../t'
 
 import { z } from 'zod'
-import { map as mapController } from '$db/controller'
+import { map as mapController, user as userController } from '$db/controller'
 // import { insertMapSchema, type InsertMapPoint } from '$db/schema'
 
 import { geocodeAddress } from '$utils/geo'
@@ -38,6 +38,13 @@ export const mapa = router({
         throw new TRPCError({
           code: 'UNAUTHORIZED',
           message: 'User not found',
+        })
+      }
+
+      if (user.max_credits < user.used_credits + raw_points.length) {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'User has insufficient credits',
         })
       }
 
@@ -80,9 +87,52 @@ export const mapa = router({
         long: center.lng,
       })
 
+      await userController.updateUser(user.id, {
+        used_credits: user.used_credits + raw_points.length,
+      })
+
       return {
         success: true,
         map: newMap,
+      }
+    }),
+  addPointsToMap: publicProcedure
+    .input(
+      z.object({
+        mapID: z.number(),
+        raw_points: z
+          .object({
+            address: z.string(),
+            meta: z.any(),
+          })
+          .array(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { mapID, raw_points } = input
+      const { user } = ctx.locals
+
+      if (!user) {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'User not found',
+        })
+      }
+
+      if (user.max_credits < user.used_credits + raw_points.length) {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'User has insufficient credits',
+        })
+      }
+
+      const map = await mapController.getMapByID(mapID)
+
+      if (map?.created_by !== user.id) {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'User does not have permission to add points to this map',
+        })
       }
     }),
 

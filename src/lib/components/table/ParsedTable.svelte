@@ -7,11 +7,7 @@
     selectedRow?: (value: string) => void
     selectedCell?: (value: string) => void
   }
-  let {
-    data,
-    selectedRow = v => {},
-    selectedCell = v => {},
-  }: CSVTableProps = $props()
+  let { data, selectedRow, selectedCell }: CSVTableProps = $props()
   console.log(data)
 
   /**
@@ -26,7 +22,12 @@
       <thead class="">
         <tr class="sticky top-0 bg-base-200">
           {#each data.headers as header}
-            <th class="cursor-pointer" onclick={() => selectedRow(header)}>
+            <th
+              class={selectedRow
+                ? 'cursor-pointer hover:bg-primary hover:text-primary-content'
+                : ''}
+              onclick={() => selectedRow?.(header)}
+            >
               {header}
             </th>
           {/each}
@@ -37,9 +38,14 @@
           <tr class="">
             {#each data.headers as header}
               <td
-                class=""
+                class={selectedCell
+                  ? 'cursor-pointer hover:bg-primary hover:text-primary-content'
+                  : ''}
                 onclick={() => {
-                  selectedCell(row[header])
+                  const cellVall = row[header]
+                  if (cellVall) {
+                    selectedCell?.(row[header])
+                  }
                 }}
               >
                 {row[header]}

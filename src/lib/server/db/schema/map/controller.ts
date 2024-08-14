@@ -67,6 +67,12 @@ function getUserMaps(user_id: SelectUser['id']) {
   })
 }
 
+function getMapByID(map_id: SelectMap['id']){
+  return db.query.mapTable.findFirst({
+    where: t => eq(t.id, map_id)
+  })
+}
+
 export const map = {
   insertGroup,
   addUserToGroup,
@@ -75,6 +81,7 @@ export const map = {
   insertMap,
   updateMap,
   getUserMaps,
+  getMapByID,
   queryMapWithPoints,
    queryUserGroupsWithMaps,
 }

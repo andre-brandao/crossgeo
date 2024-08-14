@@ -115,3 +115,18 @@ export const insertMapPointSchema = createInsertSchema(mapPointTable)
 
 export type SelectMapPoint = typeof mapPointTable.$inferSelect
 export type InsertMapPoint = typeof mapPointTable.$inferInsert
+
+import type { Query } from '$lib/components/map/dataset'
+
+export const chartTable = sqliteTable('chart', {
+  id: integer('id').notNull().primaryKey({ autoIncrement: true }),
+  created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
+  map_id: integer('map_id')
+    .notNull()
+    .references(() => mapTable.id, {
+      onDelete: 'cascade',
+    }),
+  type: text('type').notNull(),
+  title: text('title').notNull(),
+  filters: text('filters').notNull().$type<{ label: string; query: Query }[]>(),
+})

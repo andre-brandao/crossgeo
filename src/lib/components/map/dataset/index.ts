@@ -12,8 +12,9 @@ export type Operator =
 
 export interface SimpleQuery {
   field: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any
-  operator: Operator
+  operator: Operator | string
 }
 
 export interface ComplexQuery {
@@ -21,11 +22,13 @@ export interface ComplexQuery {
   queries: Query[]
 }
 
-export type Query = SimpleQuery | ComplexQuery
+// export type Query = SimpleQuery | ComplexQuery
+export type Query = SimpleQuery 
 
-export type Dataset = Array<{ [key: string]: any }>
+export type Dataset = Array<Record<string, unknown>>
 
 function evaluateSimpleQuery(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   item: Record<string, any>,
   query: SimpleQuery,
 ): boolean {

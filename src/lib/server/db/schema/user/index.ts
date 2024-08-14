@@ -48,6 +48,8 @@ export interface DatabaseUser {
   email: string
   emailVerified: boolean
   permissions: UserPermissions
+  used_credits: number,
+  max_credits: number
 }
 
 export type UserPermissions = {

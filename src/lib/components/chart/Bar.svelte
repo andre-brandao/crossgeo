@@ -17,7 +17,7 @@
     Bars,
   } from 'layerchart'
 
-  import { scaleBand } from 'd3-scale'
+  import { scaleBand, scaleLinear } from 'd3-scale'
   export let data
 </script>
 
@@ -25,7 +25,7 @@
   <Chart
     {data}
     x="date"
-    xScale={scaleBand().padding(0.4)}
+    xScale={scaleBand()}
     y="value"
     yDomain={[0, null]}
     yNice={4}

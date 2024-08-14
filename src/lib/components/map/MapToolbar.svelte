@@ -153,7 +153,7 @@
     </div>
   </div>
 
-  <button type="button" on:click={clickEye} class:selected={eye}>
+  <!-- <button type="button" on:click={clickEye} class:selected={eye}>
     <svg
       fill="none"
       stroke-linecap="round"
@@ -173,7 +173,7 @@
         ></path>
       {/if}
     </svg>
-  </button>
+  </button> -->
 
   <button
     on:click={() => {

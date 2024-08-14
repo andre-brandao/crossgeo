@@ -163,6 +163,9 @@
           if (cluster && markers) {
             markers = false
           }
+          if (!cluster && !markers) {
+            markers = true
+          }
         },
         click_reset: () => {
           map.setView(initialLocation, initailZoom, { animate: true })
@@ -184,10 +187,10 @@
         },
         click_table: toogle_table,
         changeHeatOptions: opts => {
-          const {blur, radius} = opts
+          const { blur, radius } = opts
           markersHeat.setOptions({
             blur,
-            radius
+            radius,
           })
           markersHeat.redraw()
         },
@@ -351,9 +354,11 @@
       },
     })
 
-    markersHeat = L.heatLayer([], { radius: 35, blur: 35 })
+    markersHeat = L.heatLayer([], {
+      // radius: 35,
+      // blur: 35,
+    })
 
-    markersHeat.setOptions({ radius: 35, blur: 35, gradient: { 0.4: 'blue', 0.65: 'lime', 1: 'red' } })
     console.log(locations)
 
     for (let location of locations) {
