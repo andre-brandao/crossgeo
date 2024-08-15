@@ -14,6 +14,7 @@
   import { tweened } from 'svelte/motion'
 
   import Globe from './PointsMap.svelte'
+  import { icons } from '$lib/utils'
 
   let geopoints = tweened(200, { duration: 500 })
 
@@ -50,25 +51,27 @@
 
 <h1 class="text-center text-3xl">Buy GeoPoints</h1>
 <main class="container mx-auto flex flex-col items-center justify-start">
-  <div class="-z-10 h-[30vh] w-full">
+  <div class="-z-10 h-[15vh] w-full">
     <Globe {data} showPoints={$geopoints} />
   </div>
   <div class="mb-5">
-    <h1>GeoPoints</h1>
-    <p class="rounded bg-primary p-5 text-2xl text-primary-content">
+    <h1 class="text-center font-bold shadow-lg">GeoPoints</h1>
+    <p
+      class="min-w-36 rounded bg-primary bg-opacity-70 p-5 text-center text-2xl font-bold tracking-wide text-primary-content"
+    >
       {$geopoints.toFixed(0)}
     </p>
   </div>
   <div class="z-40 my-5 flex items-center justify-center gap-4">
     <button
-      class="btn btn-error"
+      class="btn btn-error "
       onclick={() =>
         $geopoints - 100 > 0 ? ($geopoints -= 100) : ($geopoints = 100)}
     >
       -100
     </button>
     <button
-      class="btn btn-error"
+      class="btn btn-error "
       onclick={() =>
         $geopoints - 50 > 0 ? ($geopoints -= 50) : ($geopoints = 50)}
     >
@@ -82,16 +85,26 @@
     <button class="btn btn-primary" onclick={() => ($geopoints += 100)}>
       +100
     </button>
-    
   </div>
 
-  <p class="my-2 max-w-72 text-wrap bg-info p-1 text-justify text-info-content">
+  <!-- <p
+    class="my-2 max-w-72 text-wrap rounded-lg bg-info bg-opacity-70 p-5 text-justify text-info-content"
+  >
     Geopoints are used to buy data from the API. Each point costs $0.25. You
     currently have used {$user?.used_credits} from {$user?.max_credits}
-  </p>
-  <p class=" rounded bg-primary p-1 text-primary-content">
-    Total: ${($total / 100).toFixed(2)}
-  </p>
-
-  <button class="btn btn-info mt-4" onclick={checkout}>Checkout</button>
+  </p> -->
+  <div class="flex gap-2 items-center">
+    <p class=" rounded bg-primary p-3 text-2xl text-primary-content bg-opacity-85">
+      Total: <span class="font-bold">${($total / 100).toFixed(2)}</span>
+    </p>
+  
+    <button class="rounded bg-secondary p-3 text-2xl text-secondary-content bg-opacity-85 flex items-center gap-2 hover:bg-opacity-70" onclick={checkout}>Checkout {@html icons.cart()}</button>
+  </div>
+  <div
+  class="tooltip z-50 my-5"
+  data-tip="Geopoints are used to buy data from the API. Each point costs $0.25. You
+  currently have used {$user?.used_credits} from {$user?.max_credits}"
+>
+  <button class="btn">For what are GeoPoints?</button>
+</div>
 </main>
