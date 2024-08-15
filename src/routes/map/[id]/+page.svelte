@@ -8,6 +8,9 @@
   import L from 'leaflet'
   import { modal } from '$modal'
 
+  import { page } from '$app/stores'
+
+  import Share from '$components/share/index.svelte'
   import type { PageData } from './$types'
   export let data: PageData
 
@@ -141,9 +144,11 @@
   }
 </script>
 
-<div class="flex h-full items-center justify-center gap-4 max-lg:flex-col max-lg:overflow-auto p-4">
-  <div class="flex flex-col justify-between w-full lg:w-2/3">
-    <div class="h-[40vh] rounded-t-lg shadow-lg overflow-hidden">
+<div
+  class="flex h-full items-center justify-center gap-4 p-4 max-lg:flex-col max-lg:overflow-auto"
+>
+  <div class="flex w-full flex-col justify-between lg:w-2/3">
+    <div class="h-[40vh] overflow-hidden rounded-t-lg shadow-lg">
       {#if isVonoroiActive}
         <Vonoroi
           latLongs={locations.map(l => ({
@@ -173,21 +178,22 @@
     </div>
   </div>
 
-  <div class="flex flex-col gap-4 w-full lg:w-1/3">
-    <button
-      on:click={modalCreateNewChart}
-      class="btn btn-primary w-full"
-    >
+  <div class="flex w-full flex-col gap-4 lg:w-1/3">
+    <button on:click={modalCreateNewChart} class="btn btn-primary w-full">
       Create New Chart
     </button>
     <button
       on:click={() => (isVonoroiActive = !isVonoroiActive)}
       class="btn btn-primary w-full"
     >
-      Mudar Mapa
+      {isVonoroiActive ? 'Show Map' : 'Show Voronoi'}
     </button>
 
-    <div class="flex flex-col gap-4 overflow-y-scroll max-h-[73vh] p-2 bg-base-100 rounded-lg shadow-lg border">
+    <Share title="CrossMap {map.name}" url={$page.url} />
+
+    <div
+      class="flex max-h-[73vh] flex-col gap-4 overflow-y-scroll rounded-lg border bg-base-100 p-2 shadow-lg"
+    >
       {#each charts as chart}
         <QueryChart dataset={filtered_data} {...chart} />
       {/each}
