@@ -7,6 +7,7 @@
   import Papa from 'papaparse'
   import { toast } from 'svelte-sonner'
   import { goto } from '$app/navigation'
+  import Loading from '$lib/components/Loading.svelte'
 
   export let data: PageData
 
@@ -70,6 +71,7 @@
       toast.error('No data available. Please upload a CSV file.')
       return
     }
+    isLoading = true
 
     const points = csv_data
       .map(d => ({
@@ -97,6 +99,7 @@
     } catch (error: any) {
       toast.error(error.message)
     }
+    isLoading = false
   }
 </script>
 
@@ -162,13 +165,18 @@
         <p>Selecione um arquivo</p>
       {/if}
 
-      <button class="btn btn-primary" on:click={createMap}>
+      <button class="btn btn-primary" on:click={createMap} disabled={isLoading}>
         {#if isLoading}
-          <div class="spinner spinner-primary"></div>
+          <Loading/>
         {:else}
           <span>Submit</span>
         {/if}
       </button>
+      {#if isLoading}
+      <p class="text-center text-warning">
+        A geocodificacão pode ser um processo demorado, por favor aguarde!
+      </p>
+      {/if}
     </div>
 
     <!-- Table Section -->
