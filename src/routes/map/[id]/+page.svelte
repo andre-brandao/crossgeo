@@ -187,7 +187,7 @@
       Mudar Mapa
     </button>
 
-    <div class="flex flex-col gap-4 overflow-y-scroll max-h-[73vh] p-2 bg-base-100 rounded-lg shadow-lg">
+    <div class="flex flex-col gap-4 overflow-y-scroll max-h-[73vh] p-2 bg-base-100 rounded-lg shadow-lg border">
       {#each charts as chart}
         <QueryChart dataset={filtered_data} {...chart} />
       {/each}
