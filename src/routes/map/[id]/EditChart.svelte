@@ -25,57 +25,63 @@
 </script>
 
 <Modal title="Edit Chart">
-  <div>
-    <QueryChart dataset={dataset.rows} {...chart} />
-  </div>
-
-  <div class="flex flex-col items-center">
-    <div>
-      <label for="chart_title" class="label">Chart Title</label>
-      <input
-        name="chart_title"
-        type="text"
-        bind:value={chart.title}
-        class="input input-bordered"
-      />
-
-      <label for="chart_type" class="label">Chart Type</label>
-      <select
-        name="chart_type"
-        id="chart_type"
-        class="select"
-        bind:value={chart.type}
-      >
-        <option value="line">Line</option>
-        <option value="bar">Bar</option>
-        <option value="area">Area</option>
-      </select>
+  <div class="mt-3">
+    <div class="flex flex-col xl:flex-row gap-3 h-full">
+      <div class="w-full lg:w-5/12 border rounded-lg shadow p-4 items-center">
+        <QueryChart dataset={dataset.rows} {...chart} />
+      </div>
+      <div class="flex flex-col items-centerw-full xl:w-7/12 border rounded">
+        <div class="form-control px-4">
+          <label for="chart_title" class="label">Chart Title</label>
+          <input
+            name="chart_title"
+            type="text"
+            bind:value={chart.title}
+            class="input input-bordered w-full"
+          />
+    
+          <label for="chart_type" class="label">Chart Type</label>
+          <select
+            name="chart_type"
+            id="chart_type"
+            class="select select-bordered w-full"
+            bind:value={chart.type}
+          >
+            <option value="line">Line</option>
+            <option value="bar">Bar</option>
+            <option value="area">Area</option>
+          </select>
+        </div>
+        <div class="overflow-y-auto max-h-80">
+          <FilterComponent
+            fields={dataset.headers}
+            query={chart.filters.map(f => f.query)}
+            onQueryChange={e => {
+              chart.filters = e.map((q, i) => ({
+                label: q.value ?? '',
+                query: q,
+              }))
+            }}
+            bind:filterValue={newFilterValue}
+            bind:filterField={newFilterField}
+          />
+        </div>
+      </div>
     </div>
-    <FilterComponent
-      fields={dataset.headers}
-      query={chart.filters.map(f => f.query)}
-      onQueryChange={e => {
-        chart.filters = e.map((q, i) => ({
-          label: q.value ?? '',
-          query: q,
-        }))
-      }}
-      bind:filterValue={newFilterValue}
-      bind:filterField={newFilterField}
-    />
-  </div>
-
-  <div>
-    <ParsedTable
-      data={dataset}
-      selectedCell={v => {
-        navigator.clipboard.writeText(v)
-        newFilterValue = v
-      }}
-      selectedRow={v => {
-        navigator.clipboard.writeText(v)
-        newFilterField = v
-      }}
-    />
+  
+  
+    <div class="shadow my-4 ">
+      <ParsedTable
+        data={dataset}
+        selectedCell={v => {
+          navigator.clipboard.writeText(v)
+          newFilterValue = v
+        }}
+        selectedRow={v => {
+          navigator.clipboard.writeText(v)
+          newFilterField = v
+        }}
+      />
+    </div>
   </div>
 </Modal>

@@ -48,8 +48,8 @@
   }
 </script>
 
-<div class=" m-2 flex flex-col items-center rounded border p-1">
-  <div class="m-4 flex items-center space-x-2">
+<div class=" m-4 flex flex-col items-center rounded border p-1">
+  <div class=" m-2 flex flex-col xl:flex-row gap-2 items-center space-x-2">
     <select bind:value={filterField} class="select select-primary">
       <option value="" disabled selected>Select Field</option>
       {#each fields as field}
@@ -81,7 +81,7 @@
         type="text"
         bind:value={filterValue}
         placeholder="Value"
-        class="input input-primary"
+        class="input input-primary w-fit"
       />
       <button on:click={addSimpleFilter} class="btn btn-primary">
         Add Filter
@@ -93,7 +93,7 @@
     {#each query as filter, index}
       <li class="bg-primary-50 flex items-center space-x-2 rounded p-1">
         {#if 'field' in filter}
-          <div class="flex items-center space-x-2">
+          <div class="flex items-center space-x-2 flex-col xl:flex-row gap-2">
             <select bind:value={filter.field} class="select select-bordered">
               <option value="" disabled selected>Select Field</option>
               {#each fields as field}

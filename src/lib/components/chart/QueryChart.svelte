@@ -54,7 +54,7 @@
   $: console.log(data, filters)
 </script>
 
-<div class="rounded border">
+<div>
   <div class="p-4">
     <h1 class="text-lg font-bold">{title}</h1>
   </div>
