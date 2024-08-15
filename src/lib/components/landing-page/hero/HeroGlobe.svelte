@@ -7,7 +7,7 @@
 
 <div class="h-[80vh] flex items-center justify-center">
   <div
-    class=" relative flex gap-5 size-full items-center justify-center overflow-hidden rounded-lg  p-20 h-full md:max-w-[80%] md:shadow-xl"
+    class=" relative flex gap-5 size-full items-center justify-center overflow-hidden   p-20 h-full  md:shadow-xl"
   >
     <span
       class="text-7xl"
