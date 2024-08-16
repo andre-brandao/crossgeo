@@ -25,9 +25,8 @@
 </script>
 
 <Modal title="Edit Chart">
-  <div class="mt-3">
     <div class="flex flex-col xl:flex-row gap-3 h-full">
-      <div class="w-full lg:w-5/12 border rounded-lg shadow p-4 items-center">
+      <div class="w-full xl:w-5/12 border rounded-lg shadow p-4 items-center">
         <QueryChart dataset={dataset.rows} {...chart} />
       </div>
       <div class="flex flex-col items-centerw-full xl:w-7/12 border rounded">
@@ -52,7 +51,7 @@
             <option value="area">Area</option>
           </select>
         </div>
-        <div class="overflow-y-auto max-h-80">
+        <div class="overflow-y-auto max-h-80 my-4">
           <FilterComponent
             fields={dataset.headers}
             query={chart.filters.map(f => f.query)}
@@ -66,11 +65,12 @@
             bind:filterField={newFilterField}
           />
         </div>
+        <button class="btn btn-secondary mx-4 mb-2">Salvar</button>
       </div>
     </div>
   
   
-    <div class="shadow my-4 ">
+    <div class="shadow my-4 border rounded-lg">
       <ParsedTable
         data={dataset}
         selectedCell={v => {
@@ -83,5 +83,4 @@
         }}
       />
     </div>
-  </div>
 </Modal>

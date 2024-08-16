@@ -50,10 +50,12 @@
       </svg>
     </button>
   {:else}
+  <div class="bg-base-200 rounded-full p-3 flex items-center gap-2">
     <Twitter {url} {title} />
     <Facebook {url} />
     <Whatsapp {url} {title} />
     <Telegram {url} {title} />
+  </div>
   {/if}
 </div>
 

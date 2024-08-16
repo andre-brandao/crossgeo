@@ -3,7 +3,7 @@
   export let title = ''
 </script>
 
-<header class="handle sticky top-2 z-40 rounded bg-base-200 p-1">
+<header class="handle sticky top-0 z-40 rounded bg-base-200 p-1">
   <aside>
     <span class="text-2xl text-base-content">{@html title}</span>
   </aside>

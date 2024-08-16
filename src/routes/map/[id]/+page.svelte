@@ -145,7 +145,7 @@
 </script>
 
 <div
-  class="flex h-full items-center justify-center gap-4 p-4 max-lg:flex-col max-lg:overflow-auto"
+  class="flex  items-center justify-center gap-4 p-4 flex-col-reverse lg:flex-row"
 >
   <div class="flex w-full flex-col justify-between lg:w-2/3">
     <div class="h-[40vh] overflow-hidden rounded-t-lg shadow-lg">
@@ -189,7 +189,10 @@
       {isVonoroiActive ? 'Show Map' : 'Show Voronoi'}
     </button>
 
-    <Share title="CrossMap {map.name}" url={$page.url} />
+    <div class="flex justify-center items-center flex-wrap gap-1">
+      <h1 class="font-bold">Compartilhar:</h1>
+      <Share title="CrossMap {map.name}" url={$page.url} />
+    </div>
 
     <div
       class="flex max-h-[68vh] flex-col gap-4 overflow-y-scroll rounded-lg border bg-base-100 p-2 shadow-lg"

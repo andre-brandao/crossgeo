@@ -58,7 +58,7 @@
   <div class="p-4">
     <h1 class="text-lg font-bold">{title}</h1>
   </div>
-  <div class=" h-[320px] min-w-[300px] rounded p-4">
+  <div class=" h-[320px]  rounded p-4">
     {#if type === 'bar'}
       <Chart
         {data}
