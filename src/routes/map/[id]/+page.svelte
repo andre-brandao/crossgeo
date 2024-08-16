@@ -192,7 +192,7 @@
     <Share title="CrossMap {map.name}" url={$page.url} />
 
     <div
-      class="flex max-h-[73vh] flex-col gap-4 overflow-y-scroll rounded-lg border bg-base-100 p-2 shadow-lg"
+      class="flex max-h-[68vh] flex-col gap-4 overflow-y-scroll rounded-lg border bg-base-100 p-2 shadow-lg"
     >
       {#each charts as chart}
         <QueryChart dataset={filtered_data} {...chart} />
