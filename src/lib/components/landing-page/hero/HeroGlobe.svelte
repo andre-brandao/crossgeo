@@ -1,23 +1,46 @@
 <script>
+  import { icons } from '$lib/utils'
   import * as m from '$msgs'
 
   import RetroGrid from '../../animation/RetroGrid.svelte'
   import RotatingGlobe from '../globe/RotatingGlobe.svelte'
 </script>
 
-<div class="h-[80vh] flex items-center justify-center">
+<div class="flex h-[80vh] items-center justify-center">
   <div
-    class=" relative flex gap-5 size-full items-center justify-center overflow-hidden   p-20 h-full  md:shadow-xl"
+    class=" relative flex size-full h-full items-center justify-center gap-5 overflow-hidden p-20"
   >
-    <span
-      class="text-7xl"
-    >
-      {m.hero_title()}
-    </span>
+    <div class="flex flex-col gap-2">
+      <h1
+        class="inline-flex animate-text-gradient bg-gradient-to-r from-primary via-secondary to-primary bg-[200%_auto] bg-clip-text text-center text-7xl font-bold text-transparent"
+      >
+        CrossGeo
+      </h1>
+
+      <span class="text-xl tracking-widest">Análise espacial de dados</span>
+      <div class="flex w-full gap-2 mt-6">
+
+        <button class="relative inline-flex overflow-hidden rounded-xl p-px">
+          <span
+            class="btn btn-primary inline-flex h-full w-full cursor-pointer items-center justify-center px-4 py-2 text-lg font-medium backdrop-blur-3xl"
+          >
+          Get Started {@html icons.arrow()}
+          </span>
+        </button>
+        <button class="relative inline-flex overflow-hidden rounded-xl p-px">
+          <span
+            class="btn btn-secondary btn-outline inline-flex h-full w-full cursor-pointer items-center justify-center px-4 py-2 text-lg font-medium backdrop-blur-3xl"
+          >
+            Entre em contato
+          </span>
+        </button>
+      </div>
+    </div>
+
     <div style="width: 400px; height: 400px; z-index: 100;">
       <RotatingGlobe />
     </div>
 
-    <RetroGrid />
+    <!-- <RetroGrid /> -->
   </div>
 </div>
