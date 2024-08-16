@@ -145,10 +145,10 @@
 </script>
 
 <div
-  class="flex  items-center justify-center gap-4 p-4 flex-col-reverse lg:flex-row"
+  class="flex  items-center justify-center gap-4 p-3 flex-col-reverse lg:flex-row"
 >
   <div class="flex w-full flex-col justify-between lg:w-2/3">
-    <div class="h-[40vh] overflow-hidden rounded-t-lg shadow-lg">
+    <div class="h-[38vh] overflow-hidden rounded-t-lg shadow-lg top-0">
       {#if isVonoroiActive}
         <Vonoroi
           latLongs={locations.map(l => ({
@@ -195,7 +195,7 @@
     </div>
 
     <div
-      class="flex max-h-[68vh] flex-col gap-4 overflow-y-scroll rounded-lg border bg-base-100 p-2 shadow-lg"
+      class="flex max-h-[65vh] flex-col gap-4 overflow-y-scroll rounded-lg border bg-base-100 p-2 shadow-lg"
     >
       {#each charts as chart}
         <QueryChart dataset={filtered_data} {...chart} />
