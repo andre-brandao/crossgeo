@@ -1,28 +1,23 @@
+<script>
+
+  import { icons } from "$lib/utils"
+
+</script>
 <section class="  body-font">
   <div class="container mx-auto px-5 py-24">
     <div
       class="mx-auto mb-10 flex flex-col items-center border-b border-gray-800 pb-10 sm:flex-row lg:w-3/5"
     >
       <div
-        class="inline-flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-gray-800 text-primary sm:mr-10 sm:h-32 sm:w-32"
+        class="inline-flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-base-200 text-primary sm:mr-10 sm:h-32 sm:w-32"
       >
-        <svg
-          fill="none"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          class="h-10 w-10 sm:h-16 sm:w-16"
-          viewBox="0 0 24 24"
-        >
-          <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-        </svg>
+      {@html icons.chart2()}
       </div>
       <div class="mt-6 flex-grow text-center sm:mt-0 sm:text-left">
-        <h2 class=" title-font mb-2 text-lg font-medium">Shooting Stars</h2>
+        <h2 class=" title-font mb-2 text-lg font-medium">Gráficos</h2>
         <p class="text-base leading-relaxed">
-          Blue bottle crucifix vinyl post-ironic four dollar toast vegan
-          taxidermy. Gastropub indxgo juice poutine.
+          Crie gráficos de barras, linhas, pizza e muito mais de acordo com os
+          dados do seu mapa.
         </p>
         <a class="mt-3 inline-flex items-center text-primary">
           Learn More
@@ -44,10 +39,12 @@
       class="mx-auto mb-10 flex flex-col items-center border-b border-gray-800 pb-10 sm:flex-row lg:w-3/5"
     >
       <div class="mt-6 flex-grow text-center sm:mt-0 sm:text-left">
-        <h2 class=" title-font mb-2 text-lg font-medium">The Catalyzer</h2>
+        <h2 class=" title-font mb-2 text-lg font-medium">
+          Especialistas e Geógrafos
+        </h2>
         <p class="text-base leading-relaxed">
-          Blue bottle crucifix vinyl post-ironic four dollar toast vegan
-          taxidermy. Gastropub indxgo juice poutine.
+          Contamos com uma equipe de especialistas e geógrafos para te ajudar a
+          criar mapas personalizados.
         </p>
         <a class="mt-3 inline-flex items-center text-primary">
           Learn More
@@ -65,45 +62,21 @@
         </a>
       </div>
       <div
-        class="order-first inline-flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-gray-800 text-primary sm:order-none sm:ml-10 sm:h-32 sm:w-32"
+        class="order-first inline-flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-base-200 text-primary sm:order-none sm:ml-10 sm:h-32 sm:w-32"
       >
-        <svg
-          fill="none"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          class="h-10 w-10 sm:h-16 sm:w-16"
-          viewBox="0 0 24 24"
-        >
-          <circle cx="6" cy="6" r="3"></circle>
-          <circle cx="6" cy="18" r="3"></circle>
-          <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
-        </svg>
+      {@html icons.book()}
       </div>
     </div>
     <div class="mx-auto flex flex-col items-center sm:flex-row lg:w-3/5">
       <div
-        class="inline-flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-gray-800 text-primary sm:mr-10 sm:h-32 sm:w-32"
+        class="inline-flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-base-200 text-primary sm:mr-10 sm:h-32 sm:w-32"
       >
-        <svg
-          fill="none"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          class="h-10 w-10 sm:h-16 sm:w-16"
-          viewBox="0 0 24 24"
-        >
-          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
-          <circle cx="12" cy="7" r="4"></circle>
-        </svg>
+      {@html icons.layer()}
       </div>
       <div class="mt-6 flex-grow text-center sm:mt-0 sm:text-left">
-        <h2 class=" title-font mb-2 text-lg font-medium">The 400 Blows</h2>
+        <h2 class=" title-font mb-2 text-lg font-medium">Mapas Multicamadas</h2>
         <p class="text-base leading-relaxed">
-          Blue bottle crucifix vinyl post-ironic four dollar toast vegan
-          taxidermy. Gastropub indxgo juice poutine.
+          Solicite a criação de um mapa personalizado com diversas camadas.
         </p>
         <a class="mt-3 inline-flex items-center text-primary">
           Learn More
@@ -123,3 +96,4 @@
     </div>
   </div>
 </section>
+
