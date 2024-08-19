@@ -31,7 +31,7 @@
 
   <Features3></Features3>
 
-  <Pricing />
+  <!-- <Pricing /> -->
 
   <Features4></Features4>
 

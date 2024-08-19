@@ -103,7 +103,8 @@
   }
 </script>
 
-<div class="container mx-auto">
+<div class="container mx-auto mt-5">
+  <h1 class="text-center mb-5 text-4xl font-medium">Create a map</h1>
   <!-- Responsive grid layout -->
   <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
     <!-- Form Section -->

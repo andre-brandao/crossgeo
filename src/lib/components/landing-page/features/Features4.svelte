@@ -1,7 +1,12 @@
+<script>
+
+  import BlurFade from "$lib/components/BlurFade.svelte"
+
+</script>
 <section class="  body-font">
   <div class="container mx-auto flex flex-wrap px-5 py-24">
-    <div class="flex w-full flex-wrap">
-      <div class="md:w-1/2 md:py-6 md:pr-10 lg:w-2/5">
+    <div class="flex w-full xl:flex-row flex-col items-center">
+      <div class=" md:py-6 md:pr-10 ">
         <div class="relative flex pb-12">
           <div
             class="absolute inset-0 flex h-full w-10 items-center justify-center"
@@ -12,26 +17,35 @@
             class="relative z-10 inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary text-primary-content"
           >
             <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
+              stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="2"
-              class="h-5 w-5"
-              viewBox="0 0 24 24"
+              class="lucide lucide-sheet"
             >
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+              <line x1="3" x2="21" y1="9" y2="9" />
+              <line x1="3" x2="21" y1="15" y2="15" />
+              <line x1="9" x2="9" y1="9" y2="21" />
+              <line x1="15" x2="15" y1="9" y2="21" />
             </svg>
           </div>
+          <BlurFade delay={0.25}>
           <div class="flex-grow pl-4">
             <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
-              STEP 1
+              Primeiro passo
             </h2>
             <p class="leading-relaxed">
-              VHS cornhole pop-up, try-hard 8-bit iceland helvetica. Kinfolk
-              bespoke try-hard cliche palo santo offal.
+              Converta suas planilhas do Excel em arquivos CSV, garantindo
+              compatibilidade e facilitando o uso dos seus dados.
             </p>
           </div>
+          </BlurFade>
         </div>
         <div class="relative flex pb-12">
           <div
@@ -43,26 +57,37 @@
             class="relative z-10 inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary text-primary-content"
           >
             <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
+              stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="2"
-              class="h-5 w-5"
-              viewBox="0 0 24 24"
+              class="lucide lucide-file-up"
             >
-              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              <path
+                d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+              />
+              <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+              <path d="M12 12v6" />
+              <path d="m15 15-3-3-3 3" />
             </svg>
           </div>
-          <div class="flex-grow pl-4">
-            <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
-              STEP 2
-            </h2>
-            <p class="leading-relaxed">
-              Vice migas literally kitsch +1 pok pok. Truffaut hot chicken
-              slow-carb health goth, vape typewriter.
-            </p>
-          </div>
+          <BlurFade delay={0.25 * 1.5}>
+            <div class="flex-grow pl-4">
+              <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
+                Segundo passo
+              </h2>
+              <p class="leading-relaxed">
+                Faça o upload dos seus arquivos CSV no CrossGeo, os dados serão
+                codificados, tornando-os prontos para análise e visualização
+                geográfica.
+              </p>
+            </div>
+          </BlurFade>
         </div>
         <div class="relative flex pb-12">
           <div
@@ -74,29 +99,36 @@
             class="relative z-10 inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary text-primary-content"
           >
             <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
+              stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="2"
-              class="h-5 w-5"
-              viewBox="0 0 24 24"
+              class="lucide lucide-chart-column-big"
             >
-              <circle cx="12" cy="5" r="3"></circle>
-              <path d="M12 22V8M5 12H2a10 10 0 0020 0h-3"></path>
+              <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+              <rect x="15" y="5" width="4" height="12" rx="1" />
+              <rect x="7" y="8" width="4" height="9" rx="1" />
             </svg>
           </div>
-          <div class="flex-grow pl-4">
-            <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
-              STEP 3
-            </h2>
-            <p class="leading-relaxed">
-              Coloring book nar whal glossier master cleanse umami. Salvia +1
-              master cleanse blog taiyaki.
-            </p>
-          </div>
+          <BlurFade delay={0.25 * 2}>
+            <div class="flex-grow pl-4">
+              <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
+                Terceiro passo
+              </h2>
+              <p class="leading-relaxed">
+                Com seus dados em CSV, escolha os tipos de gráficos e configure-os
+                como preferir, para visualizar e analisar exatamente o que você
+                precisa.
+              </p>
+            </div>
+          </BlurFade>
         </div>
-        <div class="relative flex pb-12">
+        <!-- <div class="relative flex pb-12">
           <div
             class="absolute inset-0 flex h-full w-10 items-center justify-center"
           >
@@ -120,47 +152,60 @@
           </div>
           <div class="flex-grow pl-4">
             <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
-              STEP 4
+             Quarto passo
             </h2>
             <p class="leading-relaxed">
-              VHS cornhole pop-up, try-hard 8-bit iceland helvetica. Kinfolk
-              bespoke try-hard cliche palo santo offal.
+              Aprofunde-se nos insights. Com os gráficos personalizados prontos, explore seus dados para tomar decisões informadas e identificar tendências importantes.
             </p>
           </div>
-        </div>
+        </div> -->
         <div class="relative flex">
           <div
             class="relative z-10 inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary text-primary-content"
           >
             <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
+              stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="2"
-              class="h-5 w-5"
-              viewBox="0 0 24 24"
+              class="lucide lucide-file-chart-pie"
             >
-              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
-              <path d="M22 4L12 14.01l-3-3"></path>
+              <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+              <path d="M16 22h2a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3.5" />
+              <path d="M4.017 11.512a6 6 0 1 0 8.466 8.475" />
+              <path
+                d="M9 16a1 1 0 0 1-1-1v-4c0-.552.45-1.008.995-.917a6 6 0 0 1 4.922 4.922c.091.544-.365.995-.917.995z"
+              />
             </svg>
           </div>
-          <div class="flex-grow pl-4">
-            <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
-              FINISH
-            </h2>
-            <p class="leading-relaxed">
-              Pitchfork ugh tattooed scenester echo park gastropub whatever
-              cold-pressed retro.
-            </p>
-          </div>
+          <BlurFade delay={0.25 * 2.5}>
+            <div class="flex-grow pl-4">
+              <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
+                Quarto passo
+              </h2>
+              <p class="leading-relaxed">
+                Aprofunde-se nos insights. Com os gráficos personalizados prontos,
+                explore seus dados para tomar decisões informadas e identificar
+                tendências importantes.
+              </p>
+            </div>
+          </BlurFade>
         </div>
       </div>
-      <img
-        class="mt-12 rounded-lg object-cover object-center md:mt-0 md:w-1/2 lg:w-3/5"
-        src="https://dummyimage.com/1200x500"
-        alt="step"
-      />
+      <BlurFade delay={0.25 * 3}>
+        <div class="mt-12 md:mt-0">
+          <img
+            class="object-cover object-center rounded-lg"
+            src="/src/lib/assets/home/mapa.png"
+            alt="step"
+          />
+        </div>
+      </BlurFade>
     </div>
   </div>
 </section>

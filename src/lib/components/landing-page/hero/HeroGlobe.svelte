@@ -1,4 +1,5 @@
 <script>
+  import BlurFade from '$lib/components/BlurFade.svelte'
   import { icons } from '$lib/utils'
   import * as m from '$msgs'
 
@@ -11,36 +12,39 @@
     class=" relative flex size-full h-full items-center justify-center gap-16 overflow-hidden p-14 lg:flex-row flex-col-reverse"
   >
     <div class="flex flex-col gap-2 ">
-      <h1
-        class="inline-flex animate-text-gradient bg-gradient-to-r from-primary via-secondary to-primary bg-[200%_auto] bg-clip-text text-center text-4xl md:text-5xl lg:text-7xl font-bold text-transparent"
-      >
-        CrossGeo
-      </h1>
-
-      <span class="lg:text-xl md:text-lg text-base tracking-widest">Análise espacial de dados</span>
-      <div class="flex w-full gap-2 mt-6 lg:flex-row flex-col">
-
-        <button class="relative inline-flex overflow-hidden rounded-xl p-px">
-          <span
-            class="btn btn-primary inline-flex h-full w-full cursor-pointer items-center justify-center px-4 py-2 text-base lg:text-lg font-medium backdrop-blur-3xl"
+      <BlurFade delay={0.25}>
+        <h1
+            class="inline-flex animate-text-gradient bg-gradient-to-r from-primary via-secondary to-primary bg-[200%_auto] bg-clip-text text-center text-4xl md:text-5xl lg:text-7xl font-bold text-transparent"
           >
-          Get Started {@html icons.arrow()}
-          </span>
-        </button>
-        <button class="relative inline-flex overflow-hidden rounded-xl p-px">
-          <span
-            class="btn btn-secondary btn-outline inline-flex h-full w-full cursor-pointer items-center justify-center px-4 py-2 text-base lg:text-lg font-medium backdrop-blur-3xl"
-          >
-            Entre em contato
-          </span>
-        </button>
-      </div>
+            CrossGeo
+          </h1>
+      </BlurFade>
+      <BlurFade delay={0.25 * 2}>
+        <span class="lg:text-xl md:text-lg text-base tracking-widest">Análise espacial de dados</span>
+        <div class="flex w-full gap-2 mt-6 lg:flex-row flex-col">
+    
+          <a href="/map/create" class="relative inline-flex overflow-hidden p-px">
+            <span
+              class="btn btn-primary inline-flex h-full w-full cursor-pointer items-center justify-center px-4 py-2 text-base lg:text-lg font-medium backdrop-blur-3xl"
+            >
+            Get Started {@html icons.arrow()}
+            </span>
+          </a>
+          <a href="/" class="relative inline-flex overflow-hidden p-px">
+            <span
+              class="btn btn-secondary btn-outline inline-flex h-full w-full cursor-pointer items-center justify-center px-4 py-2 text-base lg:text-lg font-medium backdrop-blur-3xl"
+            >
+              Entre em contato
+            </span>
+          </a>
+        </div>
+      </BlurFade>
     </div>
-
+    <BlurFade delay={0.25 * 3}>
     <div style="width: 400px; height: 400px; z-index: 100;">
       <RotatingGlobe />
     </div>
-
+  </BlurFade>
     <!-- <RetroGrid /> -->
   </div>
 </div>
