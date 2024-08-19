@@ -7,6 +7,7 @@
   import RetroGrid from '../../animation/RetroGrid.svelte'
   import RotatingGlobe from '../globe/RotatingGlobe.svelte'
   import GridPattern from '$lib/components/GridPattern.svelte'
+  import ShimmerButton from '$lib/components/ShimmerButton.svelte'
 </script>
 
 <div class="flex h-[89vh] items-center justify-center">
@@ -42,6 +43,13 @@
             Get Started {@html icons.arrow()}
             </span>
           </a>
+          <!-- <ShimmerButton class="shadow-xl">
+            <span
+              class="inline-flex h-full w-full cursor-pointer items-center justify-center px-4 py-2 text-base lg:text-lg font-medium text-white"
+            >
+              Get Started {@html icons.arrow()}
+            </span>
+          </ShimmerButton> -->
           <a href="/" class="relative inline-flex overflow-hidden p-px">
             <span
               class="btn btn-secondary btn-outline inline-flex h-full w-full cursor-pointer items-center justify-center px-4 py-2 text-base lg:text-lg font-medium backdrop-blur-3xl"
