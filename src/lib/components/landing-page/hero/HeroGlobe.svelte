@@ -7,7 +7,7 @@
   import RotatingGlobe from '../globe/RotatingGlobe.svelte'
 </script>
 
-<div class="flex h-[80vh] items-center justify-center">
+<div class="flex h-[89vh] items-center justify-center">
   <div
     class=" relative flex size-full h-full items-center justify-center gap-16 overflow-hidden p-14 lg:flex-row flex-col-reverse"
   >
