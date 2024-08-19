@@ -10,6 +10,11 @@ export async function POST({ request }) {
   // get the signature from the header
   const signature = request.headers.get('stripe-signature')
 
+  if (!signature) {
+    // no signature, so it's a bad request
+    throw error(400, 'Invalid request')
+  }
+
   // var to hold event data
   let event
 
@@ -20,7 +25,7 @@ export async function POST({ request }) {
       signature,
       env.STRIPE_WEBHOOK_SECRET,
     )
-  } catch (err) {
+  } catch (err:any) {
     // signature is invalid!
     console.warn('⚠️  Webhook signature verification failed.', err.message)
 

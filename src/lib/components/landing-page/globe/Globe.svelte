@@ -19,7 +19,7 @@
   import { geoOrthographic } from 'd3-geo'
   import { feature } from 'topojson-client'
 
-
+  import { timerStore } from '$lib/stores/utils'
 
   export let data
 
@@ -40,6 +40,8 @@
     },
     disabled: !isSpinning,
   })
+
+  function spinGlobe() {}
   $: isSpinning ? timer.start() : timer.stop()
   $timer
 </script>

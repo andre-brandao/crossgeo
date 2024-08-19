@@ -29,22 +29,15 @@
 <main class="flex flex-col gap-5 overflow-auto">
   <HeroGlobe />
 
-  <!-- <div class="h-60 w-60">
-    <RotatingGlobe></RotatingGlobe>
-  </div> -->
-  <!-- <ShareButton title="Home" url="https://example.com" /> -->
-
-  <!-- <MapContact /> -->
-
   <Features3></Features3>
 
   <Pricing />
 
   <Features4></Features4>
 
-  <Carousel />
+  <!-- <Carousel /> -->
 
-  <Carousel2 />
+  <!-- <Carousel2 /> -->
 
   <Footer></Footer>
 </main>

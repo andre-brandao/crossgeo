@@ -6,6 +6,7 @@
 
   import { trpc } from '$trpc/client'
   import { page } from '$app/stores'
+
   const user = getUserContext()
 
   export let data: PageData
@@ -104,7 +105,7 @@
         })
         isSubscribed = true
         console.log('Subscription:', JSON.stringify(subscription))
-        sendSubscriptionToServer(subscription)
+        await sendSubscriptionToServer(subscription)
       } catch (err) {
         console.error('Error subscribing:', err)
       }
@@ -151,7 +152,7 @@
           <img
             class="aspect-square h-full w-full"
             src="https://generated.vusercontent.net/placeholder-user.jpg"
-          />
+            alt="{$user?.username} Profile Picture" />
         </span>
         <p>
           {$user?.username}
