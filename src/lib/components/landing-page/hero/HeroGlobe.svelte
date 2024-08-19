@@ -2,15 +2,27 @@
   import BlurFade from '$lib/components/BlurFade.svelte'
   import { icons } from '$lib/utils'
   import * as m from '$msgs'
+  import { cn } from "$lib/utils";
 
   import RetroGrid from '../../animation/RetroGrid.svelte'
   import RotatingGlobe from '../globe/RotatingGlobe.svelte'
+  import GridPattern from '$lib/components/GridPattern.svelte'
 </script>
 
 <div class="flex h-[89vh] items-center justify-center">
   <div
     class=" relative flex size-full h-full items-center justify-center gap-16 overflow-hidden p-14 lg:flex-row flex-col-reverse"
   >
+  <GridPattern
+  width={20}
+  height={20}
+  x={-1}
+  y={-1}
+  class={cn(
+    "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] "
+  )}
+  fillColor="transparent"
+/>
     <div class="flex flex-col gap-2 ">
       <BlurFade delay={0.25}>
         <h1
