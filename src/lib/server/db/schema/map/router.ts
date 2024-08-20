@@ -1,4 +1,4 @@
-import { publicProcedure, router } from '../t'
+import { publicProcedure, router } from '$trpc/t'
 
 import { z } from 'zod'
 import { map as mapController, user as userController } from '$db/controller'
@@ -6,7 +6,7 @@ import { map as mapController, user as userController } from '$db/controller'
 
 import { geocodeAddress } from '$utils/geo'
 
-import { middleware } from '../middleware'
+import { middleware } from '$trpc/middleware'
 import { TRPCError } from '@trpc/server'
 
 export const mapa = router({

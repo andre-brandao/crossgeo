@@ -1,4 +1,4 @@
-import { publicProcedure, router } from '../t'
+import { publicProcedure, router } from '$trpc/t'
 
 import { z } from 'zod'
 

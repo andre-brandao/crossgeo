@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { publicProcedure, router } from '../t'
+import { publicProcedure, router } from '$trpc/t'
 
 import { z } from 'zod'
 import { bugReport } from '$lib/server/db/controller'
 import { TRPCError } from '@trpc/server'
-import { middleware } from '../middleware'
+import { middleware } from '$trpc/middleware'
 import { paramsSchema } from '$lib/components/table'
 import { tableHelper } from '$lib/server/db/utils'
 import { bugReportTable } from '$lib/server/db/schema'

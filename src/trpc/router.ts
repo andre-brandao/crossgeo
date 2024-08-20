@@ -5,13 +5,13 @@ import { t } from './t'
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 
 // ROUTES
-import { auth } from './routes/auth'
-import { pushNotification } from './routes/push-notification'
-import { mapa as map } from './routes/map'
+import { auth } from '$db/schema/user/router'
+import { pushNotification } from '$db/schema/push-notification/router'
+import { mapa as map } from '$db/schema/map/router'
 
-import { checkout } from './routes/stripe'
+import { checkout } from '$db/schema/stripe/router'
 
-import { bugReporter as bugReport } from './routes/bugReport'
+import { bugReporter as bugReport } from '$db/schema/bug-report/router'
 
 
 export const router = t.router({
