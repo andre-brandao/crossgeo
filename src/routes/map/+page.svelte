@@ -2,7 +2,7 @@
   import type { PageData } from './$types'
 
   export let data: PageData
-  const { user_maps, groups } = data
+  const { user_maps } = data
 
   import { getUserContext } from '$lib/stores/user'
   const user = getUserContext()
@@ -11,10 +11,15 @@
 <main class="container mx-auto">
   <!-- User Maps Section -->
   <div class="mb-8">
-    <h2 class="mb-4 text-xl font-semibold">Your Maps:</h2>
+    <div class="flex items-center justify-between">
+      <h2 class="mb-4 text-xl font-semibold">Your Maps:</h2>
 
-    <div>
-      Seus Geopoints: {$user?.used_credits}/ {$user?.max_credits}
+      <div>
+        Geopoints Utilizados:
+        <span class="badge badge-info text-info-content p-4">
+          {$user?.used_credits} / {$user?.max_credits}
+        </span>
+      </div>
     </div>
     <section
       class="grid grid-cols-1 gap-6 p-4 sm:grid-cols-2 md:grid-cols-3 md:p-6 lg:grid-cols-4"
@@ -71,30 +76,4 @@
       </a>
     </section>
   </div>
-
-  <!-- Groups Section -->
-  {#if groups.length > 0}
-    <div>
-      <h2 class="mb-4 text-xl font-semibold text-gray-800">Seus Grupos:</h2>
-      <div class="space-y-8">
-        {#each groups as group}
-          <div
-            class="rounded-lg bg-primary p-6 text-secondary-content shadow-lg"
-          >
-            <h3 class="mb-4 text-lg font-semibold">{group.group.name}</h3>
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {#each group.group.maps as map}
-                <a
-                  href={`/map/${map.id}`}
-                  class="block rounded-lg border bg-secondary p-4 text-secondary-content shadow-md"
-                >
-                  {map.name}
-                </a>
-              {/each}
-            </div>
-          </div>
-        {/each}
-      </div>
-    </div>
-  {/if}
 </main>

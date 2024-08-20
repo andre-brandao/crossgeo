@@ -37,19 +37,8 @@
 
     {
       name: 'Maps',
-      href: '/maps/index',
-      subItems: [
-        {
-          name: 'Seus Mapas',
-          href: '/map',
-          // icon: icons.cube(),
-        },
-        {
-          name: 'Create New Map',
-          href: '/map/create',
-          // icon: icons.users(),
-        },
-      ],
+      href: '/map',
+      
     },
   ]
 

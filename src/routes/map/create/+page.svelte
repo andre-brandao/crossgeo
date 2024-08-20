@@ -2,14 +2,13 @@
   import { trpc } from '$trpc/client'
   import { page } from '$app/stores'
 
-  import type { PageData } from './$types'
   import ParsedTable from '$lib/components/table/ParsedTable.svelte'
   import Papa from 'papaparse'
   import { toast } from 'svelte-sonner'
   import { goto } from '$app/navigation'
   import Loading from '$lib/components/Loading.svelte'
 
-  export let data: PageData
+  import type { AddressInfo, LatLongInfo, FieldsInfo } from '$db/schema'
 
   let isLoading = false
 
@@ -17,6 +16,13 @@
   let csv_headers: string[] = []
   let csv_data: any[] = []
   let adress_field: string = ''
+
+  let latLongInfo = {
+    lat_field: '',
+    long_field: '',
+  }
+
+  let geocodingType: 'address' | 'lat_long' = 'address'
 
   let name = ''
   function parseCSV(csvText: string) {
@@ -63,48 +69,96 @@
       toast.error('Map name is required')
       return
     }
-    if (!adress_field) {
-      toast.error('Address field is required')
-      return
-    }
+
     if (!csv_data.length) {
       toast.error('No data available. Please upload a CSV file.')
       return
     }
     isLoading = true
 
-    const points = csv_data
-      .map(d => ({
-        address: d[adress_field],
-        meta: d,
-      }))
-      .filter(d => d.address)
-    console.log(points)
+    switch (geocodingType) {
+      case 'address': {
+        if (!adress_field) {
+          toast.error('Address field is required')
+          return
+        }
+        toast.info('Geocoding by address, please wait, this may take a while')
+        const points = csv_data
+          .map(d => ({
+            address: d[adress_field],
+            meta: d,
+          }))
+          .filter(d => d.address)
+        console.log(points)
 
-    try {
-      const resp = await trpc($page).map.creteMap.mutate({
-        map: {
-          fields_info: {
-            address_field: adress_field,
-            fields: csv_headers,
-          },
-          name,
-        },
-        raw_points: points,
-      })
-      console.log(resp)
-      if (resp.success) {
-        goto('/map/' + resp.map.id)
+        try {
+          const resp = await trpc($page).map.creteMapGeocoding.mutate({
+            map: {
+              fields_info: {
+                address_field: adress_field,
+                fields: csv_headers,
+              },
+              name,
+            },
+            raw_points: points,
+          })
+          console.log(resp)
+          if (resp.success) {
+            goto('/map/' + resp.map.id)
+          }
+        } catch (error: any) {
+          toast.error(error.message)
+        }
+        break
       }
-    } catch (error: any) {
-      toast.error(error.message)
+      case 'lat_long': {
+        if (!latLongInfo.lat_field || !latLongInfo.long_field) {
+          toast.error('Latitude and Longitude fields are required')
+          return
+        }
+        toast.info('Geocoding by lat long')
+     
+
+        try {
+          const points = csv_data
+          .map(d => ({
+            lat: d[latLongInfo.lat_field] as number,
+            lng: d[latLongInfo.long_field] as number,
+            meta: d,
+          }))
+          .filter(d => d.lat && d.lng)
+        console.log(points)
+        const resp = await trpc($page).map.createMapLatLong.mutate({
+          map: {
+            fields_info: {
+              lat_field: latLongInfo.lat_field,
+              long_field: latLongInfo.long_field,
+              fields: csv_headers,
+            },
+            name,
+          },
+          raw_points: points,
+        })
+        if (resp.success) {
+          goto('/map/' + resp.map.id)
+        }
+        } catch (error: any) {
+          toast.error(error.message)
+        }
+      
+        break
+      }
+      default:
+        toast.error('Invalid geocoding type')
+        break
     }
+
     isLoading = false
   }
 </script>
 
 <div class="container mx-auto mt-5">
-  <h1 class="text-center mb-5 text-4xl font-medium">Create a map</h1>
+  <h1 class="mb-5 text-center text-4xl font-medium">Create a map</h1>
   <!-- Responsive grid layout -->
   <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
     <!-- Form Section -->
@@ -146,37 +200,97 @@
         />
       </div>
 
-      {#if csv_headers}
+      {#if csv_headers.length > 0}
+        <!-- geocoding type select -->
         <div class="form-control">
-          <label for="address_field" class="label">
-            <span class="label-text">Address Field</span>
+          <label for="geocodingType" class="label">
+            <span class="label-text">Geocoding Type</span>
           </label>
           <select
-            name="address_field"
-            id="address_field"
-            class="select select-bordered"
-            bind:value={adress_field}
+            name="geocodingType"
+            id="geocodingType"
+            class="select select-bordered select-info"
+            bind:value={geocodingType}
           >
-            {#each csv_headers as item}
-              <option value={item}>{item}</option>
-            {/each}
+            <option value="address">Address</option>
+            <option value="lat_long">Latitude and Longitude</option>
           </select>
         </div>
+
+        {#if geocodingType === 'address'}
+          <div class="form-control">
+            <label for="address_field" class="label">
+              <span class="label-text">Address Field</span>
+            </label>
+            <select
+              name="address_field"
+              id="address_field"
+              class="select select-bordered"
+              bind:value={adress_field}
+            >
+              {#each csv_headers as item}
+                <option value={item}>{item}</option>
+              {/each}
+            </select>
+          </div>
+        {:else}
+          <div class="flex items-center justify-around">
+            <div class="form-control">
+              <label for="lat_field" class="label">
+                <span class="label-text">Latitude Field</span>
+              </label>
+              <select
+                name="lat_field"
+                id="lat_field"
+                class="select select-bordered"
+                bind:value={latLongInfo.lat_field}
+              >
+                {#each csv_headers as item}
+                  <option value={item}>{item}</option>
+                {/each}
+              </select>
+            </div>
+            <div class="form-control">
+              <label for="long_field" class="label">
+                <span
+                  class="label-text
+                "
+                >
+                  Longitude Field
+                </span>
+              </label>
+              <select
+                name="long_field"
+                id="long_field"
+                class="select select-bordered"
+                bind:value={latLongInfo.long_field}
+              >
+                {#each csv_headers as item}
+                  <option value={item}>{item}</option>
+                {/each}
+              </select>
+            </div>
+          </div>
+        {/if}
       {:else}
-        <p>Selecione um arquivo</p>
+        <div class="flex justify-center">
+          <p class="badge badge-info text-center text-info-content">
+            Selecione um arquivo para continuar com a geocodificacão
+          </p>
+        </div>
       {/if}
 
       <button class="btn btn-primary" on:click={createMap} disabled={isLoading}>
         {#if isLoading}
-          <Loading/>
+          <Loading />
         {:else}
           <span>Submit</span>
         {/if}
       </button>
       {#if isLoading}
-      <p class="text-center text-warning">
-        A geocodificacão pode ser um processo demorado, por favor aguarde!
-      </p>
+        <p class="text-center text-warning">
+          A geocodificacão pode ser um processo demorado, por favor aguarde!
+        </p>
       {/if}
     </div>
 

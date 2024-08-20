@@ -12,6 +12,7 @@
 
   import Share from '$components/share/index.svelte'
   import type { PageData } from './$types'
+  import CsvDownload from './CSVDownload.svelte'
   export let data: PageData
 
   const { map } = data
@@ -19,7 +20,7 @@
   let isTableActive = true
   let isVonoroiActive = false
 
-  let locations = map.points.map(p => ({
+  let locations = map.data[0].points.map(p => ({
     latLong: new L.LatLng(p.lat, p.long),
     metadata: p.meta_data,
   }))
@@ -137,7 +138,7 @@
         type: 'bar',
       },
       dataset: {
-        headers: map.fields_info.fields,
+        headers: map.data[0].fields_info.fields,
         rows: filtered_data,
       },
     })
@@ -145,10 +146,10 @@
 </script>
 
 <div
-  class="flex  items-center justify-center gap-4 p-3 flex-col-reverse lg:flex-row"
+  class="flex flex-col-reverse items-center justify-center gap-4 p-3 lg:flex-row"
 >
   <div class="flex w-full flex-col justify-between lg:w-2/3">
-    <div class="h-[38vh] overflow-hidden rounded-t-lg shadow-lg top-0">
+    <div class="top-0 h-[38vh] overflow-hidden rounded-t-lg shadow-lg">
       {#if isVonoroiActive}
         <Vonoroi
           latLongs={locations.map(l => ({
@@ -171,7 +172,7 @@
     <div class:hidden={!isTableActive}>
       <ParsedTable
         data={{
-          headers: map.fields_info.fields,
+          headers: map.data[0].fields_info.fields,
           rows: filtered_data,
         }}
       />
@@ -189,9 +190,11 @@
       {isVonoroiActive ? 'Show Map' : 'Show Voronoi'}
     </button>
 
-    <div class="flex justify-center items-center flex-wrap gap-1">
+    <CsvDownload className="btn btn-secondary w-full" data={filtered_data} />
+
+    <div class="flex flex-wrap items-center justify-center gap-1">
       <h1 class="font-bold">Compartilhar:</h1>
-      <Share title="CrossMap {map.name}" url={$page.url} />
+      <Share title="Conheça o mapa que criei utilizando o CrossGeo:  {map.name}" url={$page.url} />
     </div>
 
     <div
