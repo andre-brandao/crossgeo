@@ -6,7 +6,7 @@ import {
   // customType,
 } from 'drizzle-orm/sqlite-core'
 import { sql, relations } from 'drizzle-orm'
-import { groupToUserTable, mapTable } from '../map'
+import {  mapTable } from '../map'
 export const DEFAULT_USER_PERMISSIONS: UserPermissions = {
   role: 'user',
 } as const
@@ -34,7 +34,6 @@ export const userTable = sqliteTable('user', {
 })
 
 export const userRelations = relations(userTable, ({ many }) => ({
-  groupToUserTable: many(groupToUserTable),
   maps: many(mapTable),
 }))
 

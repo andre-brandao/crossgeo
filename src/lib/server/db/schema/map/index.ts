@@ -3,7 +3,6 @@ import {
   text,
   integer,
   real,
-  primaryKey,
   // customType,
 } from 'drizzle-orm/sqlite-core'
 import { sql, relations } from 'drizzle-orm'
@@ -12,52 +11,6 @@ import { userTable } from '$db/schema'
 
 import { createInsertSchema } from 'drizzle-zod'
 
-export const mapGroupTable = sqliteTable('group', {
-  id: integer('id').notNull().primaryKey({ autoIncrement: true }),
-  created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
-  name: text('name').notNull(),
-})
-export const mapGroupRelations = relations(mapGroupTable, ({ many }) => ({
-  users: many(userTable),
-  groupToUserTable: many(groupToUserTable),
-  maps: many(mapTable),
-}))
-
-export const insertMapGroupSchema = createInsertSchema(mapGroupTable)
-
-export type SelectMapGroup = typeof mapGroupTable.$inferSelect
-export type InsertMapGroup = typeof mapGroupTable.$inferInsert
-
-export const groupToUserTable = sqliteTable(
-  'user_group',
-  {
-    user_id: text('user_id')
-      .notNull()
-      .references(() => userTable.id),
-    group_id: integer('group_id')
-      .notNull()
-      .references(() => mapGroupTable.id),
-  },
-  t => ({
-    pk: primaryKey({ columns: [t.group_id, t.user_id] }),
-  }),
-)
-
-export const groupToUserRelations = relations(groupToUserTable, ({ one }) => ({
-  user: one(userTable, {
-    fields: [groupToUserTable.user_id],
-    references: [userTable.id],
-  }),
-  group: one(mapGroupTable, {
-    fields: [groupToUserTable.group_id],
-    references: [mapGroupTable.id],
-  }),
-}))
-
-export const insertGroupToUserSchema = createInsertSchema(groupToUserTable)
-export type SelectGroupToUser = typeof groupToUserTable.$inferSelect
-export type InsertGroupToUser = typeof groupToUserTable.$inferInsert
-
 export const mapTable = sqliteTable('map', {
   id: integer('id').notNull().primaryKey({ autoIncrement: true }),
   created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
@@ -65,14 +18,9 @@ export const mapTable = sqliteTable('map', {
   created_by: text('created_by')
     .notNull()
     .references(() => userTable.id),
-  group_id: integer('group_id').references(() => mapGroupTable.id),
 
-  fields_info: text('fields', { mode: 'json' }).notNull().$type<{
-    address_field: string
-    fields: string[]
-  }>(),
-  lat: real('latitude'),
-  long: real('longitude'),
+  lat: real('latitude'), //center lat
+  long: real('longitude'), //center long
 })
 
 export const mapRelations = relations(mapTable, ({ one, many }) => ({
@@ -80,23 +28,54 @@ export const mapRelations = relations(mapTable, ({ one, many }) => ({
     fields: [mapTable.created_by],
     references: [userTable.id],
   }),
-  group: one(mapGroupTable, {
-    fields: [mapTable.group_id],
-    references: [mapGroupTable.id],
-  }),
-  points: many(mapPointTable),
+  data: many(mapDataTable),
 }))
 
 export const insertMapSchema = createInsertSchema(mapTable)
 export type SelectMap = typeof mapTable.$inferSelect
 export type InsertMap = typeof mapTable.$inferInsert
 
+export type AddressInfo = {
+  address_field: string
+  fields: string[]
+}
+
+export type LatLongInfo = {
+  lat_field: string
+  long_field: string
+  fields: string[]
+}
+
+export type FieldsInfo = AddressInfo | LatLongInfo
+
+export const mapDataTable = sqliteTable('map_data', {
+  id: integer('id').notNull().primaryKey({ autoIncrement: true }),
+  map_id: integer('map_id')
+    .notNull()
+    .references(() => mapTable.id),
+  name: text('name'),
+  fields_info: text('fields', { mode: 'json' }).notNull().$type<FieldsInfo>(),
+})
+
+export const mapDataRelations = relations(mapDataTable, ({ one, many }) => ({
+  map: one(mapTable, {
+    fields: [mapDataTable.map_id],
+    references: [mapTable.id],
+  }),
+  points: many(mapPointTable),
+  charts: many(chartTable),
+}))
+
+export const insertMapDataSchema = createInsertSchema(mapDataTable)
+export type SelectMapData = typeof mapDataTable.$inferSelect
+export type InsertMapData = typeof mapDataTable.$inferInsert
+
 export const mapPointTable = sqliteTable('point', {
   id: integer('id').notNull().primaryKey({ autoIncrement: true }),
   created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
-  map_id: integer('map_id')
+  data_id: integer('data_id')
     .notNull()
-    .references(() => mapTable.id, {
+    .references(() => mapDataTable.id, {
       onDelete: 'cascade',
     }),
   lat: real('latitude').notNull(),
@@ -105,9 +84,9 @@ export const mapPointTable = sqliteTable('point', {
 })
 
 export const mapPointRelations = relations(mapPointTable, ({ one }) => ({
-  map: one(mapTable, {
-    fields: [mapPointTable.map_id],
-    references: [mapTable.id],
+  map_data: one(mapDataTable, {
+    fields: [mapPointTable.data_id],
+    references: [mapDataTable.id],
   }),
 }))
 
@@ -121,12 +100,23 @@ import type { Query } from '$lib/components/map/dataset'
 export const chartTable = sqliteTable('chart', {
   id: integer('id').notNull().primaryKey({ autoIncrement: true }),
   created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
-  map_id: integer('map_id')
+  data_id: integer('data_id')
     .notNull()
-    .references(() => mapTable.id, {
+    .references(() => mapDataTable.id, {
       onDelete: 'cascade',
     }),
   type: text('type').notNull(),
   title: text('title').notNull(),
   filters: text('filters').notNull().$type<{ label: string; query: Query }[]>(),
 })
+
+export const chartRelations = relations(chartTable, ({ one }) => ({
+  data: one(mapDataTable, {
+    fields: [chartTable.data_id],
+    references: [mapDataTable.id],
+  }),
+}))
+
+export const insertChartSchema = createInsertSchema(chartTable)
+export type SelectChart = typeof chartTable.$inferSelect
+export type InsertChart = typeof chartTable.$inferInsert
