@@ -46,11 +46,11 @@
   </main>
 
   <div class="mt-4 flex w-full justify-between">
-    <a href="/bug_report" class="btn btn-primary" onclick={modal.close}>
+    <!-- <a href="/bug_report" class="btn btn-primary" onclick={modal.close}>
       {@html icons.bug()} Ver Bugs Table
-    </a>
+    </a> -->
 
-    <div class="flex gap-3">
+    <div class="flex justify-around w-full mb-5 gap-3">
       <button class="btn btn-success" onclick={save}>Enviar</button>
       <button class="btn btn-error" onclick={modal.close}>Cancel</button>
     </div>

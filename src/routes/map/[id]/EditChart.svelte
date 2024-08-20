@@ -20,67 +20,70 @@
     }[]
     type: string
   }
+  export let save: (toSave: typeof chart) => void
+
   let newFilterValue = ''
   let newFilterField = ''
 </script>
 
 <Modal title="Edit Chart">
-    <div class="flex flex-col xl:flex-row gap-3 h-full">
-      <div class="w-full xl:w-5/12 border rounded-lg shadow p-4 items-center">
-        <QueryChart dataset={dataset.rows} {...chart} />
-      </div>
-      <div class="flex flex-col items-centerw-full xl:w-7/12 border rounded">
-        <div class="form-control px-4">
-          <label for="chart_title" class="label">Chart Title</label>
-          <input
-            name="chart_title"
-            type="text"
-            bind:value={chart.title}
-            class="input input-bordered w-full"
-          />
-    
-          <label for="chart_type" class="label">Chart Type</label>
-          <select
-            name="chart_type"
-            id="chart_type"
-            class="select select-bordered w-full"
-            bind:value={chart.type}
-          >
-            <option value="line">Line</option>
-            <option value="bar">Bar</option>
-            <option value="area">Area</option>
-          </select>
-        </div>
-        <div class="overflow-y-auto max-h-80 my-4">
-          <FilterComponent
-            fields={dataset.headers}
-            query={chart.filters.map(f => f.query)}
-            onQueryChange={e => {
-              chart.filters = e.map((q, i) => ({
-                label: q.value ?? '',
-                query: q,
-              }))
-            }}
-            bind:filterValue={newFilterValue}
-            bind:filterField={newFilterField}
-          />
-        </div>
-        <button class="btn btn-secondary mx-4 mb-2">Salvar</button>
-      </div>
+  <div class="flex h-full flex-col gap-3 xl:flex-row">
+    <div class="w-full items-center rounded-lg border p-4 shadow xl:w-5/12">
+      <QueryChart dataset={dataset.rows} {...chart} />
     </div>
-  
-  
-    <div class="shadow my-4 border rounded-lg">
-      <ParsedTable
-        data={dataset}
-        selectedCell={v => {
-          navigator.clipboard.writeText(v)
-          newFilterValue = v
-        }}
-        selectedRow={v => {
-          navigator.clipboard.writeText(v)
-          newFilterField = v
-        }}
-      />
+    <div class="items-centerw-full flex flex-col rounded border xl:w-7/12">
+      <div class="form-control px-4">
+        <label for="chart_title" class="label">Chart Title</label>
+        <input
+          name="chart_title"
+          type="text"
+          bind:value={chart.title}
+          class="input input-bordered w-full"
+        />
+
+        <label for="chart_type" class="label">Chart Type</label>
+        <select
+          name="chart_type"
+          id="chart_type"
+          class="select select-bordered w-full"
+          bind:value={chart.type}
+        >
+          <option value="line">Line</option>
+          <option value="bar">Bar</option>
+          <option value="area">Area</option>
+        </select>
+      </div>
+      <div class="my-4 max-h-80 overflow-y-auto">
+        <FilterComponent
+          fields={dataset.headers}
+          query={chart.filters.map(f => f.query)}
+          onQueryChange={e => {
+            chart.filters = e.map((q, i) => ({
+              label: q.value ?? '',
+              query: q,
+            }))
+          }}
+          bind:filterValue={newFilterValue}
+          bind:filterField={newFilterField}
+        />
+      </div>
+      <button class="btn btn-secondary mx-4 mb-2" on:click={() => save(chart)}>
+        Salvar
+      </button>
     </div>
+  </div>
+
+  <div class="my-4 rounded-lg border shadow">
+    <ParsedTable
+      data={dataset}
+      selectedCell={v => {
+        navigator.clipboard.writeText(v)
+        newFilterValue = v
+      }}
+      selectedRow={v => {
+        navigator.clipboard.writeText(v)
+        newFilterField = v
+      }}
+    />
+  </div>
 </Modal>

@@ -13,6 +13,8 @@
   import Share from '$components/share/index.svelte'
   import type { PageData } from './$types'
   import CsvDownload from './CSVDownload.svelte'
+  import { toast } from 'svelte-sonner'
+  import { trpc } from '$trpc/client'
   export let data: PageData
 
   const { map } = data
@@ -27,98 +29,7 @@
 
   let filtered_data = locations.map(l => l.metadata).filter(l => l !== null)
 
-  let charts = [
-    {
-      title: 'Barra Confirmados',
-      filters: [
-        {
-          label: 'Confirmadao',
-          query: {
-            field: 'CLASSIFICACAO_FINAL',
-            operator: 'eq',
-            value: 'Confirmado',
-          },
-        },
-        {
-          label: 'Descartado',
-          query: {
-            field: 'CLASSIFICACAO_FINAL',
-            operator: 'eq',
-            value: 'Descartado',
-          },
-        },
-        {
-          label: 'Teste',
-          query: {
-            field: 'CLASSIFICACAO_FINAL',
-            operator: 'eq',
-            value: 'Descartado',
-          },
-        },
-      ],
-      type: 'bar',
-    },
-    {
-      title: 'Linha Casos Confirmados',
-      filters: [
-        {
-          label: 'Confirmadao',
-          query: {
-            field: 'CLASSIFICACAO_FINAL',
-            operator: 'eq',
-            value: 'Confirmado',
-          },
-        },
-        {
-          label: 'Descartado',
-          query: {
-            field: 'CLASSIFICACAO_FINAL',
-            operator: 'eq',
-            value: 'Descartado',
-          },
-        },
-        {
-          label: 'Teste',
-          query: {
-            field: 'CLASSIFICACAO_FINAL',
-            operator: 'eq',
-            value: 'Descartado',
-          },
-        },
-      ],
-      type: 'line',
-    },
-    {
-      title: 'Linha Casos Confirmados',
-      filters: [
-        {
-          label: 'Confirmadao',
-          query: {
-            field: 'CLASSIFICACAO_FINAL',
-            operator: 'eq',
-            value: 'Confirmado',
-          },
-        },
-        {
-          label: 'Descartado',
-          query: {
-            field: 'CLASSIFICACAO_FINAL',
-            operator: 'eq',
-            value: 'Descartado',
-          },
-        },
-        {
-          label: 'Teste',
-          query: {
-            field: 'CLASSIFICACAO_FINAL',
-            operator: 'eq',
-            value: 'Descartado',
-          },
-        },
-      ],
-      type: 'line',
-    },
-  ]
+  let charts = map.data[0].charts
 
   function handleLassoSelected(e: Dataset) {
     console.log('lasso_selected', e)
@@ -140,6 +51,32 @@
       dataset: {
         headers: map.data[0].fields_info.fields,
         rows: filtered_data,
+      },
+      save: async chart => {
+        if (chart.filters.length === 0) {
+          toast.error('Please select at least one filter')
+          return
+        }
+        if (!chart.title) {
+          toast.error('Please insert a title')
+          return
+        }
+
+        try {
+          const [resp] = await trpc($page).map.createChart.mutate({
+            data_id: map.data[0].id,
+            filters: chart.filters,
+            title: chart.title,
+            type: chart.type,
+          })
+
+          if (resp) {
+            charts = [resp, ...charts]
+            modal.close()
+          }
+        } catch (error: any) {
+          toast.error(error.message)
+        }
       },
     })
   }
@@ -194,7 +131,10 @@
 
     <div class="flex flex-wrap items-center justify-center gap-1">
       <h1 class="font-bold">Compartilhar:</h1>
-      <Share title="Conheça o mapa que criei utilizando o CrossGeo:  {map.name}" url={$page.url} />
+      <Share
+        title="Conheça o mapa que criei utilizando o CrossGeo:  {map.name}"
+        url={$page.url}
+      />
     </div>
 
     <div

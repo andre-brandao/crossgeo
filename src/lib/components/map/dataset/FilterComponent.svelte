@@ -48,7 +48,7 @@
   }
 </script>
 
-<div class="mx-4 p-3 bg-base-100 rounded-lg shadow-lg flex flex-col space-y-4 items-center">
+<div class=" p-3 bg-base-100 rounded-lg shadow-lg flex flex-col space-y-4 items-center">
   <div class="w-full flex justify-between gap-2 flex-col xl:flex-row">
 
     <select bind:value={filterField} class="select select-primary w-full sm:w-auto">

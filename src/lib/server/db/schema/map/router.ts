@@ -318,7 +318,7 @@ export const mapa = router({
   createChart: publicProcedure
     .input(insertChartSchema)
     .mutation(async ({ input }) => {
-      // @ts-expect-error can't infer type
+      // @ts-expect-error cant infer type
       return mapController.insertChart(input)
     }),
 

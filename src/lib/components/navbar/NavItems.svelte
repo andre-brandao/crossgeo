@@ -38,7 +38,6 @@
     {
       name: 'Maps',
       href: '/map',
-      
     },
   ]
 
@@ -107,7 +106,6 @@
   <li>
     <button class="" onclick={() => modal.open(BugReportModal)}>
       {@html icons.bug()}
-      Reportar Bug
     </button>
   </li>
 {/if}

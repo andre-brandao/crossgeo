@@ -44,7 +44,7 @@ function updateMapData(id: SelectMap['id'], data: Partial<SelectMap>) {
 }
 
 function insertChart(data: InsertChart) {
-  return db.insert(chartTable).values(data)
+  return db.insert(chartTable).values(data).returning()
 }
 function updateChart(id: SelectMap['id'], data: Partial<SelectMap>) {
   return db.update(chartTable).set(data).where(eq(chartTable.id, id))

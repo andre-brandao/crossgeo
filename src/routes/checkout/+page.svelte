@@ -64,14 +64,21 @@
   </div>
   <div class="z-40 my-5 flex items-center justify-center gap-4">
     <button
-      class="btn btn-error "
+      class="btn btn-error"
+      onclick={() =>
+        $geopoints - 1000 > 0 ? ($geopoints -= 1000) : ($geopoints = 1000)}
+    >
+      -1000
+    </button>
+    <button
+      class="btn btn-error"
       onclick={() =>
         $geopoints - 100 > 0 ? ($geopoints -= 100) : ($geopoints = 100)}
     >
       -100
     </button>
     <button
-      class="btn btn-error "
+      class="btn btn-error"
       onclick={() =>
         $geopoints - 50 > 0 ? ($geopoints -= 50) : ($geopoints = 50)}
     >
@@ -85,6 +92,10 @@
     <button class="btn btn-primary" onclick={() => ($geopoints += 100)}>
       +100
     </button>
+
+    <button class="btn btn-primary" onclick={() => ($geopoints += 1000)}>
+      +1000
+    </button>
   </div>
 
   <!-- <p
@@ -93,18 +104,25 @@
     Geopoints are used to buy data from the API. Each point costs $0.25. You
     currently have used {$user?.used_credits} from {$user?.max_credits}
   </p> -->
-  <div class="flex gap-2 items-center">
-    <p class=" rounded bg-primary p-3 text-2xl text-primary-content bg-opacity-85">
+  <div class="flex items-center gap-2">
+    <p
+      class=" rounded bg-primary bg-opacity-85 p-3 text-2xl text-primary-content"
+    >
       Total: <span class="font-bold">${($total / 100).toFixed(2)}</span>
     </p>
-  
-    <button class="rounded bg-secondary p-3 text-2xl text-secondary-content bg-opacity-85 flex items-center gap-2 hover:bg-opacity-70" onclick={checkout}>Checkout {@html icons.cart()}</button>
+
+    <button
+      class="flex items-center gap-2 rounded bg-secondary bg-opacity-85 p-3 text-2xl text-secondary-content hover:bg-opacity-70"
+      onclick={checkout}
+    >
+      Checkout {@html icons.cart()}
+    </button>
   </div>
   <div
-  class="tooltip z-50 my-5"
-  data-tip="Geopoints are used to buy data from the API. Each point costs $0.25. You
+    class="tooltip z-50 my-5"
+    data-tip="Geopoints are used to buy data from the API. Each point costs $0.25. You
   currently have used {$user?.used_credits} from {$user?.max_credits}"
->
-  <button class="btn">For what are GeoPoints?</button>
-</div>
+  >
+    <button class="btn">For what are GeoPoints?</button>
+  </div>
 </main>

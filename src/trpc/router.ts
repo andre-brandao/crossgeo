@@ -13,10 +13,8 @@ import { checkout } from '$db/schema/stripe/router'
 
 import { bugReporter as bugReport } from '$db/schema/bug-report/router'
 
-
 export const router = t.router({
   auth,
-
   pushNotification,
   map,
   checkout,

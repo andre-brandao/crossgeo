@@ -11,6 +11,8 @@ import { userTable } from '$db/schema'
 
 import { createInsertSchema } from 'drizzle-zod'
 
+// import { z } from 'zod'
+
 export const mapTable = sqliteTable('map', {
   id: integer('id').notNull().primaryKey({ autoIncrement: true }),
   created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
@@ -107,7 +109,9 @@ export const chartTable = sqliteTable('chart', {
     }),
   type: text('type').notNull(),
   title: text('title').notNull(),
-  filters: text('filters').notNull().$type<{ label: string; query: Query }[]>(),
+  filters: text('filters', { mode: 'json' })
+    .notNull()
+    .$type<{ label: string; query: Query }[]>(),
 })
 
 export const chartRelations = relations(chartTable, ({ one }) => ({
@@ -117,6 +121,19 @@ export const chartRelations = relations(chartTable, ({ one }) => ({
   }),
 }))
 
-export const insertChartSchema = createInsertSchema(chartTable)
+export const insertChartSchema = createInsertSchema(chartTable, {
+  // filters: z
+  //   .array(
+  //     z.object({
+  //       label: z.string(),
+  //       query: z.object({
+  //         field: z.string(),
+  //         value: z.any(),
+  //         operator: z.string(),
+  //       }),
+  //     }),
+  //   )
+  //   .nonempty(),
+})
 export type SelectChart = typeof chartTable.$inferSelect
 export type InsertChart = typeof chartTable.$inferInsert
