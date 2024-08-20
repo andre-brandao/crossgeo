@@ -1,4 +1,4 @@
-import { and, eq, sql } from 'drizzle-orm'
+import {  eq } from 'drizzle-orm'
 import { db } from '$db'
 import {
   type InsertUser,
@@ -10,8 +10,7 @@ import {
   type SelectUser,
   sessionTable,
   DEFAULT_USER_PERMISSIONS,
-  stripeCheckoutSessionTable,
-  type InsertCheckoutSession,
+
 } from '$db/schema'
 
 import { TimeSpan, createDate, isWithinExpirationDate } from 'oslo'
@@ -181,70 +180,6 @@ export const user = {
   getMagicLinkToken,
   deleteMagicLinkToken,
   DEFAULT_USER_PERMISSIONS,
-  getPendingCheckoutSessionFromUserID,
-  insertCheckoutSession,
-  getStripeOrderFromID,
-  processStripeOrder,
+  
 }
 
-// async function updateStripeOrder(
-//   sessionId: string,
-//   data: Partial<InsertCheckoutSession>,
-// ) {
-//   const [session] = await db
-//     .update(stripeCheckoutSessionTable)
-//     .set({ credited: data.credited, expired: data.expired })
-//     .where(eq(stripeCheckoutSessionTable.id, sessionId))
-//     .returning()
-
-//   if (session) {
-//     await updateUser(session.userId, {
-//       max_credits:
-//     })
-//   }
-// }
-
-async function processStripeOrder(sessionId: string) {
-  const [sessionDB] = await getStripeOrderFromID(sessionId)
-  if (!sessionDB) {
-    return
-  }
-
-  if (sessionDB.credited) {
-    return
-  }
-
-  await db.update(userTable).set({
-    max_credits: sql`${userTable.max_credits} + ${sessionDB.geopoints}`,
-  })
-  await db.update(stripeCheckoutSessionTable).set({
-    credited: true,
-  })
-}
-
-function insertCheckoutSession(session: InsertCheckoutSession) {
-  return db.insert(stripeCheckoutSessionTable).values(session)
-}
-
-function getStripeOrderFromID(sessionId: string) {
-  return db
-    .select()
-    .from(stripeCheckoutSessionTable)
-    .where(eq(stripeCheckoutSessionTable.id, sessionId))
-    .limit(1)
-}
-
-function getPendingCheckoutSessionFromUserID(userId: string) {
-  return db
-    .select()
-    .from(stripeCheckoutSessionTable)
-    .where(
-      and(
-        eq(stripeCheckoutSessionTable.userId, userId),
-        eq(stripeCheckoutSessionTable.credited, false),
-        eq(stripeCheckoutSessionTable.expired, false),
-      ),
-    )
-}
-
-// PAYMENT

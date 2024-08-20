@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types'
-import { user as userController } from '$lib/server/db/controller'
+import { stripe as stripeController } from '$lib/server/db/controller'
 import { error } from '@sveltejs/kit'
 
 import { stripe } from '$lib/server/stripe'
@@ -14,7 +14,7 @@ export const load = (async ({ locals, url }) => {
     error(501, 'Session ID not found')
   }
   const [recentOrder] =
-    await userController.getStripeOrderFromID(CHECKOUT_SESSION_ID)
+    await stripeController.getStripeOrderFromID(CHECKOUT_SESSION_ID)
 
   const session = await stripe.checkout.sessions.retrieve(CHECKOUT_SESSION_ID)
   console.log(session)
@@ -22,7 +22,9 @@ export const load = (async ({ locals, url }) => {
   // const customer = await stripe.customers.retrieve(session.customer)
   // console.log(customer)
 
-  userController.processStripeOrder(session.id)
+  if (session.payment_status === 'paid') {
+    stripeController.processStripeOrder(session.id)
+  }
 
   return {
     recentOrder,
