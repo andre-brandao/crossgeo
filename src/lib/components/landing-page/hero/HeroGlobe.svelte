@@ -50,7 +50,7 @@
               Get Started {@html icons.arrow()}
             </span>
           </ShimmerButton> -->
-          <a href="/" class="relative inline-flex overflow-hidden p-px">
+          <a href="https://wa.me/5531983861852?text={encodeURI('Gostaria de saber mais sobre o Crossgeoo!!')}" class="relative inline-flex overflow-hidden p-px">
             <span
               class="btn btn-secondary btn-outline inline-flex h-full w-full cursor-pointer items-center justify-center px-4 py-2 text-base lg:text-lg font-medium backdrop-blur-3xl"
             >

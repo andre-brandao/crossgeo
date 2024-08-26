@@ -4,15 +4,17 @@
   interface Props {
     title?: string
     text: string
-    onConfirm?: () => void
+    onConfirm?: () => void | Promise<void>
     onCancel?: () => void
   }
 
   const { title = 'Alert!!!!', text, onCancel, onConfirm }: Props = $props()
 
-  function confirm() {
+  async function confirm() {
     modal.close()
-    onConfirm?.()
+    if (onConfirm) {
+      await onConfirm()
+    }
   }
 
   function cancel() {
@@ -23,12 +25,13 @@
 
 <Modal {title}>
   <p>{text}</p>
-  <svelte:fragment slot="footer">
+
+  <div class="m-5 flex items-center justify-around">
     {#if onConfirm}
-      <button class="btn" onclick={confirm}>Confirm</button>
+      <button class="btn btn-success" onclick={confirm}>Confirm</button>
     {/if}
-    <button class="btn" onclick={cancel}>
+    <button class="btn btn-error" onclick={cancel}>
       {onCancel ? 'Cancel' : 'Close'}
     </button>
-  </svelte:fragment>
+  </div>
 </Modal>

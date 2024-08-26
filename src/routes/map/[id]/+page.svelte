@@ -41,6 +41,44 @@
     filtered_data = e
   }
 
+  async function handleDelete(id: number) {
+    console.log('delete', id)
+    console.log('alert', id)
+    // alet
+    if (!confirm('Are you sure you want to delete this chart?')) {
+      return
+    }
+    try {
+      await trpc($page).map.deleteChart.mutate({
+        id,
+      })
+
+      toast.success('Chart deleted')
+      charts = charts.filter(c => c.id !== id)
+    } catch (error: any) {
+      toast.error(error.message)
+      return
+    }
+    // modal.alert({
+    //   text: 'Are you sure you want to delete this chart?',
+    //   onConfirm: async () => {
+    //     console.log('alert', id)
+    //     try {
+    //       await trpc($page)
+    //         .map.deleteChart.mutate({
+    //           id,
+    //         })
+
+    //         toast.success('Chart deleted')
+    //         charts = charts.filter(c => c.id !== id)
+    //     } catch (error: any) {
+    //       toast.error(error.message)
+    //       return
+    //     }
+    //   },
+    // })
+  }
+
   function modalCreateNewChart() {
     modal.open(EditChart, {
       chart: {
@@ -65,12 +103,14 @@
         try {
           const [resp] = await trpc($page).map.createChart.mutate({
             data_id: map.data[0].id,
+            // @ts-ignore
             filters: chart.filters,
             title: chart.title,
             type: chart.type,
           })
 
           if (resp) {
+            // @ts-ignore
             charts = [resp, ...charts]
             modal.close()
           }
@@ -141,7 +181,13 @@
       class="flex max-h-[65vh] flex-col gap-4 overflow-y-scroll rounded-lg border bg-base-100 p-2 shadow-lg"
     >
       {#each charts as chart}
-        <QueryChart dataset={filtered_data} {...chart} />
+        <QueryChart
+          dataset={filtered_data}
+          {...chart}
+          handleDelete={() => {
+            handleDelete(chart.id)
+          }}
+        />
       {/each}
     </div>
   </div>

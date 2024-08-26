@@ -35,7 +35,10 @@
     curveCatmullRomClosed,
     curveCatmullRom,
   } from 'd3-shape'
+  import { icons } from '$lib/utils'
 
+  export let id: any | undefined
+  export let handleDelete: () => void | undefined | Promise<void>
   export let title = 'Chart Title'
   export let type = 'bar'
 
@@ -55,10 +58,14 @@
 </script>
 
 <div>
-  <div class="p-4">
+  <div class="flex items-center justify-between p-4">
     <h1 class="text-lg font-bold">{title}</h1>
+
+    {#if id && handleDelete}
+      <button class="btn btn-circle btn-error" onclick={(handleDelete)}>x</button>
+    {/if}
   </div>
-  <div class=" h-[320px]  rounded p-4">
+  <div class=" h-[320px] rounded p-4">
     {#if type === 'bar'}
       <Chart
         {data}
