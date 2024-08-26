@@ -59,24 +59,55 @@
       toast.error(error.message)
       return
     }
-    // modal.alert({
-    //   text: 'Are you sure you want to delete this chart?',
-    //   onConfirm: async () => {
-    //     console.log('alert', id)
-    //     try {
-    //       await trpc($page)
-    //         .map.deleteChart.mutate({
-    //           id,
-    //         })
+  }
 
-    //         toast.success('Chart deleted')
-    //         charts = charts.filter(c => c.id !== id)
-    //     } catch (error: any) {
-    //       toast.error(error.message)
-    //       return
-    //     }
-    //   },
-    // })
+  function handleEditChart(c: (typeof charts)[0]) {
+    modal.open(EditChart, {
+      chart: c,
+      dataset: {
+        headers: map.data[0].fields_info.fields,
+        rows: filtered_data,
+      },
+      save: async chart => {
+        console.log('save', chart)
+
+        if (chart.filters.length === 0) {
+          toast.error('Please select at least one filter')
+          return
+        }
+        if (!chart.title) {
+          toast.error('Please insert a title')
+          return
+        }
+        if (!chart.id) {
+          toast.error('Chart id not found')
+          return
+        }
+
+        try {
+          const [resp] = await trpc($page).map.updateChart.mutate({
+            id: chart.id,
+            chart: {
+              title: chart.title,
+              type: chart.type,
+              // @ts-ignore
+              filters: chart.filters,
+            },
+          })
+
+          if (resp) {
+            toast.success('Chart updated')
+            // @ts-expect-error fail to infer type
+            charts = charts.map(c => (c.id === chart.id ? resp : c))
+            modal.close()
+            // window.location.reload()
+          }
+        } catch (error: any) {
+          console.log('error', error)
+          toast.error(error.message)
+        }
+      },
+    })
   }
 
   function modalCreateNewChart() {
@@ -186,6 +217,9 @@
           {...chart}
           handleDelete={() => {
             handleDelete(chart.id)
+          }}
+          handleEdit={() => {
+            handleEditChart(chart)
           }}
         />
       {/each}

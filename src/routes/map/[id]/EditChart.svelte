@@ -13,6 +13,7 @@
     rows: Record<string, any>[]
   }
   export let chart: {
+    id?: number
     title: string
     filters: {
       label: string
@@ -26,7 +27,7 @@
   let newFilterField = ''
 </script>
 
-<Modal title="Edit Chart">
+<Modal title="Edit Chart #{chart.id ?? " New Chart"}">
   <div class="flex h-full flex-col gap-3 xl:flex-row">
     <div class="w-full items-center rounded-lg border p-4 shadow xl:w-5/12">
       <QueryChart dataset={dataset.rows} {...chart} />

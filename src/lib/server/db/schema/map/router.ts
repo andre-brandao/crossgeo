@@ -331,7 +331,7 @@ export const mapa = router({
     )
     .mutation(async ({ input }) => {
       const { chart } = input
-      return mapController.updateChart(input.id, chart)
+      return await mapController.updateChart(input.id, chart).returning()
     }),
 
   deleteChart: publicProcedure

@@ -37,32 +37,79 @@
   } from 'd3-shape'
   import { icons } from '$lib/utils'
 
-  export let id: any | undefined
-  export let handleDelete: () => void | undefined | Promise<void>
-  export let title = 'Chart Title'
-  export let type = 'bar'
+  interface QueryChartProps {
+    id?: any
+    handleDelete?: () => void | Promise<void>
+    handleEdit?: () => void | Promise<void>
+    title?: string
+    type?: 'bar' | 'line' | 'area' | 'radar' | string
+    dataset: Dataset
+    filters: {
+      label: string
+      query: Query
+    }[]
+  }
 
-  export let dataset: Dataset
+  let {
+    id,
+    handleDelete,
+    handleEdit,
+    title,
+    type,
+    dataset,
+    filters,
+  }: QueryChartProps = $props()
 
-  export let filters: {
-    label: string
-    query: Query
-  }[]
+  // export let id: any | undefined
+  // export let handleDelete: () => void | Promise<void> | undefined
+  // export let handleEdit: () => void | Promise<void> | undefined
+  // export let title = 'Chart Title'
+  // export let type = 'bar'
 
-  $: data =
-    filters.map(({ query, label }) => ({
-      x: label,
-      y: applyFilters(dataset, query).length,
-    })) ?? []
-  $: console.log(data, filters)
+  // export let dataset: Dataset
+
+  // export let filters: {
+  //   label: string
+  //   query: Query
+  // }[]
+
+  let data: {
+    x: string
+    y: number
+  }[] = $state([])
+  $effect(() => {
+    data =
+      filters.map(({ query, label }) => ({
+        x: label,
+        y: applyFilters(dataset, query).length,
+      })) ?? []
+  })
+
+  // $: data =
+  //   filters.map(({ query, label }) => ({
+  //     x: label,
+  //     y: applyFilters(dataset, query).length,
+  //   })) ?? []
+  // $: console.log(data, filters)
 </script>
 
 <div>
   <div class="flex items-center justify-between p-4">
     <h1 class="text-lg font-bold">{title}</h1>
 
-    {#if id && handleDelete}
-      <button class="btn btn-circle btn-error" onclick={(handleDelete)}>x</button>
+    {#if id}
+      <div>
+        {#if handleDelete}
+          <button class="btn btn-circle btn-error" onclick={handleDelete}>
+            x
+          </button>
+        {/if}
+        {#if handleEdit}
+          <button class="btn btn-circle btn-primary" onclick={handleEdit}>
+            ✏️
+          </button>
+        {/if}
+      </div>
     {/if}
   </div>
   <div class=" h-[320px] rounded p-4">

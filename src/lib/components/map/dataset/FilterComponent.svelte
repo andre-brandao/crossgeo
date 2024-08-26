@@ -17,6 +17,7 @@
   export let filterValue = ''
 
   function addSimpleFilter() {
+    
     if (filterField && filterOperator && filterValue) {
       const newFilter: SimpleQuery = {
         field: filterField,
@@ -31,11 +32,11 @@
     }
   }
 
-  function addComplexFilter(operator: 'and' | 'or') {
-    const newFilter: ComplexQuery = { operator, queries: [] }
-    query = [...query, newFilter]
-    onQueryChange(query)
-  }
+  // function addComplexFilter(operator: 'and' | 'or') {
+  //   const newFilter: ComplexQuery = { operator, queries: [] }
+  //   query = [...query, newFilter]
+  //   onQueryChange(query)
+  // }
 
   function removeFilter(index: number) {
     query = query.filter((_, i) => i !== index)
@@ -62,10 +63,10 @@
       bind:value={filterOperator}
       class="select select-primary w-full sm:w-auto"
       on:change={() => {
-        if (filterOperator === 'and' || filterOperator === 'or') {
-          addComplexFilter(filterOperator)
-          filterOperator = 'eq'
-        }
+        // if (filterOperator === 'and' || filterOperator === 'or') {
+        //   addComplexFilter(filterOperator)
+        //   filterOperator = 'eq'
+        // }
       }}
     >
       <option value="eq">=</option>
