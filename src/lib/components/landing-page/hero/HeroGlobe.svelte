@@ -25,14 +25,14 @@
   fillColor="transparent"
 />
     <div class="flex flex-col gap-2 ">
-      <BlurFade delay={0.15}>
+      <BlurFade delay={0.10}>
         <h1
             class="inline-flex animate-text-gradient bg-gradient-to-r from-primary via-secondary to-primary bg-[200%_auto] bg-clip-text text-center text-4xl md:text-5xl lg:text-7xl font-bold text-transparent"
           >
             CrossGeo
           </h1>
       </BlurFade>
-      <BlurFade delay={0.15 * 2}>
+      <BlurFade delay={0.10 * 2}>
         <span class="lg:text-xl md:text-lg text-base tracking-widest">Análise espacial de dados</span>
         <div class="flex w-full gap-2 mt-6 lg:flex-row flex-col">
     
@@ -60,7 +60,7 @@
         </div>
       </BlurFade>
     </div>
-    <BlurFade delay={0.15 * 3}>
+    <BlurFade delay={0.10 * 3}>
     <div style="width: 400px; height: 400px; z-index: 100;">
       <RotatingGlobe />
     </div>

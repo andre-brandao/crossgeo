@@ -35,7 +35,7 @@
               <line x1="15" x2="15" y1="9" y2="21" />
             </svg>
           </div>
-          <BlurFade delay={0.15}>
+          <BlurFade delay={0.10}>
           <div class="flex-grow pl-4">
             <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
               Primeiro passo
@@ -76,7 +76,7 @@
               <path d="m15 15-3-3-3 3" />
             </svg>
           </div>
-          <BlurFade delay={0.15 * 1.5}>
+          <BlurFade delay={0.10 * 1.5}>
             <div class="flex-grow pl-4">
               <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
                 Segundo passo
@@ -115,7 +115,7 @@
               <rect x="7" y="8" width="4" height="9" rx="1" />
             </svg>
           </div>
-          <BlurFade delay={0.15 * 2}>
+          <BlurFade delay={0.10 * 2}>
             <div class="flex-grow pl-4">
               <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
                 Terceiro passo
@@ -183,7 +183,7 @@
               />
             </svg>
           </div>
-          <BlurFade delay={0.15 * 2.5}>
+          <BlurFade delay={0.10 * 2.5}>
             <div class="flex-grow pl-4">
               <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
                 Quarto passo
@@ -197,7 +197,7 @@
           </BlurFade>
         </div>
       </div>
-      <BlurFade delay={0.15 * 3}>
+      <BlurFade delay={0.10 * 3}>
         <div class="mt-12 md:mt-0">
           <img
             class="object-cover object-center rounded-lg"
