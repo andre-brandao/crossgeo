@@ -1,5 +1,6 @@
 <script>
   import Modal from './base/Modal.svelte'
+      import * as m from '$msgs'
 
   let mensagemWhats = ''
 </script>
@@ -8,7 +9,7 @@
   <!-- comment form -->
   <form class="w-full max-w-xl rounded-lg px-4 pt-2">
     <div class="-mx-3 mb-6 flex flex-wrap">
-      <h2 class=" pb-2 pt-3 text-lg">Solicite um mapa!</h2>
+      <h2 class=" pb-2 pt-3 text-lg">{m.request_map()}</h2>
       <div class="mb-2 mt-2 w-full md:w-full">
         <textarea
           class="focus:bg-base h-20 w-full resize-none rounded border border-base-300 bg-base-100 px-3 py-2 font-medium leading-normal focus:outline-none"
@@ -34,7 +35,7 @@
             />
           </svg>
           <p class="pt-px text-xs md:text-sm">
-            Fale sobre o mapa personalizado.
+            {m.modal_map_custom()}
           </p>
         </div>
         {#if mensagemWhats}
@@ -43,7 +44,7 @@
             target="_blank"
             class="btn btn-primary"
           >
-            ENVIAR MENSAGEM
+            {m.send_message()}
           </a>
         {/if}
       </div>

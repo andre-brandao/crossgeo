@@ -3,6 +3,7 @@
   import { modal } from '$lib/components/modal'
   import ModalMapCreate from '$lib/components/modal/ModalMapCreate.svelte'
   import { icons } from '$lib/utils'
+    import * as m from '$msgs'
 
   let mensagemWhats = ''
 
@@ -23,10 +24,9 @@
           {@html icons.chart2()}
         </div>
         <div class="mt-6 flex-grow text-center sm:mt-0 sm:text-left">
-          <h2 class=" title-font mb-2 text-lg font-medium">Gráficos</h2>
+          <h2 class=" title-font mb-2 text-lg font-medium">{m.charts()}</h2>
           <p class="text-base leading-relaxed">
-            Crie gráficos de barras, linhas, pizza e muito mais de acordo com os
-            dados do seu mapa.
+           {m.desc_charts()}
           </p>
           <!-- <a class="mt-3 inline-flex items-center text-primary">
             Learn More
@@ -51,11 +51,10 @@
       >
         <div class="mt-6 flex-grow text-center sm:mt-0 sm:text-left">
           <h2 class=" title-font mb-2 text-lg font-medium">
-            Especialistas e Geógrafos
+            {m.title_feature_3()}
           </h2>
           <p class="text-base leading-relaxed">
-            Contamos com uma equipe de especialistas e geógrafos para te ajudar
-            a criar mapas personalizados.
+            {m.desc_feature_3()}
           </p>
           <!-- <a class="mt-3 inline-flex items-center text-primary">
             Learn More
@@ -88,16 +87,16 @@
         </div>
         <div class="mt-6 flex-grow text-center sm:mt-0 sm:text-left">
           <h2 class=" title-font mb-2 text-lg font-medium">
-            Mapas Multicamadas
+            {m.title_feature_3_map()}
           </h2>
           <p class="text-base leading-relaxed">
-            Solicite a criação de um mapa personalizado com diversas camadas.
+            {m.desc_feature_3_map()}
           </p>
           <button
             class="mt-3 inline-flex items-center text-primary"
             on:click={openFormMapaMulticamada}
           >
-            Entre em contato
+          {m.get_in_touch()} 
             <svg
               fill="none"
               stroke="currentColor"

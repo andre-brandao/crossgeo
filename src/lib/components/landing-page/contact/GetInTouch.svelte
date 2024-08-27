@@ -1,5 +1,6 @@
 <script>
   import Bolas from './Bolas.svelte'
+    import * as m from '$msgs'
 
   let nome = ''
   let mensagem = ''
@@ -24,17 +25,15 @@
       <div class="w-full px-4 lg:w-1/2 xl:w-6/12">
         <div class="mb-12 max-w-[570px] lg:mb-0">
           <span class="mb-4 block text-base font-semibold text-primary">
-            Fale Conosco
+            {m.talk_to_us()}
           </span>
           <h2
             class=" mb-6 text-[32px] font-bold uppercase sm:text-[40px] lg:text-[36px] xl:text-[40px]"
           >
-            ENTRE EM CONTATO!
+            {m.get_in()}
           </h2>
           <p class=" mb-9 text-base leading-relaxed">
-            Se tiver alguma dúvida, entre em contato conosco. Nossa equipe está
-            disponível para ajudar e esclarecer qualquer questão que você possa
-            ter.
+          {m.desc_talk_to_us()}
           </p>
           <!-- <div class="mb-8 flex w-full max-w-[370px]">
             <div
@@ -93,7 +92,7 @@
               </svg>
             </div>
             <div class="w-full">
-              <h4 class=" mb-1 text-xl font-bold">Telefone</h4>
+              <h4 class=" mb-1 text-xl font-bold">{m.phone()}</h4>
               <p class=" text-base">+55 31 98386-1852</p>
             </div>
           </div>
@@ -166,7 +165,7 @@
               type="submit"
               class="btn btn-primary w-full"
             >
-              Enviar mensagem
+              {m.send_messagee()}
             </button>
           </form>
           <Bolas />

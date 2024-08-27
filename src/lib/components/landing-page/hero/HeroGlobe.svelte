@@ -33,14 +33,14 @@
           </h1>
       </BlurFade>
       <BlurFade delay={0.10 * 2}>
-        <span class="lg:text-xl md:text-lg text-base tracking-widest">Análise espacial de dados</span>
+        <span class="lg:text-xl md:text-lg text-base tracking-widest">{m.hero_text()}</span>
         <div class="flex w-full gap-2 mt-6 lg:flex-row flex-col">
     
           <a href="/map/create" class="relative inline-flex overflow-hidden p-px">
             <span
               class="btn btn-primary inline-flex h-full w-full cursor-pointer items-center justify-center px-4 py-2 text-base lg:text-lg font-medium backdrop-blur-3xl"
             >
-            Get Started {@html icons.arrow()}
+            {m.get_started()} {@html icons.arrow()}
             </span>
           </a>
           <!-- <ShimmerButton class="shadow-xl">
@@ -54,7 +54,7 @@
             <span
               class="btn btn-secondary btn-outline inline-flex h-full w-full cursor-pointer items-center justify-center px-4 py-2 text-base lg:text-lg font-medium backdrop-blur-3xl"
             >
-              Entre em contato
+              {m.get_in_touch()}
             </span>
           </a>
         </div>

@@ -1,12 +1,12 @@
 <script>
-
-  import BlurFade from "$lib/components/BlurFade.svelte"
-
+  import BlurFade from '$lib/components/BlurFade.svelte'
+  import * as m from '$msgs'
 </script>
+
 <section class="  body-font">
   <div class="container mx-auto flex flex-wrap px-5 py-24">
-    <div class="flex w-full xl:flex-row flex-col items-center">
-      <div class=" md:py-6 md:pr-10 ">
+    <div class="flex w-full flex-col items-center xl:flex-row">
+      <div class=" md:py-6 md:pr-10">
         <div class="relative flex pb-12">
           <div
             class="absolute inset-0 flex h-full w-10 items-center justify-center"
@@ -35,16 +35,15 @@
               <line x1="15" x2="15" y1="9" y2="21" />
             </svg>
           </div>
-          <BlurFade delay={0.10}>
-          <div class="flex-grow pl-4">
-            <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
-              Primeiro passo
-            </h2>
-            <p class="leading-relaxed">
-              Converta suas planilhas do Excel em arquivos CSV, garantindo
-              compatibilidade e facilitando o uso dos seus dados.
-            </p>
-          </div>
+          <BlurFade delay={0.1}>
+            <div class="flex-grow pl-4">
+              <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
+                {m.first_step()}
+              </h2>
+              <p class="leading-relaxed">
+                {m.desc_first_step()}
+              </p>
+            </div>
           </BlurFade>
         </div>
         <div class="relative flex pb-12">
@@ -76,15 +75,13 @@
               <path d="m15 15-3-3-3 3" />
             </svg>
           </div>
-          <BlurFade delay={0.10 * 1.5}>
+          <BlurFade delay={0.1 * 1.5}>
             <div class="flex-grow pl-4">
               <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
-                Segundo passo
+                {m.second_step()}
               </h2>
               <p class="leading-relaxed">
-                Faça o upload dos seus arquivos CSV no CrossGeo, os dados serão
-                codificados, tornando-os prontos para análise e visualização
-                geográfica.
+                {m.second_step_desc()}
               </p>
             </div>
           </BlurFade>
@@ -115,15 +112,13 @@
               <rect x="7" y="8" width="4" height="9" rx="1" />
             </svg>
           </div>
-          <BlurFade delay={0.10 * 2}>
+          <BlurFade delay={0.1 * 2}>
             <div class="flex-grow pl-4">
               <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
-                Terceiro passo
+                {m.third_step()}
               </h2>
               <p class="leading-relaxed">
-                Com seus dados em CSV, escolha os tipos de gráficos e configure-os
-                como preferir, para visualizar e analisar exatamente o que você
-                precisa.
+               {m.third_step_desc()}
               </p>
             </div>
           </BlurFade>
@@ -183,24 +178,22 @@
               />
             </svg>
           </div>
-          <BlurFade delay={0.10 * 2.5}>
+          <BlurFade delay={0.1 * 2.5}>
             <div class="flex-grow pl-4">
               <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
-                Quarto passo
+                {m.fourth_step()}
               </h2>
               <p class="leading-relaxed">
-                Aprofunde-se nos insights. Com os gráficos personalizados prontos,
-                explore seus dados para tomar decisões informadas e identificar
-                tendências importantes.
+                {m.fourth_step_desc()}
               </p>
             </div>
           </BlurFade>
         </div>
       </div>
-      <BlurFade delay={0.10 * 3}>
+      <BlurFade delay={0.1 * 3}>
         <div class="mt-12 md:mt-0">
           <img
-            class="object-cover object-center rounded-lg"
+            class="rounded-lg object-cover object-center"
             src="/src/lib/assets/home/mapa.png"
             alt="step"
           />
