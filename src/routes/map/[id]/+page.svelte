@@ -157,7 +157,7 @@
   class="flex flex-col-reverse items-center justify-center gap-4 p-3 lg:flex-row"
 >
   <div class="flex w-full flex-col justify-between lg:w-2/3">
-    <div class="top-0 h-[38vh] overflow-hidden rounded-t-lg shadow-lg">
+    <div class="top-0 overflow-hidden shadow-lg {!isTableActive ? "h-[88vh] rounded-lg":"h-[38vh] rounded-t-lg"}" >
       {#if isVonoroiActive}
         <Vonoroi
           latLongs={locations.map(l => ({
