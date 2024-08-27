@@ -5,7 +5,7 @@
 </script>
 <section class="  body-font bg-base-200">
   <div class="container mx-auto px-5 py-24">
-    <BlurFade delay={0.25 * 1.0}>
+    <BlurFade delay={0.15 * 1.0}>
       <div
         class="mx-auto mb-10 flex flex-col items-center border-b border-gray-800 pb-10 sm:flex-row lg:w-3/5"
       >
@@ -37,7 +37,7 @@
         </div>
       </div>
     </BlurFade>
-    <BlurFade delay={0.25 * 1.5}>
+    <BlurFade delay={0.15 * 1.5}>
       <div
         class="mx-auto mb-10 flex flex-col items-center border-b border-gray-800 pb-10 sm:flex-row lg:w-3/5"
       >
@@ -71,7 +71,7 @@
         </div>
       </div>
     </BlurFade>
-    <BlurFade delay={0.25 * 2.0}>
+    <BlurFade delay={0.15 * 2.0}>
       <div class="mx-auto flex flex-col items-center sm:flex-row lg:w-3/5">
         <div
           class="inline-flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-base-100 text-primary sm:mr-10 sm:h-32 sm:w-32"
