@@ -3,6 +3,17 @@
 
   let nome = ''
   let mensagem = ''
+
+  function sendEmail() {
+  const email = 'suporte@crossgeo.com.br';
+  const subject = 'Fale conosco!';
+  const body = `Olá Equipe Crossgeo,\n\nGostaria de entrar em contato para discutir alguns pontos:\n\nNome: ${nome}\nMensagem: ${mensagem}\n\nAtenciosamente,\n${nome}`;
+
+  const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  window.location.href = mailtoLink;
+}
+
 </script>
 
 <section
@@ -150,15 +161,13 @@
                 bind:value={mensagem}
               ></textarea>
             </div>
-            <a
-              href="https://wa.me/5531983861852?text={encodeURI(
-                'Olá meu nome é ' + nome + ', ' + mensagem,
-              )}"
+            <button
+              on:click={sendEmail}
               type="submit"
               class="btn btn-primary w-full"
             >
-              Send Message
-            </a>
+              Enviar mensagem
+            </button>
           </form>
           <Bolas />
         </div>
