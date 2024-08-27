@@ -269,7 +269,7 @@
   function markerIcon(count: number, selected = false) {
     let html = `<div class="map-marker"><div>${icons.pin({
       stroke: selected ? 'red' : 'black',
-    })}</div><div class="marker-text">${count}</div></div>`
+    })}</div> ${count >1 ?`<div class="marker-text">${count}</div></div>` : ''}`
     return L.divIcon({
       html,
       className: 'map-marker',

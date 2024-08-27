@@ -15,14 +15,17 @@
   <div class="container">
     <table class="w-full border-collapse">
       <tbody>
-        {#each Object.entries(data) as [key, value]}
+        <!-- {#each Object.entries(data) as [key, value]}
           <tr>
             <th class="border border-black p-2">{key}</th>
             <td class="border border-black p-2">{value}</td>
           </tr>
-        {/each}
+        {/each} -->
       </tbody>
     </table>
+    <pre>
+      {JSON.stringify(data, null, 2)}
+    </pre>
   </div>
 </div>
 

@@ -192,13 +192,14 @@
     <button on:click={modalCreateNewChart} class="btn btn-primary w-full">
       {m.create_new()}
     </button>
-    <button
+    <!-- <button
       on:click={() => (isVonoroiActive = !isVonoroiActive)}
       class="btn btn-primary w-full"
     >
       {isVonoroiActive ? m.show_map() : m.show_voronoi()}
     </button>
 
+    -->
     <CsvDownload className="btn btn-secondary w-full" data={filtered_data} />
 
     <div class="flex flex-wrap items-center justify-center gap-1">

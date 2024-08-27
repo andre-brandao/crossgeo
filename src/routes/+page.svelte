@@ -1,14 +1,10 @@
 <script>
   import SEO, { getSEOProps } from '$lib/components/SEO/index.svelte'
 
-  import Carousel from '$lib/components/landing-page/Carousel.svelte'
-  import Carousel2 from '$lib/components/landing-page/Carousel2.svelte'
   import Features3 from '$lib/components/landing-page/features/Features3.svelte'
-  import Pricing from '$lib/components/landing-page/pricing/Pricing.svelte'
   import Features4 from '$lib/components/landing-page/features/Features4.svelte'
   import Footer from '$lib/components/landing-page/Footer.svelte'
 
-  import ShareButton from '$components/share/index.svelte'
   import HeroGlobe from '$lib/components/landing-page/hero/HeroGlobe.svelte'
   import GetInTouch from '$lib/components/landing-page/contact/GetInTouch.svelte'
   

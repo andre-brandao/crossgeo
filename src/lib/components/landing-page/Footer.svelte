@@ -29,7 +29,7 @@
     <p
       class="mt-4 text-sm text-info sm:ml-4 sm:mt-0 sm:border-l-2 sm:border-gray-800 sm:py-2 sm:pl-4"
     >
-      © 2020 {website.entity} —
+      © 2024 {website.entity} —
       <a
         href={website.githubPage}
         class="ml-1 text-gray-500"

@@ -14,6 +14,7 @@ import { isAdressInfo, isLatLongInfo } from '$utils/map'
 export const mapa = router({
   creteMapGeocoding: publicProcedure
     .use(middleware.auth)
+    .use(middleware.logged)
     .input(
       z.object({
         map: z.object({
@@ -354,9 +355,9 @@ export const mapa = router({
 
   deleteChart: publicProcedure
     .input(z.object({ id: z.number() }))
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       const { id } = input
-
+      const { user } = ctx.locals
       return await mapController.deleteChart(id)
     }),
 
