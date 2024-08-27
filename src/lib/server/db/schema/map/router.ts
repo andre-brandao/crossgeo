@@ -57,9 +57,18 @@ export const mapa = router({
         })
         .returning()
 
+      console.log('map criado', newMap)
+      if (!newMap) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'erro ao criar mapa',
+        })
+      }
+
       const [newMapData] = await mapController
         .insertMapData({
           map_id: newMap.id,
+
           fields_info: {
             address_field: map.fields_info.address_field,
             fields: map.fields_info.fields,
@@ -67,10 +76,19 @@ export const mapa = router({
         })
         .returning()
 
+      console.log('Data criado', newMapData)
+      if (!newMapData) {``
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'erro ao criar dataset',
+        })
+      }
+
       let center = { lat: 0, lng: 0 }
       for (const point of raw_points) {
         try {
           const geocoded_point = await geocodeAddress(point.address)
+          console.log('geocodificando endereco', point.address, geocoded_point)
 
           if (geocoded_point) {
             await mapController.insertPoints({
