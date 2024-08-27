@@ -1,5 +1,8 @@
 <script>
   import Bolas from './Bolas.svelte'
+
+  let nome = ''
+  let mensagem = ''
 </script>
 
 <section
@@ -18,7 +21,9 @@
             ENTRE EM CONTATO!
           </h2>
           <p class=" mb-9 text-base leading-relaxed">
-            Se tiver alguma dúvida, entre em contato conosco. Nossa equipe está disponível para ajudar e esclarecer qualquer questão que você possa ter.
+            Se tiver alguma dúvida, entre em contato conosco. Nossa equipe está
+            disponível para ajudar e esclarecer qualquer questão que você possa
+            ter.
           </p>
           <!-- <div class="mb-8 flex w-full max-w-[370px]">
             <div
@@ -100,7 +105,12 @@
             </div>
             <div class="w-full">
               <h4 class=" mb-1 text-xl font-bold">Email</h4>
-              <a class=" text-base underline" href="mailto:suporte@crossgeo.com.br">suporte@crossgeo.com.br</a>
+              <a
+                class=" text-base underline"
+                href="mailto:suporte@crossgeo.com.br"
+              >
+                suporte@crossgeo.com.br
+              </a>
             </div>
           </div>
         </div>
@@ -113,37 +123,42 @@
             <div class="mb-6">
               <input
                 type="text"
-                placeholder="Your Name"
+                placeholder="Seu nome"
                 class="border-stroke dark:border-dark-3 dark:bg-dark w-full rounded border px-[14px] py-3 text-base outline-none focus:border-primary"
+                bind:value={nome}
               />
             </div>
-            <div class="mb-6">
+            <!-- <div class="mb-6">
               <input
                 type="email"
-                placeholder="Your Email"
+                placeholder="Seu email"
                 class="border-stroke dark:border-dark-3 dark:bg-dark w-full rounded border px-[14px] py-3 text-base outline-none focus:border-primary"
               />
-            </div>
-            <div class="mb-6">
+            </div> -->
+            <!-- <div class="mb-6">
               <input
                 type="text"
-                placeholder="Your Phone"
+                placeholder="Seu telefone"
                 class="border-stroke dark:border-dark-3 dark:bg-dark w-full rounded border px-[14px] py-3 text-base outline-none focus:border-primary"
               />
-            </div>
+            </div> -->
             <div class="mb-6">
               <textarea
                 rows="6"
-                placeholder="Your Message"
+                placeholder="Digite sua mensagem..."
                 class="border-stroke dark:border-dark-3 dark:bg-dark w-full resize-none rounded border px-[14px] py-3 text-base outline-none focus:border-primary"
+                bind:value={mensagem}
               ></textarea>
             </div>
-              <button
-                type="submit"
-                class="btn btn-primary w-full"
-              >
-                Send Message
-              </button>
+            <a
+              href="https://wa.me/5531983861852?text={encodeURI(
+                'Olá meu nome é ' + nome + ', ' + mensagem,
+              )}"
+              type="submit"
+              class="btn btn-primary w-full"
+            >
+              Send Message
+            </a>
           </form>
           <Bolas />
         </div>
