@@ -10,6 +10,7 @@
 
   import ShareButton from '$components/share/index.svelte'
   import HeroGlobe from '$lib/components/landing-page/hero/HeroGlobe.svelte'
+  import GetInTouch from '$lib/components/landing-page/contact/GetInTouch.svelte'
 </script>
 
 <SEO
@@ -38,6 +39,8 @@
   <!-- <Carousel /> -->
 
   <!-- <Carousel2 /> -->
+
+  <GetInTouch></GetInTouch>
 
   <Footer></Footer>
 </main>
