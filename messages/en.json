@@ -72,5 +72,9 @@
   "enable_noti": "Enable notifications",
   "subscribed": "Subscribed to push notifications:",
   "unsub": "Unsubscribe",
-  "test_noti": "Test Notification"
+  "test_noti": "Test Notification",
+  "your_maps": "Your Maps:",
+  "used_geopoints": "Used geopoints:",
+  "create_map": "Create New Map",
+  "click_create": "Click here to create a new map."
 }

@@ -72,5 +72,9 @@
   "enable_noti": "Habilitar notificações",
   "subscribed": "Inscrito para receber notificações push:",
   "unsub": "Cancelar inscrição",
-  "test_noti": "Notificação de teste"
+  "test_noti": "Notificação de teste",
+  "your_maps": "Seus mapas:",
+  "used_geopoints": "Geopontos usados:",
+  "create_map": "Criar novo mapa",
+  "click_create": "Clique aqui para criar um novo mapa."
 }

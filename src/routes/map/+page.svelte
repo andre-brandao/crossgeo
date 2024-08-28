@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { PageData } from './$types'
+  import * as m from '$msgs'
 
   export let data: PageData
   const { user_maps } = data
@@ -12,10 +13,10 @@
   <!-- User Maps Section -->
   <div class="mb-8">
     <div class="flex items-center justify-between">
-      <h2 class="mb-4 text-xl font-semibold">Your Maps:</h2>
+      <h2 class="mb-4 text-xl font-semibold">{m.your_maps()}</h2>
 
       <div>
-        Geopoints Utilizados:
+        {m.used_geopoints()} 
         <span class="badge badge-info text-info-content p-4">
           {$user?.used_credits} / {$user?.max_credits}
         </span>
@@ -68,9 +69,9 @@
             <path d="M8 12h8" />
             <path d="M12 8v8" />
           </svg>
-          <h3 class="text-xl font-bold">Create New Map</h3>
+          <h3 class="text-xl font-bold">{m.create_map()}</h3>
           <p class="text-muted-foreground text-sm">
-            Click here to create a new map.
+            {m.click_create()}
           </p>
         </div>
       </a>
