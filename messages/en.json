@@ -106,5 +106,10 @@
   "select_field": "Select Field",
   "contains": "contains",
   "add_filter": "Add Filter",
-  "remove": "Remove"
+  "remove": "Remove",
+  "hide_map": "Hide map",
+  "hide_table": "Hide table",
+  "show_table": "Show table",
+  "hide_chart": "Hide chart",
+  "show_chart": "Show chart"
 }

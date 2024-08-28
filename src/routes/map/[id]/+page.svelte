@@ -155,28 +155,47 @@
       },
     })
   }
+
+  function canToggle(view) {
+    const activeViews = [isTableActive, isMapActive, isChartActive].filter(
+      Boolean,
+    ).length
+    return activeViews > 1 || !view
+  }
 </script>
 
 <div class="h-[83vh]">
   <div class="mx-2 my-2 flex justify-between">
     <div class="flex flex-wrap items-center justify-center gap-2">
       <button
-        class="btn btn-primary"
-        on:click={() => (isMapActive = !isMapActive)}
+        class="btn {isMapActive ? 'btn-primary' : 'btn-secondary'}"
+        on:click={() => {
+          if (canToggle(isMapActive)) {
+            isMapActive = !isMapActive
+          }
+        }}
       >
-        Hide Map
+        {isMapActive ? m.hide_map() : m.show_map()}
       </button>
       <button
-        class="btn btn-secondary"
-        on:click={() => (isTableActive = !isTableActive)}
+        class="btn {isTableActive ? 'btn-primary' : 'btn-secondary'}"
+        on:click={() => {
+          if (canToggle(isTableActive)) {
+            isTableActive = !isTableActive
+          }
+        }}
       >
-        Hide Table
+        {isTableActive ? m.hide_table() : m.show_table()}
       </button>
       <button
-        class="btn btn-neutral"
-        on:click={() => (isChartActive = !isChartActive)}
+        class="btn {isChartActive ? 'btn-primary' : 'btn-secondary'}"
+        on:click={() => {
+          if (canToggle(isChartActive)) {
+            isChartActive = !isChartActive
+          }
+        }}
       >
-        Hide Chart
+        {isChartActive ? m.hide_chart() : m.show_chart()}
       </button>
 
       <!-- <h1 class="font-bold">{m.share()}:</h1> -->
@@ -213,70 +232,75 @@
   </div>
   <div class="h-full">
     <PaneGroup direction="horizontal">
-      <Pane defaultSize={70}>
-        <PaneGroup direction="vertical">
-          {#if isMapActive}
-            <Pane defaultSize={60} order={1}>
-              <!-- <Vonoroi
+      {#if isMapActive || isTableActive}
+        <Pane
+          defaultSize={isChartActive && !isMapActive && !isTableActive ? 0 : 70}
+        >
+          <PaneGroup direction="vertical">
+            {#if isMapActive}
+              <Pane defaultSize={60} order={1}>
+                <!-- <Vonoroi
                 latLongs={locations.map(l => ({
                   x: l.latLong.lng,
                   y: l.latLong.lat,
                   metadata: l.metadata ?? undefined,
                 }))}
               /> -->
-
-              <Map
-                {locations}
-                initailZoom={12}
-                initialLocation={[map.lat ?? 1, map.long ?? 1]}
-                lasso_selected={handleLassoSelected}
-              />
-            </Pane>
-          {/if}
-          {#if isMapActive && isTableActive}
-            <PaneResizer
-              class="flex h-2 w-full items-center justify-center bg-base-300"
-            >
-              <div
-                class="z-10 flex h-5 w-10 items-center justify-center rounded-sm bg-primary"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="lucide lucide-grip-horizontal text-primary-content"
-                >
-                  <circle cx="12" cy="9" r="1" />
-                  <circle cx="19" cy="9" r="1" />
-                  <circle cx="5" cy="9" r="1" />
-                  <circle cx="12" cy="15" r="1" />
-                  <circle cx="19" cy="15" r="1" />
-                  <circle cx="5" cy="15" r="1" />
-                </svg>
-              </div>
-            </PaneResizer>
-          {/if}
-
-          {#if isTableActive}
-            <Pane defaultSize={40} order={2}>
-              <div class="max-h-full overflow-y-scroll">
-                <ParsedTable
-                  data={{
-                    headers: map.data[0].fields_info.fields,
-                    rows: filtered_data,
-                  }}
+                <Map
+                  {locations}
+                  initailZoom={12}
+                  initialLocation={[map.lat ?? 1, map.long ?? 1]}
+                  lasso_selected={handleLassoSelected}
                 />
-              </div>
-            </Pane>
-          {/if}
-        </PaneGroup>
-      </Pane>
+              </Pane>
+            {/if}
+
+            {#if isMapActive && isTableActive}
+              <PaneResizer
+                class="flex h-2 w-full items-center justify-center bg-base-300"
+              >
+                <div
+                  class="z-10 flex h-5 w-10 items-center justify-center rounded-sm bg-primary"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-grip-horizontal text-primary-content"
+                  >
+                    <circle cx="12" cy="9" r="1" />
+                    <circle cx="19" cy="9" r="1" />
+                    <circle cx="5" cy="9" r="1" />
+                    <circle cx="12" cy="15" r="1" />
+                    <circle cx="19" cy="15" r="1" />
+                    <circle cx="5" cy="15" r="1" />
+                  </svg>
+                </div>
+              </PaneResizer>
+            {/if}
+
+            {#if isTableActive}
+              <Pane defaultSize={40} order={2}>
+                <div class="max-h-full overflow-y-scroll">
+                  <ParsedTable
+                    data={{
+                      headers: map.data[0].fields_info.fields,
+                      rows: filtered_data,
+                    }}
+                  />
+                </div>
+              </Pane>
+            {/if}
+          </PaneGroup>
+        </Pane>
+      {/if}
+
       {#if isChartActive}
         <PaneResizer
           class="flex h-full w-2 items-center justify-center bg-base-300"
@@ -305,7 +329,12 @@
             </svg>
           </div>
         </PaneResizer>
-        <Pane defaultSize={30} order={3}>
+        <Pane
+          defaultSize={isChartActive && !isMapActive && !isTableActive
+            ? 100
+            : 30}
+          order={3}
+        >
           <div
             class="flex max-h-full w-full flex-wrap justify-center gap-5 overflow-y-scroll"
           >

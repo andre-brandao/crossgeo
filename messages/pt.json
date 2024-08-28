@@ -106,5 +106,10 @@
   "select_field": "Selecionar campo",
   "contains": "contém",
   "add_filter": "Adicionar filtro",
-  "remove": "Remover"
+  "remove": "Remover",
+  "hide_map": "Esconder mapa",
+  "hide_table": "Esconder tabela",
+  "show_table": "Mostrar tabela",
+  "hide_chart": "Esconder gráfico",
+  "show_chart": "Mostrar gráfico"
 }
