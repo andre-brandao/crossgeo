@@ -145,7 +145,7 @@
       </div>
     {/if}
   </div>
-  <div class=" h-[320px] rounded p-4">
+  <div class=" h-[320px] rounded p-4 min-w-[400px]">
     {#if type === 'bar'}
       <Chart
         {data}

@@ -16,12 +16,15 @@
   import { toast } from 'svelte-sonner'
   import { trpc } from '$trpc/client'
   import * as m from '$msgs'
+  import { PaneGroup, Pane, PaneResizer } from 'paneforge'
   export let data: PageData
 
   const { map } = data
 
   let isTableActive = true
   let isVonoroiActive = false
+  let isMapActive = true
+  let isChartActive = true
 
   let locations = map.data[0].points.map(p => ({
     latLong: new L.LatLng(p.lat, p.long),
@@ -154,86 +157,173 @@
   }
 </script>
 
-<div
-  class="flex flex-col-reverse items-center justify-center gap-4 p-3 lg:flex-row"
->
-  <div class="flex w-full flex-col justify-between lg:w-2/3">
-    <div
-      class="top-0 overflow-hidden shadow-lg {!isTableActive
-        ? 'h-[88vh] rounded-lg'
-        : 'h-[38vh] rounded-t-lg'}"
-    >
-      {#if isVonoroiActive}
-        <Vonoroi
-          latLongs={locations.map(l => ({
-            x: l.latLong.lng,
-            y: l.latLong.lat,
-            metadata: l.metadata ?? undefined,
-          }))}
-        />
-      {:else}
-        <Map
-          {locations}
-          initailZoom={12}
-          initialLocation={[map.lat ?? 1, map.long ?? 1]}
-          toogle_table={b => (isTableActive = !isTableActive)}
-          lasso_selected={handleLassoSelected}
-        />
-      {/if}
-    </div>
+<div class="h-[83vh]">
+  <div class="mx-2 my-2 flex justify-between">
+    <div class="flex flex-wrap items-center justify-center gap-2">
+      <button
+        class="btn btn-primary"
+        on:click={() => (isMapActive = !isMapActive)}
+      >
+        Hide Map
+      </button>
+      <button
+        class="btn btn-secondary"
+        on:click={() => (isTableActive = !isTableActive)}
+      >
+        Hide Table
+      </button>
+      <button
+        class="btn btn-neutral"
+        on:click={() => (isChartActive = !isChartActive)}
+      >
+        Hide Chart
+      </button>
 
-    <div class:hidden={!isTableActive}>
-      <ParsedTable
-        data={{
-          headers: map.data[0].fields_info.fields,
-          rows: filtered_data,
-        }}
-      />
-    </div>
-  </div>
-
-  <div class="flex w-full flex-col gap-4 lg:w-1/3">
-    <button on:click={modalCreateNewChart} class="btn btn-primary w-full">
-      {m.create_new()}
-    </button>
-    <!-- <button
-      on:click={() => (isVonoroiActive = !isVonoroiActive)}
-      class="btn btn-primary w-full"
-    >
-      {isVonoroiActive ? m.show_map() : m.show_voronoi()}
-    </button>
-
-    -->
-    <CsvDownload
-      className="btn btn-secondary w-full"
-      data={locations
-        .map(l => ({ ...l.metadata, lat: l.latLong.lat, long: l.latLong.lng }))
-        .filter(l => l !== null)}
-    />
-
-    <div class="flex flex-wrap items-center justify-center gap-1">
-      <h1 class="font-bold">{m.share()}:</h1>
+      <!-- <h1 class="font-bold">{m.share()}:</h1> -->
       <Share
         title="Conheça o mapa que criei utilizando o CrossGeo:  {map.name}"
         url={$page.url}
       />
     </div>
 
-    <div
-      class="flex max-h-[65vh] flex-col gap-4 overflow-y-scroll rounded-lg border bg-base-100 p-2 shadow-lg"
-    >
-      {#each charts as chart}
-        <QueryChart
-          dataset={filtered_data}
-          {...chart}
-          handleDelete={() => {
-            handleDelete(chart.id)
-          }}
-          handleEdit={() => {
-            handleEditChart(chart)
-          }}
-        />
-      {/each}
+    <div class="flex gap-2">
+      <button on:click={modalCreateNewChart} class="btn btn-primary">
+        {m.create_new()}
+      </button>
+
+      <!-- <button
+        on:click={() => (isVonoroiActive = !isVonoroiActive)}
+        class="btn btn-primary w-full"
+      >
+        {isVonoroiActive ? m.show_map() : m.show_voronoi()}
+      </button>
+  
+      -->
+      <CsvDownload
+        className="btn btn-secondary"
+        data={locations
+          .map(l => ({
+            ...l.metadata,
+            lat: l.latLong.lat,
+            long: l.latLong.lng,
+          }))
+          .filter(l => l !== null)}
+      />
     </div>
+  </div>
+  <div class="h-full">
+    <PaneGroup direction="horizontal">
+      <Pane defaultSize={70}>
+        <PaneGroup direction="vertical">
+          {#if isMapActive}
+            <Pane defaultSize={60} order={1}>
+              <!-- <Vonoroi
+                latLongs={locations.map(l => ({
+                  x: l.latLong.lng,
+                  y: l.latLong.lat,
+                  metadata: l.metadata ?? undefined,
+                }))}
+              /> -->
+
+              <Map
+                {locations}
+                initailZoom={12}
+                initialLocation={[map.lat ?? 1, map.long ?? 1]}
+                lasso_selected={handleLassoSelected}
+              />
+            </Pane>
+          {/if}
+          {#if isMapActive && isTableActive}
+            <PaneResizer
+              class="flex h-2 w-full items-center justify-center bg-base-300"
+            >
+              <div
+                class="z-10 flex h-5 w-10 items-center justify-center rounded-sm bg-primary"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-grip-horizontal text-primary-content"
+                >
+                  <circle cx="12" cy="9" r="1" />
+                  <circle cx="19" cy="9" r="1" />
+                  <circle cx="5" cy="9" r="1" />
+                  <circle cx="12" cy="15" r="1" />
+                  <circle cx="19" cy="15" r="1" />
+                  <circle cx="5" cy="15" r="1" />
+                </svg>
+              </div>
+            </PaneResizer>
+          {/if}
+
+          {#if isTableActive}
+            <Pane defaultSize={40} order={2}>
+              <div class="max-h-full overflow-y-scroll">
+                <ParsedTable
+                  data={{
+                    headers: map.data[0].fields_info.fields,
+                    rows: filtered_data,
+                  }}
+                />
+              </div>
+            </Pane>
+          {/if}
+        </PaneGroup>
+      </Pane>
+      {#if isChartActive}
+        <PaneResizer
+          class="flex h-full w-2 items-center justify-center bg-base-300"
+        >
+          <div
+            class="z-10 flex h-10 w-5 items-center justify-center rounded-sm bg-primary"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-grip-vertical text-primary-content"
+            >
+              <circle cx="9" cy="12" r="1" />
+              <circle cx="9" cy="5" r="1" />
+              <circle cx="9" cy="19" r="1" />
+              <circle cx="15" cy="12" r="1" />
+              <circle cx="15" cy="5" r="1" />
+              <circle cx="15" cy="19" r="1" />
+            </svg>
+          </div>
+        </PaneResizer>
+        <Pane defaultSize={30} order={3}>
+          <div
+            class="flex max-h-full w-full flex-wrap justify-center gap-5 overflow-y-scroll"
+          >
+            {#each charts as chart}
+              <QueryChart
+                dataset={filtered_data}
+                {...chart}
+                handleDelete={() => {
+                  handleDelete(chart.id)
+                }}
+                handleEdit={() => {
+                  handleEditChart(chart)
+                }}
+              />
+            {/each}
+          </div>
+        </Pane>
+      {/if}
+    </PaneGroup>
   </div>
 </div>

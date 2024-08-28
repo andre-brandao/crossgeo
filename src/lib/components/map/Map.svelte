@@ -47,8 +47,6 @@
 
   export let initailZoom = 12
 
-  export let toogle_table = (v: boolean) => {}
-
   let baseMaps = {
     OpenStreetMap: L.tileLayer(
       'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -185,7 +183,7 @@
         click_lasso: () => {
           lasso.enable()
         },
-        click_table: toogle_table,
+      
         changeHeatOptions: opts => {
           const { blur, radius } = opts
           markersHeat.setOptions({

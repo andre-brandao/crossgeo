@@ -60,7 +60,7 @@
   <style>
     .table-container {
       width: 100%;
-      max-height: 400px; /* Adjust this value as needed */
+      /* Adjust this value as needed */
       overflow: auto;
     }
     th {
