@@ -1,6 +1,6 @@
 export const website = {
   author: 'André Brandão',
-  siteTitle: 'CrossGeo IA',
+  siteTitle: 'CrossGeo',
   siteShortTitle: 'CrossGeo',
   description: 'Software para geo analise de dados',
 

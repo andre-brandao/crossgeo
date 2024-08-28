@@ -7,6 +7,8 @@
 
   import { getUserContext } from '$lib/stores/user'
   const user = getUserContext()
+
+  const static_map_url = 'https://maps.googleapis.com/maps/api/staticmap'
 </script>
 
 <main class="container mx-auto">
@@ -16,8 +18,8 @@
       <h2 class="mb-4 text-xl font-semibold">{m.your_maps()}</h2>
 
       <div>
-        {m.used_geopoints()} 
-        <span class="badge badge-info text-info-content p-4">
+        {m.used_geopoints()}
+        <span class="badge badge-info p-4 text-info-content">
           {$user?.used_credits} / {$user?.max_credits}
         </span>
       </div>
@@ -31,7 +33,9 @@
           class="group relative overflow-hidden rounded-lg bg-base-300 shadow-lg transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl"
         >
           <img
-            src="https://generated.vusercontent.net/placeholder.svg"
+            src={map.lat && map.long
+              ? `${static_map_url}?size=400x300&zoom=12&center=${map.lat},${map.long}&key=${data.GOOGLE_MAPS_KEY}`
+              : 'https://generated.vusercontent.net/placeholder.svg'}
             alt="{map.name} Image"
             width="400"
             height="300"

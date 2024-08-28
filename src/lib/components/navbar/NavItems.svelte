@@ -31,7 +31,7 @@
       icon: icons.home(),
     },
     {
-      name: 'Comprar Geopoints',
+      name: m.buy_geopoints(),
       href: '/checkout',
       icon: icons.home(),
     },
