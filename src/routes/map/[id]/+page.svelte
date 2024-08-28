@@ -15,7 +15,7 @@
   import CsvDownload from './CSVDownload.svelte'
   import { toast } from 'svelte-sonner'
   import { trpc } from '$trpc/client'
-    import * as m from '$msgs'
+  import * as m from '$msgs'
   export let data: PageData
 
   const { map } = data
@@ -158,7 +158,11 @@
   class="flex flex-col-reverse items-center justify-center gap-4 p-3 lg:flex-row"
 >
   <div class="flex w-full flex-col justify-between lg:w-2/3">
-    <div class="top-0 overflow-hidden shadow-lg {!isTableActive ? "h-[88vh] rounded-lg":"h-[38vh] rounded-t-lg"}" >
+    <div
+      class="top-0 overflow-hidden shadow-lg {!isTableActive
+        ? 'h-[88vh] rounded-lg'
+        : 'h-[38vh] rounded-t-lg'}"
+    >
       {#if isVonoroiActive}
         <Vonoroi
           latLongs={locations.map(l => ({
@@ -200,7 +204,12 @@
     </button>
 
     -->
-    <CsvDownload className="btn btn-secondary w-full" data={filtered_data} />
+    <CsvDownload
+      className="btn btn-secondary w-full"
+      data={locations
+        .map(l => ({ ...l.metadata, lat: l.latLong.lat, long: l.latLong.lng }))
+        .filter(l => l !== null)}
+    />
 
     <div class="flex flex-wrap items-center justify-center gap-1">
       <h1 class="font-bold">{m.share()}:</h1>
