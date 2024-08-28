@@ -122,7 +122,7 @@
           </button>
         {/if}
         {#if handleEdit}
-          <button class="btn btn-circle btn-primary" onclick={handleEdit}>
+          <button class="btn btn-circle btn-info" onclick={handleEdit}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
