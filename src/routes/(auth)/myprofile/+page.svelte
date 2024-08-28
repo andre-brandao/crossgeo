@@ -6,6 +6,7 @@
 
   import { trpc } from '$trpc/client'
   import { page } from '$app/stores'
+  import * as m from '$msgs'
 
   const user = getUserContext()
 
@@ -142,7 +143,7 @@
     <h3
       class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight"
     >
-      Edit Profile
+      {m.edit_profile()}
     </h3>
     <div class="space-y-6 p-6">
       <div class="flex flex-col items-center gap-4">
@@ -174,7 +175,7 @@
               id: {s.id}
             </p>
             <p>
-              expiration: {new Date(s.expiresAt)}
+              {m.expirate()} {new Date(s.expiresAt)}
             </p>
           </div>
         {/each}
@@ -183,11 +184,11 @@
   </div>
 
   <div class="px-4">
-    <h1 class="">Settings</h1>
+    <h1 class="">{m.settings()}</h1>
 
     <div class="mt-4">
-      <h2 class="">Push Notifications</h2>
-      <p>Receive notifications when albums are updated.</p>
+      <h2 class="">{m.push_not()}</h2>
+      <p>{m.album_update()}</p>
       <div class="mt-3 space-y-3">
         {#if nottifPermGranted === null}
           <p>Checking permissions...</p>
@@ -197,11 +198,11 @@
             type="button"
             onclick={requestNotificationPermission}
           >
-            Enable notifications
+            {m.enable_noti()}
           </button>
         {:else}
           <p>
-            Subscribed to push notifications: <b>{isSubscribed}</b>
+            {m.subscribed()} <b>{isSubscribed}</b>
           </p>
           {#if isSubscribed}
             <div class="pb-5">
@@ -210,10 +211,10 @@
                 type="button"
                 onclick={unsubscribe}
               >
-                Unsubscribe
+                {m.unsub()}
               </button>
               <button class="btn btn-outline" onclick={testNotification}>
-                Test Notification
+                {m.test_noti()}
               </button>
             </div>
           {/if}

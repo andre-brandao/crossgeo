@@ -63,5 +63,14 @@
   "didnt_receive": "Não recebeu o e-mail?",
   "resend": "Reenviar e-mail",
   "seconds": "segundos",
-  "resend_in": "Reenviar em"
+  "resend_in": "Reenviar em",
+  "edit_profile": "Editar Perfil",
+  "expirate": "expiração:",
+  "settings": "Configurações",
+  "push_not": "Notificações Push",
+  "album_update": "Receba notificações quando os álbuns forem atualizados.",
+  "enable_noti": "Habilitar notificações",
+  "subscribed": "Inscrito para receber notificações push:",
+  "unsub": "Cancelar inscrição",
+  "test_noti": "Notificação de teste"
 }
