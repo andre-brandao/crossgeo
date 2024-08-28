@@ -2,6 +2,7 @@
   import { onMount } from 'svelte'
   import type { PageData } from './$types'
   import { goto } from '$app/navigation'
+  import * as m from '$msgs'
 
   export let data: PageData
 
@@ -27,14 +28,13 @@
           class="h-16 w-16"
         />
       </div> -->
-      <h2 class="text-2xl font-semibold text-primary">Payment Successful!</h2>
+      <h2 class="text-2xl font-semibold text-primary">{m.payment_success()}</h2>
       <p class="mt-2 text-gray-600">
-        Thank you for your purchase. Your payment was successfully processed.
-        and we added
+        {m.thaks_payment()}
         <span class="text-primary">
           {order.geopoints} GeoPoints
         </span>
-        to your account
+        {m.to_your_account()}
       </p>
       <!-- <div class="mt-6">
         <p class="text-gray-600">

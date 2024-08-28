@@ -15,6 +15,7 @@
 
   import Globe from './PointsMap.svelte'
   import { icons } from '$lib/utils'
+  import * as m from '$msgs'
 
   let geopoints = tweened(200, { duration: 500 })
 
@@ -49,7 +50,7 @@
   }
 </script>
 
-<h1 class="text-center text-3xl">Buy GeoPoints</h1>
+<h1 class="text-center text-3xl">{m.buy_geopoints()}</h1>
 <main class="container mx-auto flex flex-col items-center justify-start">
   <div class="-z-10 h-[15vh] w-full">
     <Globe {data} showPoints={$geopoints} />
@@ -120,9 +121,8 @@
   </div>
   <div
     class="tooltip z-50 my-5"
-    data-tip="Geopoints are used to buy data from the API. Each point costs $0.25. You
-  currently have used {$user?.used_credits} from {$user?.max_credits}"
+    data-tip="{m.for_what_geo_text()} {$user?.used_credits} {m.de()} {$user?.max_credits}"
   >
-    <button class="btn">For what are GeoPoints?</button>
+    <button class="btn">{m.for_what_geopoints()}</button>
   </div>
 </main>

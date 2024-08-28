@@ -6,6 +6,7 @@
 
   import { modal } from '$lib/components/modal'
   import BugReportModal from '$lib/components/modal/BugReportModal.svelte'
+  import * as m from '$msgs'
 
   import {
     setLanguageTag,
@@ -25,7 +26,7 @@
 
   export let navItems: NavItem[] = [
     {
-      name: 'Home',
+      name: m.home_page(),
       href: '/',
       icon: icons.home(),
     },
@@ -36,7 +37,7 @@
     },
 
     {
-      name: 'Maps',
+      name: m.maps(),
       href: '/map',
     },
   ]

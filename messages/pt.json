@@ -33,5 +33,14 @@
   "get_in": "ENTRE EM CONTATO!",
   "desc_talk_to_us": "  Se você tiver alguma dúvida, entre em contato conosco. Nossa equipe está disponível para ajudar e responder a quaisquer perguntas que você possa ter.",
   "phone": "Telefone",
-  "send_messagee": "Enviar mensagem"
+  "send_messagee": "Enviar mensagem",
+  "maps": "Mapas",
+  "home_page": "Página inicial",
+  "payment_success": "Pagamento realizado com sucesso!",
+  "thaks_payment": "Obrigado pela sua compra. Seu pagamento foi processado com sucesso.\r\ne nós adicionamos",
+  "to_your_account": "para sua conta",
+  "for_what_geopoints": "Para que servem os GeoPoints?",
+  "buy_geopoints": "Comprar GeoPoints",
+  "for_what_geo_text": "Geopoints são usados para comprar dados da API. Cada ponto custa $ 0,25. Você\r\natualmente tem usado",
+  "de": "de"
 }

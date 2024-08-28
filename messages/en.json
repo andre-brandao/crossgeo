@@ -35,5 +35,14 @@
   "get_in": "GET IN TOUCH!",
   "desc_talk_to_us": "  If you have any questions, please contact us. Our team is available to help and answer any questions you may have.",
   "phone": "Phone",
-  "send_messagee": "Send message"
+  "send_messagee": "Send message",
+  "maps": "Maps",
+  "home_page": "Home",
+  "payment_success": "Payment Successful!",
+  "thaks_payment": "Thank you for your purchase. Your payment was successfully processed.\r\n        and we added",
+  "to_your_account": "to your account",
+  "for_what_geopoints": "For what are GeoPoints?",
+  "buy_geopoints": "Buy GeoPoints",
+  "for_what_geo_text": "Geopoints are used to buy data from the API. Each point costs $0.25. You\r\n  currently have used",
+  "de": "from"
 }
