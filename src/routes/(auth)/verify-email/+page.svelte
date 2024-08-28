@@ -3,6 +3,7 @@
   import OTP from '$components/input/otp/OTP.svelte'
 
   import SEO, { getSEOProps } from '$lib/components/SEO/index.svelte'
+  import * as m from '$msgs'
 
   export let data: PageData
 
@@ -71,9 +72,9 @@
 <div class="bg-background flex h-full flex-col items-center justify-center">
   <div class="mx-auto w-full max-w-md space-y-6">
     <div class="text-center">
-      <h1 class="text-3xl font-bold">Verify Your Email</h1>
+      <h1 class="text-3xl font-bold">{m.verify_email()}</h1>
       <p class="text-muted-foreground mt-2">
-        Enter the 8-digit verification code sent to your email address.
+        {m.enter_8_digit()}
       </p>
     </div>
     <div
@@ -86,7 +87,7 @@
             class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             for="code"
           >
-            Verification Code
+            {m.cod_verify()}
           </label>
           <!-- <input
             bind:value={code}
@@ -107,21 +108,21 @@
             onclick={verifyEmail}
             class="btn btn-outline w-full"
           >
-            Verify Email
+            {m.verify_email}
           </button>
 
           <div>
             {#if canResend}
-              Didn't receive the email?
+              {m.didnt_receive()}
               <button
                 class="link"
                 onclick={resendEmail}
                 disabled={isLoading || !canResend}
               >
-                Resend Email
+                {m.resend()}
               </button>
             {:else}
-              Resend in {timeLeft} seconds
+              {m.resend_in()} {timeLeft} {m.seconds()}
             {/if}
           </div>
 

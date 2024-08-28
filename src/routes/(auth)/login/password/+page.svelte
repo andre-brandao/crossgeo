@@ -51,9 +51,9 @@
 
     {#if form?.message}
       <p class="mt-2 text-center text-sm">
-        Forgot your password?
+        {m.forgot_password()}
 
-        <a href="/reset-password" class="link">Reset it here</a>
+        <a href="/reset-password" class="link">{m.reset()}</a>
       </p>
     {/if}
   </div>

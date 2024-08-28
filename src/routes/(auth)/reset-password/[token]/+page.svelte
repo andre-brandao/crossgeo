@@ -9,6 +9,7 @@
   export let data: PageData
 
   import SEO, { getSEOProps } from '$lib/components/SEO/index.svelte'
+  import * as m from '$msgs'
 
   let password = ''
 
@@ -26,9 +27,9 @@
 <div class="bg-background flex h-full flex-col items-center justify-center">
   <div class="mx-auto w-full max-w-md space-y-6">
     <div class="text-center">
-      <h1 class="text-3xl font-bold">Password Reset</h1>
+      <h1 class="text-3xl font-bold">{m.password_reset}</h1>
       <p class="text-muted-foreground mt-2">
-        Enter your new password {data.email}
+        {m.enter_new()} {data.email}
       </p>
     </div>
     <form
@@ -42,7 +43,7 @@
             class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             for="password"
           >
-            Password
+            {m.password}
           </label>
           <input
             bind:value={password}
@@ -56,7 +57,7 @@
             class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             for="password_c"
           >
-            Confirm Password
+            {m.confirm_password()}
           </label>
           <input
             bind:value={password_confirm}
@@ -67,13 +68,13 @@
 
           {#if !isValid}
             <p class="text-sm text-error">
-              Passwords do not match or are too short
+              {m.password_not_match()}
             </p>
           {/if}
 
           <p class=" mt-2 text-center text-sm">{form?.message ?? ''}</p>
 
-          <button class="btn btn-outline w-full">Request Password Reset</button>
+          <button class="btn btn-outline w-full">{m.request_reset()}</button>
         </div>
       </div>
     </form>
