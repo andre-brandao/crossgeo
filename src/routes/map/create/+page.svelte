@@ -7,6 +7,7 @@
   import { toast } from 'svelte-sonner'
   import { goto } from '$app/navigation'
   import Loading from '$lib/components/Loading.svelte'
+  import * as m from '$msgs'
 
   import type { AddressInfo, LatLongInfo, FieldsInfo } from '$db/schema'
 
@@ -158,7 +159,7 @@
 </script>
 
 <div class="container mx-auto mt-5">
-  <h1 class="mb-5 text-center text-4xl font-medium">Create a map</h1>
+  <h1 class="mb-5 text-center text-4xl font-medium">{m.create_a_map()}</h1>
   <!-- Responsive grid layout -->
   <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
     <!-- Form Section -->
@@ -166,15 +167,15 @@
       <h1
         class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight"
       >
-        Create a map
+        {m.create_a_map()}
       </h1>
       <p class=" text-sm">
-        Escolha um arquivo csv e o campo com o endereco para começar
+        {m.choose_csv()}
       </p>
 
       <div class="form-control">
         <label for="name" class="label">
-          <span class="label-text">Map Name</span>
+          <span class="label-text">{m.map_name()}</span>
         </label>
         <input
           type="text"
@@ -187,7 +188,7 @@
 
       <div class="form-control">
         <label for="csv" class="label">
-          <span class="label-text">CSV File</span>
+          <span class="label-text">{m.csv_file()}</span>
         </label>
         <input
           type="file"
@@ -204,7 +205,7 @@
         <!-- geocoding type select -->
         <div class="form-control">
           <label for="geocodingType" class="label">
-            <span class="label-text">Geocoding Type</span>
+            <span class="label-text">{m.geocoding_type()}</span>
           </label>
           <select
             name="geocodingType"
@@ -212,15 +213,15 @@
             class="select select-bordered select-info"
             bind:value={geocodingType}
           >
-            <option value="address">Address</option>
-            <option value="lat_long">Latitude and Longitude</option>
+            <option value="address">{m.address()}</option>
+            <option value="lat_long">{m.lat_and_long()}</option>
           </select>
         </div>
 
         {#if geocodingType === 'address'}
           <div class="form-control">
             <label for="address_field" class="label">
-              <span class="label-text">Address Field</span>
+              <span class="label-text">{m.address_field()}</span>
             </label>
             <select
               name="address_field"
@@ -237,7 +238,7 @@
           <div class="flex items-center justify-around">
             <div class="form-control">
               <label for="lat_field" class="label">
-                <span class="label-text">Latitude Field</span>
+                <span class="label-text">{m.lat_field()}</span>
               </label>
               <select
                 name="lat_field"
@@ -256,7 +257,7 @@
                   class="label-text
                 "
                 >
-                  Longitude Field
+                  {m.long_field()}
                 </span>
               </label>
               <select
@@ -275,7 +276,7 @@
       {:else}
         <div class="flex justify-center">
           <p class="badge badge-info text-center text-info-content">
-            Selecione um arquivo para continuar com a geocodificacão
+            {m.select_file()}
           </p>
         </div>
       {/if}
@@ -284,12 +285,12 @@
         {#if isLoading}
           <Loading />
         {:else}
-          <span>Submit</span>
+          <span>{m.submit()}</span>
         {/if}
       </button>
       {#if isLoading}
         <p class="text-center text-warning">
-          A geocodificacão pode ser um processo demorado, por favor aguarde!
+          {m.geocoding_slow()}
         </p>
       {/if}
     </div>
@@ -300,11 +301,10 @@
       <h1
         class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight"
       >
-        Map Data
+        {m.map_data()}
       </h1>
       <p class=" text-sm">
-        Preview dos dados do arquivo CSV, também é possível selecionar o campo
-        clicando na coluna
+        {m.preview_csv()}
       </p>
       <div class=" mt-2 overflow-auto">
         {#if csv_data && csv_headers}
@@ -317,7 +317,7 @@
           />
         {:else}
           <div class="p-5 text-center">
-            <p>No data available. Please upload a CSV file.</p>
+            <p>{m.no_data()}</p>
           </div>
         {/if}
       </div>

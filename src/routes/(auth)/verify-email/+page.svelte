@@ -108,7 +108,7 @@
             onclick={verifyEmail}
             class="btn btn-outline w-full"
           >
-            {m.verify_email}
+            {m.verify_email()}
           </button>
 
           <div>

@@ -7,6 +7,7 @@
   import FilterComponent from '$lib/components/map/dataset/FilterComponent.svelte'
 
   import ParsedTable from '$lib/components/table/ParsedTable.svelte'
+    import * as m from '$msgs'
 
   export let dataset: {
     headers: string[]
@@ -34,7 +35,7 @@
     </div>
     <div class="items-centerw-full flex flex-col rounded border xl:w-7/12">
       <div class="form-control px-4">
-        <label for="chart_title" class="label">Chart Title</label>
+        <label for="chart_title" class="label">{m.chart_title()}</label>
         <input
           name="chart_title"
           type="text"
@@ -42,16 +43,16 @@
           class="input input-bordered w-full"
         />
 
-        <label for="chart_type" class="label">Chart Type</label>
+        <label for="chart_type" class="label">{m.chart_type()}</label>
         <select
           name="chart_type"
           id="chart_type"
           class="select select-bordered w-full"
           bind:value={chart.type}
         >
-          <option value="line">Line</option>
-          <option value="bar">Bar</option>
-          <option value="area">Area</option>
+          <option value="line">{m.chart_line()}</option>
+          <option value="bar">{m.chart_bar()}</option>
+          <option value="area">{m.chart_area()}</option>
         </select>
       </div>
       <div class="my-4 max-h-80 overflow-y-auto">
@@ -69,7 +70,7 @@
         />
       </div>
       <button class="btn btn-secondary mx-4 mb-2" on:click={() => save(chart)}>
-        Salvar
+        {m.save()}
       </button>
     </div>
   </div>

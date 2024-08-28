@@ -15,6 +15,7 @@
   import CsvDownload from './CSVDownload.svelte'
   import { toast } from 'svelte-sonner'
   import { trpc } from '$trpc/client'
+    import * as m from '$msgs'
   export let data: PageData
 
   const { map } = data
@@ -189,19 +190,19 @@
 
   <div class="flex w-full flex-col gap-4 lg:w-1/3">
     <button on:click={modalCreateNewChart} class="btn btn-primary w-full">
-      Create New Chart
+      {m.create_new()}
     </button>
     <button
       on:click={() => (isVonoroiActive = !isVonoroiActive)}
       class="btn btn-primary w-full"
     >
-      {isVonoroiActive ? 'Show Map' : 'Show Voronoi'}
+      {isVonoroiActive ? m.show_map() : m.show_voronoi()}
     </button>
 
     <CsvDownload className="btn btn-secondary w-full" data={filtered_data} />
 
     <div class="flex flex-wrap items-center justify-center gap-1">
-      <h1 class="font-bold">Compartilhar:</h1>
+      <h1 class="font-bold">{m.share()}:</h1>
       <Share
         title="Conheça o mapa que criei utilizando o CrossGeo:  {map.name}"
         url={$page.url}
