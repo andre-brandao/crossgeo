@@ -171,9 +171,9 @@ export const icons = {
   <line x1="14" x2="14" y1="11" y2="17" />`,
       cfg,
     ),
-    arrow: (cfg?: SVGoptions) =>
-      svgTemplate(
-        `
+  arrow: (cfg?: SVGoptions) =>
+    svgTemplate(
+      `
  <svg
   xmlns="http://www.w3.org/2000/svg"
   width="24"
@@ -190,11 +190,11 @@ export const icons = {
   <path d="m12 5 7 7-7 7" />
 </svg>
 `,
-        cfg,
-      ),
-      chart2: (cfg?: SVGoptions) =>
-        svgTemplate(
-          `
+      cfg,
+    ),
+  chart2: (cfg?: SVGoptions) =>
+    svgTemplate(
+      `
    <svg
   xmlns="http://www.w3.org/2000/svg"
   width="24"
@@ -213,23 +213,43 @@ export const icons = {
   <path d="M8 17v-3" />
 </svg>
   `,
-          cfg,
-        ),
-        book: (cfg?: SVGoptions) =>
-          svgTemplate(
-            `
+      cfg,
+    ),
+  book: (cfg?: SVGoptions) =>
+    svgTemplate(
+      `
      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-album"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><polyline points="11 3 11 11 14 8 17 11 17 3"/></svg>
     `,
-            cfg,
-          ),
-          layer: (cfg?: SVGoptions) =>
-            svgTemplate(
-              `
+      cfg,
+    ),
+  layer: (cfg?: SVGoptions) =>
+    svgTemplate(
+      `
        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layers"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
       `,
-              cfg,
-            ),
-
+      cfg,
+    ),
+  download: (cfg?: SVGoptions) =>
+    svgTemplate(
+      `
+         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+        `,
+      cfg,
+    ),
+  hide: (cfg?: SVGoptions) =>
+    svgTemplate(
+      `
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-off"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>
+          `,
+      cfg,
+    ),
+  show: (cfg?: SVGoptions) =>
+    svgTemplate(
+      `
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
+            `,
+      cfg,
+    ),
 
   flags: {
     getEmojiFlag: (lang: string) => {

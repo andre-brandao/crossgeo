@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { icons } from '$lib/utils'
   import Papa from 'papaparse'
 
   export let data: Record<string, any>
@@ -32,4 +33,4 @@
 </script>
 
 <!-- Button to trigger CSV download -->
-<button class={className} on:click={downloadCSV}>Download CSV</button>
+<button class={className} on:click={downloadCSV}>{@html icons.download()}Download CSV</button>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { icons } from '$lib/utils/icons';
   import Map from '$components/map/Map.svelte'
   import ParsedTable from '$components/table/ParsedTable.svelte'
   import QueryChart from '$lib/components/chart/QueryChart.svelte'
@@ -177,6 +178,7 @@
           }
         }}
       >
+      {@html isMapActive ? icons.hide() : icons.show()}
         {isMapActive ? m.hide_map() : m.show_map()}
       </button>
       <button
@@ -187,6 +189,7 @@
           }
         }}
       >
+      {@html isTableActive ? icons.hide() : icons.show()}
         {isTableActive ? m.hide_table() : m.show_table()}
       </button>
       <button
@@ -197,6 +200,7 @@
           }
         }}
       >
+      {@html isChartActive ? icons.hide() : icons.show()}
         {isChartActive ? m.hide_chart() : m.show_chart()}
       </button>
 
@@ -209,6 +213,7 @@
 
     <div class="flex gap-2">
       <button on:click={modalCreateNewChart} class="btn btn-primary">
+        {@html icons.chart2()}
         {m.create_new()}
       </button>
 
