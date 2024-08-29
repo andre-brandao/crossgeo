@@ -194,7 +194,7 @@
         <div class="mt-12 md:mt-0">
           <img
             class="rounded-lg object-cover object-center"
-            src="/src/lib/assets/home/mapa.png"
+            src="https://github.com/andre-brandao/crossgeo/blob/main/src/lib/assets/home/mapa.png?raw=true"
             alt="step"
           />
         </div>
