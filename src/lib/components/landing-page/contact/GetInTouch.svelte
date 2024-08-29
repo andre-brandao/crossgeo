@@ -1,6 +1,7 @@
 <script>
   import Bolas from './Bolas.svelte'
     import * as m from '$msgs'
+      import BlurFade from '$lib/components/BlurFade.svelte'
 
   let nome = ''
   let mensagem = ''
@@ -127,50 +128,52 @@
       </div>
       <div class="w-full px-4 lg:w-1/2 xl:w-5/12">
         <div
-          class="dark:bg-dark-2 relative rounded-lg bg-base-200 p-8 shadow-lg sm:p-12"
+        class="dark:bg-dark-2 relative rounded-lg bg-base-200 p-8 shadow-lg sm:p-12"
         >
-          <form>
-            <div class="mb-6">
-              <input
-                type="text"
-                placeholder="Seu nome"
-                class="border-stroke dark:border-dark-3 dark:bg-dark w-full rounded border px-[14px] py-3 text-base outline-none focus:border-primary"
-                bind:value={nome}
-              />
-            </div>
-            <!-- <div class="mb-6">
-              <input
-                type="email"
-                placeholder="Seu email"
-                class="border-stroke dark:border-dark-3 dark:bg-dark w-full rounded border px-[14px] py-3 text-base outline-none focus:border-primary"
-              />
-            </div> -->
-            <!-- <div class="mb-6">
-              <input
-                type="text"
-                placeholder="Seu telefone"
-                class="border-stroke dark:border-dark-3 dark:bg-dark w-full rounded border px-[14px] py-3 text-base outline-none focus:border-primary"
-              />
-            </div> -->
-            <div class="mb-6">
-              <textarea
-                rows="6"
-                placeholder="Digite sua mensagem..."
-                class="border-stroke dark:border-dark-3 dark:bg-dark w-full resize-none rounded border px-[14px] py-3 text-base outline-none focus:border-primary"
-                bind:value={mensagem}
-              ></textarea>
-            </div>
-            <button
-              on:click={sendEmail}
-              type="submit"
-              class="btn btn-primary w-full"
-            >
-              {m.send_messagee()}
-            </button>
-          </form>
-          <Bolas />
+        <BlurFade delay={0.2}>
+            <form>
+              <div class="mb-6">
+                <input
+                  type="text"
+                  placeholder="Seu nome"
+                  class="border-stroke dark:border-dark-3 dark:bg-dark w-full rounded border px-[14px] py-3 text-base outline-none focus:border-primary"
+                  bind:value={nome}
+                />
+              </div>
+              <!-- <div class="mb-6">
+                <input
+                  type="email"
+                  placeholder="Seu email"
+                  class="border-stroke dark:border-dark-3 dark:bg-dark w-full rounded border px-[14px] py-3 text-base outline-none focus:border-primary"
+                />
+              </div> -->
+              <!-- <div class="mb-6">
+                <input
+                  type="text"
+                  placeholder="Seu telefone"
+                  class="border-stroke dark:border-dark-3 dark:bg-dark w-full rounded border px-[14px] py-3 text-base outline-none focus:border-primary"
+                />
+              </div> -->
+              <div class="mb-6">
+                <textarea
+                  rows="6"
+                  placeholder="Digite sua mensagem..."
+                  class="border-stroke dark:border-dark-3 dark:bg-dark w-full resize-none rounded border px-[14px] py-3 text-base outline-none focus:border-primary"
+                  bind:value={mensagem}
+                ></textarea>
+              </div>
+              <button
+                on:click={sendEmail}
+                type="submit"
+                class="btn btn-primary w-full"
+              >
+                {m.send_messagee()}
+              </button>
+            </form>
+          </BlurFade>
+            <Bolas />
+          </div>
         </div>
-      </div>
     </div>
   </div>
 </section>

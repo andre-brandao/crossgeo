@@ -13,6 +13,7 @@
           >
             <div class="pointer-events-none h-full w-1 bg-accent"></div>
           </div>
+          <BlurFade delay={0.1}>
           <div
             class="relative z-10 inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary text-primary-content"
           >
@@ -35,7 +36,7 @@
               <line x1="15" x2="15" y1="9" y2="21" />
             </svg>
           </div>
-          <BlurFade delay={0.1}>
+          </BlurFade>
             <div class="flex-grow pl-4">
               <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
                 {m.first_step()}
@@ -44,7 +45,6 @@
                 {m.desc_first_step()}
               </p>
             </div>
-          </BlurFade>
         </div>
         <div class="relative flex pb-12">
           <div
@@ -52,6 +52,7 @@
           >
             <div class="pointer-events-none h-full w-1 bg-accent"></div>
           </div>
+          <BlurFade delay={0.1 * 1.5}>
           <div
             class="relative z-10 inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary text-primary-content"
           >
@@ -75,7 +76,7 @@
               <path d="m15 15-3-3-3 3" />
             </svg>
           </div>
-          <BlurFade delay={0.1 * 1.5}>
+          </BlurFade>
             <div class="flex-grow pl-4">
               <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
                 {m.second_step()}
@@ -84,7 +85,6 @@
                 {m.second_step_desc()}
               </p>
             </div>
-          </BlurFade>
         </div>
         <div class="relative flex pb-12">
           <div
@@ -92,6 +92,7 @@
           >
             <div class="pointer-events-none h-full w-1 bg-accent"></div>
           </div>
+          <BlurFade delay={0.1 * 2}>
           <div
             class="relative z-10 inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary text-primary-content"
           >
@@ -112,7 +113,7 @@
               <rect x="7" y="8" width="4" height="9" rx="1" />
             </svg>
           </div>
-          <BlurFade delay={0.1 * 2}>
+          </BlurFade>
             <div class="flex-grow pl-4">
               <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
                 {m.third_step()}
@@ -121,7 +122,6 @@
                {m.third_step_desc()}
               </p>
             </div>
-          </BlurFade>
         </div>
         <!-- <div class="relative flex pb-12">
           <div
@@ -155,6 +155,7 @@
           </div>
         </div> -->
         <div class="relative flex">
+          <BlurFade delay={0.1 * 2.5}>
           <div
             class="relative z-10 inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary text-primary-content"
           >
@@ -178,7 +179,7 @@
               />
             </svg>
           </div>
-          <BlurFade delay={0.1 * 2.5}>
+          </BlurFade>
             <div class="flex-grow pl-4">
               <h2 class="title-font mb-1 text-sm font-medium tracking-wider">
                 {m.fourth_step()}
@@ -187,7 +188,6 @@
                 {m.fourth_step_desc()}
               </p>
             </div>
-          </BlurFade>
         </div>
       </div>
       <BlurFade delay={0.1 * 3}>
