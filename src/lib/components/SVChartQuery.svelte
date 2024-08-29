@@ -126,7 +126,7 @@
   }
 </script>
 
-<div>
+<div class="flex flex-col justify-center">
   <div class="flex items-center justify-between p-4">
     <h1 class="text-lg font-bold">{title}</h1>
 
@@ -178,7 +178,7 @@
       </div>
     {/if}
   </div>
-  <div class=" h-[320px] min-w-[400px] rounded p-4">
-    <SvChart height={320} width={400} bind:chart config={chartConfig} />
+  <div class=" min-h-[320px] w-full rounded p-4 flex justify-center">
+    <SvChart height={340} width={400} bind:chart config={chartConfig} />
   </div>
 </div>

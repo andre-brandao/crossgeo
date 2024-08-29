@@ -60,7 +60,6 @@
   <style>
     .table-container {
       width: 100%;
-      /* Adjust this value as needed */
       overflow: auto;
     }
     th {

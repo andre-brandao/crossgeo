@@ -30,10 +30,10 @@
 
 <Modal title="Edit Chart #{chart.id ?? ' New Chart'}">
   <div class="flex h-full flex-col gap-3 xl:flex-row">
-    <div class="w-full items-center rounded-lg border p-4 shadow xl:w-5/12">
+    <div class="w-full items-center rounded-lg  p-4 shadow xl:w-4/12">
       <SvChartQuery dataset={dataset.rows} {...chart} />
     </div>
-    <div class="items-centerw-full flex flex-col rounded border xl:w-7/12">
+    <div class="items-centerw-full flex flex-col rounded  xl:w-8/12">
       <div class="form-control px-4">
         <label for="chart_title" class="label">{m.chart_title()}</label>
         <input
@@ -79,7 +79,7 @@
     </div>
   </div>
 
-  <div class="my-4 rounded-lg border shadow">
+  <div class="my-4 rounded-lg shadow max-h-[500px] overflow-y-scroll">
     <ParsedTable
       data={dataset}
       selectedCell={v => {

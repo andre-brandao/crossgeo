@@ -111,5 +111,8 @@
   "hide_table": "Hide table",
   "show_table": "Show table",
   "hide_chart": "Hide chart",
-  "show_chart": "Show chart"
+  "show_chart": "Show chart",
+  "you_dont_have_charts": " You don't have any graphics yet click",
+  "here": "here",
+  "to_create": "to create the first"
 }

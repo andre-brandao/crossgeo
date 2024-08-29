@@ -96,7 +96,7 @@
 
   <ul class="w-full space-y-2">
     {#each query as filter, index}
-      <li class="p-2 bg-primary-50 rounded flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+      <li class="p-2 bg-primary-50 rounded flex flex-col gap-2 xl:flex-row sm:items-center sm:justify-between">
         {#if 'field' in filter}
           <select bind:value={filter.field} class="select select-bordered w-full sm:w-auto">
             <option value="" disabled selected>{m.select_field()}</option>

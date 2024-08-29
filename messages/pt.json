@@ -111,5 +111,8 @@
   "hide_table": "Esconder tabela",
   "show_table": "Mostrar tabela",
   "hide_chart": "Esconder gráfico",
-  "show_chart": "Mostrar gráfico"
+  "show_chart": "Mostrar gráfico",
+  "you_dont_have_charts": " Você ainda não possui gráficos clique",
+  "here": "aqui",
+  "to_create": "para criar o primeiro"
 }

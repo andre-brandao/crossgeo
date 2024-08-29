@@ -306,7 +306,7 @@
       <p class=" text-sm">
         {m.preview_csv()}
       </p>
-      <div class=" mt-2 overflow-auto">
+      <div class=" mt-2 overflow-auto max-h-[500px]">
         {#if csv_data && csv_headers}
           <ParsedTable
             data={{

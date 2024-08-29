@@ -338,20 +338,38 @@
           order={3}
         >
           <div
-            class="flex max-h-full w-full flex-wrap justify-center gap-5 overflow-y-scroll"
+            class="flex h-full w-full flex-wrap justify-center gap-5 overflow-y-scroll"
           >
-            {#each charts as chart}
-              <SvChartQuery
-                dataset={filtered_data}
-                {...chart}
-                handleDelete={() => {
-                  handleDelete(chart.id)
-                }}
-                handleEdit={() => {
-                  handleEditChart(chart)
-                }}
-              />
-            {/each}
+            {#if charts.length > 0}
+              {#each charts as chart}
+                <SvChartQuery
+                  dataset={filtered_data}
+                  {...chart}
+                  handleDelete={() => {
+                    handleDelete(chart.id)
+                  }}
+                  handleEdit={() => {
+                    handleEditChart(chart)
+                  }}
+                />
+              {/each}
+            {:else}
+              <div
+                class="flex w-full items-center justify-center border"
+                style="height: calc(100vh - 140px);"
+              >
+                <h1 class="text-center">
+                 {m.you_dont_have_charts()}
+                  <button
+                    class="text-primary underline"
+                    on:click={modalCreateNewChart}
+                  >
+                    {m.here()}
+                  </button>
+                  {m.to_create()}
+                </h1>
+              </div>
+            {/if}
           </div>
         </Pane>
       {/if}
