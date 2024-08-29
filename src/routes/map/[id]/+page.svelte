@@ -342,6 +342,7 @@
           >
             {#if charts.length > 0}
               {#each charts as chart}
+              <div class="border rounded-md">
                 <SvChartQuery
                   dataset={filtered_data}
                   {...chart}
@@ -352,6 +353,7 @@
                     handleEditChart(chart)
                   }}
                 />
+              </div>
               {/each}
             {:else}
               <div
