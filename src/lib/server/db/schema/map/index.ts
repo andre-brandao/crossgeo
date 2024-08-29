@@ -3,6 +3,7 @@ import {
   text,
   integer,
   real,
+  primaryKey,
   // customType,
 } from 'drizzle-orm/sqlite-core'
 import { sql, relations } from 'drizzle-orm'
@@ -30,12 +31,44 @@ export const mapRelations = relations(mapTable, ({ one, many }) => ({
     fields: [mapTable.created_by],
     references: [userTable.id],
   }),
-  data: many(mapDataTable),
+  map_data: many(mapDataTable),
 }))
 
 export const insertMapSchema = createInsertSchema(mapTable)
 export type SelectMap = typeof mapTable.$inferSelect
 export type InsertMap = typeof mapTable.$inferInsert
+
+export const mapDataTable = sqliteTable(
+  'map_data',
+  {
+    map_id: integer('map_id')
+      .notNull()
+      .references(() => mapTable.id, {
+        onDelete: 'cascade',
+      }),
+    data_id: integer('data_id')
+      .notNull()
+      .references(() => dataTable.id, {
+        onDelete: 'cascade',
+      }),
+  },
+  t => ({
+    pk: primaryKey({ columns: [t.map_id, t.data_id] }),
+  }),
+)
+export type SelectMapData = typeof mapDataTable.$inferSelect
+export type InsertMapData = typeof mapDataTable.$inferInsert
+
+export const mapDataRelations = relations(mapDataTable, ({ one }) => ({
+  map: one(mapTable, {
+    fields: [mapDataTable.map_id],
+    references: [mapTable.id],
+  }),
+  data: one(dataTable, {
+    fields: [mapDataTable.data_id],
+    references: [dataTable.id],
+  }),
+}))
 
 export type AddressInfo = {
   address_field: string
@@ -50,34 +83,36 @@ export type LatLongInfo = {
 
 export type FieldsInfo = AddressInfo | LatLongInfo
 
-export const mapDataTable = sqliteTable('map_data', {
+export const dataTable = sqliteTable('data', {
   id: integer('id').notNull().primaryKey({ autoIncrement: true }),
-  map_id: integer('map_id')
+  created_by: text('created_by')
     .notNull()
-    .references(() => mapTable.id),
+    .references(() => userTable.id),
+  created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
   name: text('name'),
   fields_info: text('fields', { mode: 'json' }).notNull().$type<FieldsInfo>(),
 })
 
-export const mapDataRelations = relations(mapDataTable, ({ one, many }) => ({
-  map: one(mapTable, {
-    fields: [mapDataTable.map_id],
-    references: [mapTable.id],
+export const dataRelations = relations(dataTable, ({ one, many }) => ({
+  made_by: one(userTable, {
+    fields: [dataTable.created_by],
+    references: [userTable.id],
   }),
   points: many(mapPointTable),
   charts: many(chartTable),
+  map_data: many(mapDataTable),
 }))
 
-export const insertMapDataSchema = createInsertSchema(mapDataTable)
-export type SelectMapData = typeof mapDataTable.$inferSelect
-export type InsertMapData = typeof mapDataTable.$inferInsert
+export const insertDataSchema = createInsertSchema(dataTable)
+export type SelectData = typeof dataTable.$inferSelect
+export type InsertData = typeof dataTable.$inferInsert
 
 export const mapPointTable = sqliteTable('point', {
   id: integer('id').notNull().primaryKey({ autoIncrement: true }),
   created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
   data_id: integer('data_id')
     .notNull()
-    .references(() => mapDataTable.id, {
+    .references(() => dataTable.id, {
       onDelete: 'cascade',
     }),
   lat: real('latitude').notNull(),
@@ -86,9 +121,9 @@ export const mapPointTable = sqliteTable('point', {
 })
 
 export const mapPointRelations = relations(mapPointTable, ({ one }) => ({
-  map_data: one(mapDataTable, {
+  map_data: one(dataTable, {
     fields: [mapPointTable.data_id],
-    references: [mapDataTable.id],
+    references: [dataTable.id],
   }),
 }))
 
@@ -102,9 +137,10 @@ import type { Query } from '$lib/components/map/dataset'
 export const chartTable = sqliteTable('chart', {
   id: integer('id').notNull().primaryKey({ autoIncrement: true }),
   created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
+  created_by : text('created_by').notNull().references(() => userTable.id),
   data_id: integer('data_id')
     .notNull()
-    .references(() => mapDataTable.id, {
+    .references(() => dataTable.id, {
       onDelete: 'cascade',
     }),
   type: text('type').notNull(),
@@ -115,9 +151,9 @@ export const chartTable = sqliteTable('chart', {
 })
 
 export const chartRelations = relations(chartTable, ({ one }) => ({
-  data: one(mapDataTable, {
+  data: one(dataTable, {
     fields: [chartTable.data_id],
-    references: [mapDataTable.id],
+    references: [dataTable.id],
   }),
 }))
 

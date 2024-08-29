@@ -2,6 +2,8 @@
   import Map from '$components/map/Map.svelte'
   import ParsedTable from '$components/table/ParsedTable.svelte'
   import QueryChart from '$lib/components/chart/QueryChart.svelte'
+  import SvChartQuery from '$lib/components/SVChartQuery.svelte'
+
   import Vonoroi from '$components/chart/Voronoi.svelte'
   import type { Dataset } from '$lib/components/map/dataset'
   import EditChart from './EditChart.svelte'
@@ -26,14 +28,14 @@
   let isMapActive = true
   let isChartActive = true
 
-  let locations = map.data[0].points.map(p => ({
+  let locations = map.map_data[0].data.points.map(p => ({
     latLong: new L.LatLng(p.lat, p.long),
     metadata: p.meta_data,
   }))
 
   let filtered_data = locations.map(l => l.metadata).filter(l => l !== null)
 
-  let charts = map.data[0].charts
+  let charts = map.map_data[0].data.charts
 
   function handleLassoSelected(e: Dataset) {
     console.log('lasso_selected', e)
@@ -69,7 +71,7 @@
     modal.open(EditChart, {
       chart: c,
       dataset: {
-        headers: map.data[0].fields_info.fields,
+        headers: map.map_data[0].data.fields_info.fields,
         rows: filtered_data,
       },
       save: async chart => {
@@ -122,7 +124,7 @@
         type: 'bar',
       },
       dataset: {
-        headers: map.data[0].fields_info.fields,
+        headers: map.map_data[0].data.fields_info.fields,
         rows: filtered_data,
       },
       save: async chart => {
@@ -137,7 +139,7 @@
 
         try {
           const [resp] = await trpc($page).map.createChart.mutate({
-            data_id: map.data[0].id,
+            data_id: map.map_data[0].data.id,
             // @ts-ignore
             filters: chart.filters,
             title: chart.title,
@@ -290,7 +292,7 @@
                 <div class="max-h-full overflow-y-scroll">
                   <ParsedTable
                     data={{
-                      headers: map.data[0].fields_info.fields,
+                      headers: map.map_data[0].data.fields_info.fields,
                       rows: filtered_data,
                     }}
                   />
@@ -339,7 +341,7 @@
             class="flex max-h-full w-full flex-wrap justify-center gap-5 overflow-y-scroll"
           >
             {#each charts as chart}
-              <QueryChart
+              <SvChartQuery
                 dataset={filtered_data}
                 {...chart}
                 handleDelete={() => {

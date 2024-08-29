@@ -3,11 +3,11 @@
   import { Modal, modal } from '$lib/components/modal'
 
   import QueryChart from '$lib/components/chart/QueryChart.svelte'
-
+  import SvChartQuery from '$lib/components/SVChartQuery.svelte'
   import FilterComponent from '$lib/components/map/dataset/FilterComponent.svelte'
 
   import ParsedTable from '$lib/components/table/ParsedTable.svelte'
-    import * as m from '$msgs'
+  import * as m from '$msgs'
 
   export let dataset: {
     headers: string[]
@@ -28,10 +28,10 @@
   let newFilterField = ''
 </script>
 
-<Modal title="Edit Chart #{chart.id ?? " New Chart"}">
+<Modal title="Edit Chart #{chart.id ?? ' New Chart'}">
   <div class="flex h-full flex-col gap-3 xl:flex-row">
     <div class="w-full items-center rounded-lg border p-4 shadow xl:w-5/12">
-      <QueryChart dataset={dataset.rows} {...chart} />
+      <SvChartQuery dataset={dataset.rows} {...chart} />
     </div>
     <div class="items-centerw-full flex flex-col rounded border xl:w-7/12">
       <div class="form-control px-4">
@@ -52,7 +52,11 @@
         >
           <option value="line">{m.chart_line()}</option>
           <option value="bar">{m.chart_bar()}</option>
-          <option value="area">{m.chart_area()}</option>
+          <option value="scatter">Scatter</option>
+          <option value="bubble">Bolha</option>
+          <option value="pie">Pie</option>
+          <option value="radar">Radar</option>
+          <!-- <option value="area">{m.chart_area()}</option> -->
         </select>
       </div>
       <div class="my-4 max-h-80 overflow-y-auto">
