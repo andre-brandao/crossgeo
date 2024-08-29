@@ -104,19 +104,30 @@ CREATE TABLE `push_notification_log` (
 CREATE TABLE `chart` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`created_at` text DEFAULT (CURRENT_TIMESTAMP),
+	`created_by` text NOT NULL,
 	`data_id` integer NOT NULL,
 	`type` text NOT NULL,
 	`title` text NOT NULL,
 	`filters` text NOT NULL,
-	FOREIGN KEY (`data_id`) REFERENCES `map_data`(`id`) ON UPDATE no action ON DELETE cascade
+	FOREIGN KEY (`created_by`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action,
+	FOREIGN KEY (`data_id`) REFERENCES `data`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE TABLE `data` (
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`created_by` text NOT NULL,
+	`created_at` text DEFAULT (CURRENT_TIMESTAMP),
+	`name` text,
+	`fields` text NOT NULL,
+	FOREIGN KEY (`created_by`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
 CREATE TABLE `map_data` (
-	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`map_id` integer NOT NULL,
-	`name` text,
-	`fields` text NOT NULL,
-	FOREIGN KEY (`map_id`) REFERENCES `map`(`id`) ON UPDATE no action ON DELETE no action
+	`data_id` integer NOT NULL,
+	PRIMARY KEY(`data_id`, `map_id`),
+	FOREIGN KEY (`map_id`) REFERENCES `map`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`data_id`) REFERENCES `data`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `point` (
@@ -126,7 +137,7 @@ CREATE TABLE `point` (
 	`latitude` real NOT NULL,
 	`longitude` real NOT NULL,
 	`meta` text,
-	FOREIGN KEY (`data_id`) REFERENCES `map_data`(`id`) ON UPDATE no action ON DELETE cascade
+	FOREIGN KEY (`data_id`) REFERENCES `data`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `map` (

@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "d1b280a1-4e98-4771-a432-666c27e7222d",
+  "id": "61a41d23-bca2-438a-9ce6-06d29c83c4d8",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "magic_link": {
@@ -718,6 +718,13 @@
           "autoincrement": false,
           "default": "(CURRENT_TIMESTAMP)"
         },
+        "created_by": {
+          "name": "created_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "data_id": {
           "name": "data_id",
           "type": "integer",
@@ -749,10 +756,23 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "chart_data_id_map_data_id_fk": {
-          "name": "chart_data_id_map_data_id_fk",
+        "chart_created_by_user_id_fk": {
+          "name": "chart_created_by_user_id_fk",
           "tableFrom": "chart",
-          "tableTo": "map_data",
+          "tableTo": "user",
+          "columnsFrom": [
+            "created_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "chart_data_id_data_id_fk": {
+          "name": "chart_data_id_data_id_fk",
+          "tableFrom": "chart",
+          "tableTo": "data",
           "columnsFrom": [
             "data_id"
           ],
@@ -766,8 +786,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "map_data": {
-      "name": "map_data",
+    "data": {
+      "name": "data",
       "columns": {
         "id": {
           "name": "id",
@@ -776,12 +796,20 @@
           "notNull": true,
           "autoincrement": true
         },
-        "map_id": {
-          "name": "map_id",
-          "type": "integer",
+        "created_by": {
+          "name": "created_by",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(CURRENT_TIMESTAMP)"
         },
         "name": {
           "name": "name",
@@ -800,6 +828,43 @@
       },
       "indexes": {},
       "foreignKeys": {
+        "data_created_by_user_id_fk": {
+          "name": "data_created_by_user_id_fk",
+          "tableFrom": "data",
+          "tableTo": "user",
+          "columnsFrom": [
+            "created_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "map_data": {
+      "name": "map_data",
+      "columns": {
+        "map_id": {
+          "name": "map_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "data_id": {
+          "name": "data_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
         "map_data_map_id_map_id_fk": {
           "name": "map_data_map_id_map_id_fk",
           "tableFrom": "map_data",
@@ -810,11 +875,32 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "map_data_data_id_data_id_fk": {
+          "name": "map_data_data_id_data_id_fk",
+          "tableFrom": "map_data",
+          "tableTo": "data",
+          "columnsFrom": [
+            "data_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "map_data_map_id_data_id_pk": {
+          "columns": [
+            "data_id",
+            "map_id"
+          ],
+          "name": "map_data_map_id_data_id_pk"
+        }
+      },
       "uniqueConstraints": {}
     },
     "point": {
@@ -866,10 +952,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "point_data_id_map_data_id_fk": {
-          "name": "point_data_id_map_data_id_fk",
+        "point_data_id_data_id_fk": {
+          "name": "point_data_id_data_id_fk",
           "tableFrom": "point",
-          "tableTo": "map_data",
+          "tableTo": "data",
           "columnsFrom": [
             "data_id"
           ],
