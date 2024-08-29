@@ -67,8 +67,9 @@ export const mapa = router({
       }
 
       const [newMapData] = await mapController
-        .insertMapData({
-          map_id: newMap.id,
+        .insertData({
+          created_by: user.id,
+          name: map.name + ' data',
 
           fields_info: {
             address_field: map.fields_info.address_field,
@@ -77,8 +78,10 @@ export const mapa = router({
         })
         .returning()
 
+      await mapController.addDataToMap(newMap.id, newMapData.id)
+
       console.log('Data criado', newMapData)
-      if (!newMapData) {``
+      if (!newMapData) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: 'erro ao criar dataset',
@@ -124,6 +127,8 @@ export const mapa = router({
     }),
 
   createMapLatLong: publicProcedure
+    .use(middleware.auth)
+    .use(middleware.logged)
     .input(
       z.object({
         map: z.object({
@@ -172,8 +177,9 @@ export const mapa = router({
         .returning()
 
       const [newMapData] = await mapController
-        .insertMapData({
-          map_id: newMap.id,
+        .insertData({
+          created_by: user.id,
+          name: map.name + ' data',
           fields_info: {
             lat_field: map.fields_info.lat_field,
             long_field: map.fields_info.long_field,
@@ -181,6 +187,8 @@ export const mapa = router({
           },
         })
         .returning()
+
+      await mapController.addDataToMap(newMap.id, newMapData.id)
 
       const points = raw_points.map(point => ({
         lat: point.lat,
@@ -202,6 +210,8 @@ export const mapa = router({
     }),
 
   addPointsGeocoding: publicProcedure
+    .use(middleware.auth)
+    .use(middleware.logged)
     .input(
       z.object({
         data_id: z.number(),
@@ -231,7 +241,7 @@ export const mapa = router({
         })
       }
 
-      const retrievedMap = await mapController.getMapDataByID(data_id)
+      const retrievedMap = await mapController.getDataById(data_id)
 
       if (!retrievedMap) {
         throw new TRPCError({
@@ -247,7 +257,7 @@ export const mapa = router({
         })
       }
 
-      if (retrievedMap?.map.created_by !== user.id) {
+      if (retrievedMap?.created_by !== user.id) {
         throw new TRPCError({
           code: 'UNAUTHORIZED',
           message: 'User does not have permission to add points to this map',
@@ -273,6 +283,8 @@ export const mapa = router({
     }),
 
   addPointsLatLong: publicProcedure
+    .use(middleware.auth)
+    .use(middleware.logged)
     .input(
       z.object({
         data_id: z.number(),
@@ -303,7 +315,7 @@ export const mapa = router({
         })
       }
 
-      const retrievedMap = await mapController.getMapDataByID(data_id)
+      const retrievedMap = await mapController.getDataById(data_id)
 
       if (!retrievedMap) {
         throw new TRPCError({
@@ -318,7 +330,7 @@ export const mapa = router({
           message: 'Only possible to add points when map is lat/long based',
         })
       }
-      if (retrievedMap?.map.created_by !== user.id) {
+      if (retrievedMap?.created_by !== user.id) {
         throw new TRPCError({
           code: 'UNAUTHORIZED',
           message: 'User does not have permission to add points to this map',
@@ -335,13 +347,18 @@ export const mapa = router({
     }),
 
   createChart: publicProcedure
-    .input(insertChartSchema)
-    .mutation(async ({ input }) => {
+    .use(middleware.auth)
+    .use(middleware.logged)
+    .input(insertChartSchema.omit({ created_by: true }))
+    .mutation(async ({ input, ctx }) => {
+      const { user } = ctx.locals
       // @ts-expect-error cant infer type
-      return mapController.insertChart(input)
+      return mapController.insertChart({ ...input, created_by: user.id })
     }),
 
   updateChart: publicProcedure
+    .use(middleware.auth)
+    .use(middleware.logged)
     .input(
       z.object({
         id: z.number(),
@@ -350,14 +367,23 @@ export const mapa = router({
     )
     .mutation(async ({ input }) => {
       const { chart } = input
+
       return await mapController.updateChart(input.id, chart).returning()
     }),
 
   deleteChart: publicProcedure
+    .use(middleware.auth)
+    .use(middleware.logged)
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input, ctx }) => {
       const { id } = input
       const { user } = ctx.locals
+      if (!user) {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'User not found',
+        })
+      }
       return await mapController.deleteChart(id)
     }),
 

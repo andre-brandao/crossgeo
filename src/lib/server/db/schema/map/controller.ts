@@ -7,14 +7,17 @@ import {
   type InsertMapPoint,
   type SelectMapPoint,
   type SelectUser,
-  type InsertMapData,
-  mapDataTable,
+  type InsertData,
+  dataTable,
   type InsertChart,
   chartTable,
-  type SelectMapData,
+  type SelectData,
+  mapDataTable,
+  // type SelectMapData,
+  // type InsertMapData,
   //   type SelectMapGroup,
 } from '$db/schema'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 
 function insertPoints(data: InsertMapPoint | InsertMapPoint[]) {
   if (Array.isArray(data)) {
@@ -35,11 +38,11 @@ function updateMap(id: SelectMap['id'], data: Partial<SelectMap>) {
   return db.update(mapTable).set(data).where(eq(mapTable.id, id))
 }
 
-function insertMapData(data: InsertMapData) {
-  return db.insert(mapDataTable).values(data)
+function insertData(data: InsertData) {
+  return db.insert(dataTable).values(data)
 }
 
-function updateMapData(id: SelectMap['id'], data: Partial<SelectMap>) {
+function updateData(id: SelectMap['id'], data: Partial<SelectMap>) {
   return db.update(mapTable).set(data).where(eq(mapTable.id, id))
 }
 
@@ -54,26 +57,33 @@ function deleteChart(id: SelectMap['id']) {
   return db.delete(chartTable).where(eq(chartTable.id, id))
 }
 
+function addDataToMap(map_id: SelectMap['id'], data_id: SelectData['id']) {
+  return db.insert(mapDataTable).values({ map_id, data_id })
+}
+
+function removeDataFromMap(map_id: SelectMap['id'], data_id: SelectData['id']) {
+  return db
+    .delete(mapDataTable)
+    .where(
+      and(eq(mapDataTable.map_id, map_id), eq(mapDataTable.data_id, data_id)),
+    )
+}
+
 function queryMapWithPoints(id: SelectMap['id']) {
   return db.query.mapTable.findFirst({
     where: t => eq(t.id, id),
     with: {
       made_by: true,
-      data: {
+      map_data: {
         with: {
-          charts: true,
-          points: true,
+          data: {
+            with: {
+              charts: true,
+              points: true,
+            },
+          },
         },
       },
-    },
-  })
-}
-
-function getMapDataByID(id: SelectMapData['id']) {
-  return db.query.mapDataTable.findFirst({
-    where: t => eq(t.id, id),
-    with: {
-      map: true,
     },
   })
 }
@@ -81,6 +91,18 @@ function getMapDataByID(id: SelectMapData['id']) {
 function getUserMaps(user_id: SelectUser['id']) {
   return db.query.mapTable.findMany({
     where: t => eq(t.created_by, user_id),
+  })
+}
+
+function getUserData(user_id: SelectUser['id']) {
+  return db.query.dataTable.findMany({
+    where: t => eq(t.created_by, user_id),
+  })
+}
+
+function getDataById(data_id: SelectData['id']) {
+  return db.query.dataTable.findFirst({
+    where: t => eq(t.id, data_id),
   })
 }
 
@@ -95,13 +117,16 @@ export const map = {
   updatePoint,
   insertMap,
   updateMap,
-  insertMapData,
-  updateMapData,
+  insertData,
+   updateData,
   insertChart,
   updateChart,
   deleteChart,
   getUserMaps,
   getMapByID,
-  getMapDataByID,
+  getDataById,
+  getUserData,
+  addDataToMap,
+  removeDataFromMap,
   queryMapWithPoints,
 }
