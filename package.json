@@ -68,7 +68,7 @@
     "@googlemaps/google-maps-services-js": "^3.4.0",
     "@googlemaps/url-signature": "1.0.36",
     "@inlang/paraglide-sveltekit": "0.11.0",
-    "@libsql/client": "^0.10.0",
+    "@libsql/client": "^0.6.2",
     "@node-rs/argon2": "^1.8.3",
     "@tanstack/svelte-table": "9.0.0-alpha.10",
     "@trpc/client": "^10.45.2",
