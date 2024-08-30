@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "61a41d23-bca2-438a-9ce6-06d29c83c4d8",
+  "id": "3052d0d0-f65e-4e90-bd15-e6dbbdbafca3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "magic_link": {
@@ -895,8 +895,8 @@
       "compositePrimaryKeys": {
         "map_data_map_id_data_id_pk": {
           "columns": [
-            "data_id",
-            "map_id"
+            "map_id",
+            "data_id"
           ],
           "name": "map_data_map_id_data_id_pk"
         }

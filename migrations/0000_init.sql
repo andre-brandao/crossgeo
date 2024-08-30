@@ -125,7 +125,7 @@ CREATE TABLE `data` (
 CREATE TABLE `map_data` (
 	`map_id` integer NOT NULL,
 	`data_id` integer NOT NULL,
-	PRIMARY KEY(`data_id`, `map_id`),
+	PRIMARY KEY(`map_id`, `data_id`),
 	FOREIGN KEY (`map_id`) REFERENCES `map`(`id`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`data_id`) REFERENCES `data`(`id`) ON UPDATE no action ON DELETE cascade
 );
