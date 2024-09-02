@@ -1,6 +1,7 @@
 <script>
   import BlurFade from '$lib/components/BlurFade.svelte'
   import * as m from '$msgs'
+  import Carousel2 from '../Carousel2.svelte'
 </script>
 
 <section class="  body-font">
@@ -192,11 +193,12 @@
       </div>
       <BlurFade delay={0.1 * 3}>
         <div class="mt-12 md:mt-0">
-          <img
+          <Carousel2/>
+          <!-- <img
             class="rounded-lg object-cover object-center"
             src="https://github.com/andre-brandao/crossgeo/blob/main/src/lib/assets/home/mapa.png?raw=true"
             alt="step"
-          />
+          /> -->
         </div>
       </BlurFade>
     </div>

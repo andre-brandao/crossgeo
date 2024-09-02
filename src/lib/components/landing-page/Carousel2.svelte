@@ -2,10 +2,9 @@
   import { onMount, onDestroy } from 'svelte'
 
   export let images = [
-    'https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.jpg',
-    'https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.jpg',
-    'https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.jpg',
-    'https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.jpg',
+    '/landing-page/mapa-1.png',
+    '/landing-page/mapa-2.png',
+    '/landing-page/mapas-3.png',
   ]
 
   let activeIndex = 0
@@ -34,14 +33,14 @@
 
 <div
   bind:this={carousel}
-  class="carousel w-full overflow-x-hidden whitespace-nowrap"
+  class="carousel w-full overflow-x-hidden whitespace-nowrap rounded-md max-w-[1300px] mt-12"
 >
   {#each images as image, index}
     <div
       id={'slide' + (index + 1)}
       class="carousel-item relative inline-block w-full"
     >
-      <img src={image} class="w-full" />
+      <img src={image} alt={image} class="w-full" />
       <div
         class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between"
       >
