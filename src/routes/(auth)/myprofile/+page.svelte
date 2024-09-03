@@ -162,7 +162,7 @@
           {$user?.email}
         </p>
         <p>
-          {$user?.email_verified ? 'verified' : 'not verified'}
+        Email  {$user?.email_verified ? 'verified' : 'not verified'}
         </p>
       </div>
 
@@ -171,11 +171,12 @@
 
         {#each sessions as s}
           <div class="rounded bg-base-300 p-1">
-            <p>
+            <!-- <p>
               id: {s.id}
-            </p>
+            </p> -->
             <p>
-              {m.expirate()} {new Date(s.expiresAt)}
+              <!-- {m.expirate()}  -->
+              {new Date(s.expiresAt)}
             </p>
           </div>
         {/each}
@@ -183,7 +184,7 @@
     </div>
   </div>
 
-  <div class="px-4">
+  <!-- <div class="px-4">
     <h1 class="">{m.settings()}</h1>
 
     <div class="mt-4">
@@ -221,5 +222,5 @@
         {/if}
       </div>
     </div>
-  </div>
+  </div> -->
 </div>
