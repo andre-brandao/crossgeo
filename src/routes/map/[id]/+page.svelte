@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { icons } from '$lib/utils/icons';
+  import { icons } from '$lib/utils/icons'
   import Map from '$components/map/Map.svelte'
   import ParsedTable from '$components/table/ParsedTable.svelte'
   import QueryChart from '$lib/components/chart/QueryChart.svelte'
@@ -159,7 +159,7 @@
     })
   }
 
-  function canToggle(view) {
+  function canToggle(view: boolean) {
     const activeViews = [isTableActive, isMapActive, isChartActive].filter(
       Boolean,
     ).length
@@ -178,7 +178,7 @@
           }
         }}
       >
-      {@html isMapActive ? icons.hide() : icons.show()}
+        {@html isMapActive ? icons.hide() : icons.show()}
         {isMapActive ? m.hide_map() : m.show_map()}
       </button>
       <button
@@ -189,7 +189,7 @@
           }
         }}
       >
-      {@html isTableActive ? icons.hide() : icons.show()}
+        {@html isTableActive ? icons.hide() : icons.show()}
         {isTableActive ? m.hide_table() : m.show_table()}
       </button>
       <button
@@ -200,7 +200,7 @@
           }
         }}
       >
-      {@html isChartActive ? icons.hide() : icons.show()}
+        {@html isChartActive ? icons.hide() : icons.show()}
         {isChartActive ? m.hide_chart() : m.show_chart()}
       </button>
 
@@ -297,7 +297,7 @@
                 <div class="max-h-full overflow-y-scroll">
                   <ParsedTable
                     data={{
-                      headers: map.map_data[0].data.fields_info.fields,
+                      headers: Object.keys(filtered_data[0] ?? {}),
                       rows: filtered_data,
                     }}
                   />
@@ -347,18 +347,18 @@
           >
             {#if charts.length > 0}
               {#each charts as chart}
-              <div class="border rounded-md">
-                <SvChartQuery
-                  dataset={filtered_data}
-                  {...chart}
-                  handleDelete={() => {
-                    handleDelete(chart.id)
-                  }}
-                  handleEdit={() => {
-                    handleEditChart(chart)
-                  }}
-                />
-              </div>
+                <div class="rounded-md border">
+                  <SvChartQuery
+                    dataset={filtered_data}
+                    {...chart}
+                    handleDelete={() => {
+                      handleDelete(chart.id)
+                    }}
+                    handleEdit={() => {
+                      handleEditChart(chart)
+                    }}
+                  />
+                </div>
               {/each}
             {:else}
               <div
@@ -366,7 +366,7 @@
                 style="height: calc(100vh - 140px);"
               >
                 <h1 class="text-center">
-                 {m.you_dont_have_charts()}
+                  {m.you_dont_have_charts()}
                   <button
                     class="text-primary underline"
                     on:click={modalCreateNewChart}

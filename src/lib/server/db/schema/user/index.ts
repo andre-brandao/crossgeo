@@ -11,6 +11,8 @@ export const DEFAULT_USER_PERMISSIONS: UserPermissions = {
   role: 'user',
 } as const
 
+const DEFAULT_MAX_CREDITS = 100
+
 export const userTable = sqliteTable('user', {
   id: text('id').notNull().primaryKey(),
   // .$defaultFn(() => generateId(15)),
@@ -30,7 +32,7 @@ export const userTable = sqliteTable('user', {
     .default(DEFAULT_USER_PERMISSIONS),
 
   used_credits: integer('used_credits').default(0),
-  max_credits: integer('max_credits').default(200),
+  max_credits: integer('max_credits').default(DEFAULT_MAX_CREDITS),
 })
 
 export const userRelations = relations(userTable, ({ many }) => ({
