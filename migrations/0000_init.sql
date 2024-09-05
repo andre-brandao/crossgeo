@@ -26,17 +26,19 @@ CREATE TABLE `user` (
 	`username` text NOT NULL,
 	`email` text NOT NULL,
 	`email_verified` integer DEFAULT false NOT NULL,
+	`phone` text NOT NULL,
+	`phone_verified` integer DEFAULT false NOT NULL,
 	`password_hash` text NOT NULL,
 	`permissions` text DEFAULT '{"role":"user"}' NOT NULL,
 	`used_credits` integer DEFAULT 0,
-	`max_credits` integer DEFAULT 200
+	`max_credits` integer DEFAULT 100
 );
 --> statement-breakpoint
 CREATE TABLE `user_verification_code` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`code` text NOT NULL,
 	`user_id` text NOT NULL,
-	`email` text NOT NULL,
+	`type` text NOT NULL,
 	`expires_at` integer NOT NULL,
 	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
 );
@@ -163,5 +165,6 @@ CREATE TABLE `stripe_checkout_session` (
 --> statement-breakpoint
 CREATE UNIQUE INDEX `user_username_unique` ON `user` (`username`);--> statement-breakpoint
 CREATE UNIQUE INDEX `user_email_unique` ON `user` (`email`);--> statement-breakpoint
+CREATE UNIQUE INDEX `user_phone_unique` ON `user` (`phone`);--> statement-breakpoint
 CREATE UNIQUE INDEX `notification_channel_channel_id_unique` ON `notification_channel` (`channel_id`);--> statement-breakpoint
 CREATE UNIQUE INDEX `push_notification_device_subscription_unique` ON `push_notification_device` (`subscription`);

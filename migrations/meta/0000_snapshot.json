@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "3052d0d0-f65e-4e90-bd15-e6dbbdbafca3",
+  "id": "dedb8c22-67f1-45e9-8998-991b9f143041",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "magic_link": {
@@ -183,6 +183,21 @@
           "autoincrement": false,
           "default": false
         },
+        "phone": {
+          "name": "phone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "phone_verified": {
+          "name": "phone_verified",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
         "password_hash": {
           "name": "password_hash",
           "type": "text",
@@ -212,7 +227,7 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false,
-          "default": 200
+          "default": 100
         }
       },
       "indexes": {
@@ -227,6 +242,13 @@
           "name": "user_email_unique",
           "columns": [
             "email"
+          ],
+          "isUnique": true
+        },
+        "user_phone_unique": {
+          "name": "user_phone_unique",
+          "columns": [
+            "phone"
           ],
           "isUnique": true
         }
@@ -259,8 +281,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "email": {
-          "name": "email",
+        "type": {
+          "name": "type",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
