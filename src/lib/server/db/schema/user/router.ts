@@ -110,7 +110,7 @@ export const auth = router({
 
     const verificationCode = await userController.generateVerificationCode(
       localUser.id,
-      { email: localUser.email },
+      { phone: localUser.phone },
     )
     await sendSMS(
       localUser.phone,
