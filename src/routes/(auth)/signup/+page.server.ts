@@ -118,7 +118,7 @@ export const actions: Actions = {
 
       try {
         await sendSMS(
-          userId,
+          phone,
           `${website.siteShortTitle} verification code : ${verificationCode}`,
           'Verification',
         )
