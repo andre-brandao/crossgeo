@@ -3,7 +3,7 @@ import { TRPCError } from '@trpc/server'
 
 const admin = t.middleware(async ({ next, ctx }) => {
   const { user } = ctx.locals
-  if (!user?.permissions.role === 'admin')
+  if (!(user?.permissions.role === 'admin'))
     throw new TRPCError({
       code: 'UNAUTHORIZED',
       message: 'You must be an admin to access this route',
@@ -38,8 +38,18 @@ const logged = t.middleware(async ({ next, path, type }) => {
   return result
 })
 
+const phoneVerified = t.middleware(async ({ next, ctx }) => {
+  const { user } = ctx.locals
+  if (!user?.phone_verified)
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'You You must verify your phone number to access this route',
+    })
+  return next()
+})
 export const middleware = {
   admin,
   auth,
   logged,
+  phoneVerified,
 }

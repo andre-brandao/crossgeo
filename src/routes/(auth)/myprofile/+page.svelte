@@ -153,7 +153,8 @@
           <img
             class="aspect-square h-full w-full"
             src="https://generated.vusercontent.net/placeholder-user.jpg"
-            alt="{$user?.username} Profile Picture" />
+            alt="{$user?.username} Profile Picture"
+          />
         </span>
         <p>
           {$user?.username}
@@ -162,7 +163,10 @@
           {$user?.email}
         </p>
         <p>
-        Email  {$user?.email_verified ? 'verified' : 'not verified'}
+          Email {$user?.email_verified ? 'verified' : 'not verified'}
+        </p>
+        <p>
+          Phone {$user?.phone_verified ? 'verified' : 'not verified'}
         </p>
       </div>
 

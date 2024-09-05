@@ -15,6 +15,7 @@ export const mapa = router({
   creteMapGeocoding: publicProcedure
     .use(middleware.auth)
     .use(middleware.logged)
+    .use(middleware.phoneVerified)
     .input(
       z.object({
         map: z.object({
@@ -129,6 +130,7 @@ export const mapa = router({
   createMapLatLong: publicProcedure
     .use(middleware.auth)
     .use(middleware.logged)
+    .use(middleware.phoneVerified)
     .input(
       z.object({
         map: z.object({
@@ -233,6 +235,13 @@ export const mapa = router({
           message: 'User not found',
         })
       }
+      const canEdit = await mapController.canUserAccessData(input.data_id, user)
+      if (!canEdit) {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'You do not have permission to edit this map',
+        })
+      }
 
       if (user.max_credits < user.used_credits + raw_points.length) {
         throw new TRPCError({
@@ -308,6 +317,14 @@ export const mapa = router({
         })
       }
 
+      const canEdit = await mapController.canUserAccessData(input.data_id, user)
+      if (!canEdit) {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'You do not have permission to edit this map',
+        })
+      }
+
       if (user.max_credits < user.used_credits + raw_points.length) {
         throw new TRPCError({
           code: 'UNAUTHORIZED',
@@ -352,6 +369,16 @@ export const mapa = router({
     .input(insertChartSchema.omit({ created_by: true }))
     .mutation(async ({ input, ctx }) => {
       const { user } = ctx.locals
+      if (!user) {
+        return
+      }
+      const canEdit = await mapController.canUserAccessData(input.data_id, user)
+      if (!canEdit) {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'You do not have permission to edit this map',
+        })
+      }
       // @ts-expect-error cant infer type
       return mapController.insertChart({ ...input, created_by: user.id })
     }),
@@ -365,8 +392,17 @@ export const mapa = router({
         chart: insertChartSchema.partial(),
       }),
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       const { chart } = input
+      const { user } = ctx.locals
+
+      const canEdit = await mapController.canUserAccessChart(input.id, user)
+      if (!canEdit) {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'You do not have permission to edit this map',
+        })
+      }
 
       return await mapController.updateChart(input.id, chart).returning()
     }),
@@ -378,10 +414,12 @@ export const mapa = router({
     .mutation(async ({ input, ctx }) => {
       const { id } = input
       const { user } = ctx.locals
-      if (!user) {
+
+      const canEdit = await mapController.canUserAccessChart(id, user)
+      if (!canEdit) {
         throw new TRPCError({
           code: 'UNAUTHORIZED',
-          message: 'User not found',
+          message: 'You do not have permission to delete this chart',
         })
       }
       return await mapController.deleteChart(id)

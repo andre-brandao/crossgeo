@@ -17,6 +17,8 @@ import {
   // type InsertMapData,
   //   type SelectMapGroup,
 } from '$db/schema'
+
+import { type User } from 'lucia'
 import { and, eq } from 'drizzle-orm'
 
 function insertPoints(data: InsertMapPoint | InsertMapPoint[]) {
@@ -112,13 +114,34 @@ function getMapByID(map_id: SelectMap['id']) {
   })
 }
 
+async function canUserAccessMap(map_id: SelectMap['id'], user: User | null) {
+  const map = await getMapByID(map_id)
+  if (!map) return false
+  return map.created_by === user?.id
+}
+
+async function canUserAccessData(data_id: SelectData['id'], user: User | null) {
+  const data = await getDataById(data_id)
+  if (!data) return false
+  return data.created_by === user?.id
+}
+async function canUserAccessChart(chart_id: SelectData['id'], user: User | null) {
+  const chart = await db.query.chartTable.findFirst({
+    where: t => eq(t.id, chart_id),
+  })
+  if (!chart) return false
+  return chart.created_by === user?.id
+}
 export const map = {
   insertPoints,
   updatePoint,
   insertMap,
+  canUserAccessMap,
+  canUserAccessData,
+  canUserAccessChart,
   updateMap,
   insertData,
-   updateData,
+  updateData,
   insertChart,
   updateChart,
   deleteChart,
