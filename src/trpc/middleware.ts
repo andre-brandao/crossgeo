@@ -43,7 +43,7 @@ const phoneVerified = t.middleware(async ({ next, ctx }) => {
   if (!user?.phone_verified)
     throw new TRPCError({
       code: 'UNAUTHORIZED',
-      message: 'You You must verify your phone number to access this route',
+      message: 'You must verify your phone number to access this',
     })
   return next()
 })
