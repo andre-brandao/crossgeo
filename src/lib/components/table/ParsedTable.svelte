@@ -44,6 +44,7 @@
                 onclick={() => {
                   const cellVall = row[header]
                   if (cellVall) {
+                    // @ts-ignore
                     selectedCell?.(row[header])
                   }
                 }}

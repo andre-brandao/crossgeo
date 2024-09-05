@@ -65,6 +65,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@aws-sdk/client-sns": "^3.645.0",
     "@googlemaps/google-maps-services-js": "^3.4.0",
     "@googlemaps/url-signature": "1.0.36",
     "@inlang/paraglide-sveltekit": "0.11.0",

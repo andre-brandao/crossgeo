@@ -1,4 +1,4 @@
-import {  eq } from 'drizzle-orm'
+import { eq } from 'drizzle-orm'
 import { db } from '$db'
 import {
   type InsertUser,
@@ -10,7 +10,9 @@ import {
   type SelectUser,
   sessionTable,
   DEFAULT_USER_PERMISSIONS,
-
+  isVerificationEmail,
+  isVerificationPhone,
+  type VerificationType,
 } from '$db/schema'
 
 import { TimeSpan, createDate, isWithinExpirationDate } from 'oslo'
@@ -33,6 +35,11 @@ function getUserById(userId: string) {
 function getUserByEmail(email: string) {
   return db.select().from(userTable).where(eq(userTable.email, email)).limit(1)
 }
+function getUserByPhone(phone: string) {
+  return db.select().from(userTable).where(eq(userTable.phone, phone)).limit(1)
+}
+
+
 
 export function isValidEmail(email: string): boolean {
   return /.+@.+/.test(email)
@@ -61,9 +68,9 @@ function updateUserPermissions(
     .run()
 }
 
-async function generateEmailVerificationCode(
+async function generateVerificationCode(
   userId: string,
-  email: string,
+  type: VerificationType,
 ): Promise<string> {
   await db
     .delete(userVerificationCodeTable)
@@ -73,22 +80,18 @@ async function generateEmailVerificationCode(
 
   await db.insert(userVerificationCodeTable).values({
     userId,
-    email,
+    type,
     code,
     expiresAt: createDate(new TimeSpan(15, 'm')), // 15 minutes
   })
   return code
 }
-async function verifyVerificationCode(
-  user: User,
-  code: string,
-): Promise<boolean> {
+async function verifyVerificationCode(user: User, code: string) {
   const [databaseCode] = await db
     .select()
     .from(userVerificationCodeTable)
     .where(eq(userVerificationCodeTable.userId, user.id))
   if (!databaseCode || databaseCode.code !== code) {
-    // await db.commit()
     return false
   }
 
@@ -100,10 +103,22 @@ async function verifyVerificationCode(
   if (!isWithinExpirationDate(databaseCode.expiresAt)) {
     return false
   }
-  if (databaseCode.email !== user.email) {
+
+  if (
+    isVerificationEmail(databaseCode.type) &&
+    databaseCode.type.email !== user.email
+  ) {
     return false
   }
-  return true
+
+  if (
+    isVerificationPhone(databaseCode.type) &&
+    databaseCode.type.phone !== user.phone
+  ) {
+    return false
+  }
+
+  return isVerificationEmail(databaseCode.type) ? 'email' : 'phone'
 }
 
 async function createPasswordResetToken(userId: string): Promise<string> {
@@ -166,12 +181,13 @@ async function deleteMagicLinkToken(token: string) {
 export const user = {
   getUserByUsername,
   getUserByEmail,
+  getUserByPhone,
   getUserById,
   insertUser,
   updateUser,
   updateUserPermissions,
   getSessions,
-  generateEmailVerificationCode,
+  generateVerificationCode: generateVerificationCode,
   verifyVerificationCode,
   createPasswordResetToken,
   getPasswordResetToken,
@@ -180,6 +196,4 @@ export const user = {
   getMagicLinkToken,
   deleteMagicLinkToken,
   DEFAULT_USER_PERMISSIONS,
-  
 }
-

@@ -5,12 +5,15 @@ import { z } from 'zod'
 import { user as userController } from '$db/controller'
 import { lucia } from '$lib/server/auth'
 import { redirect } from '@sveltejs/kit'
+import { website } from '$lib/config'
 // import { hash, verify } from '@node-rs/argon2'
 
 // import { generateId } from 'lucia'
 // import { LibsqlError } from '@libsql/client'
 
 import { emailTemplate, sendMail } from '$lib/server/email'
+
+import { sendSMS } from '$lib/server/aws/sns'
 
 export const auth = router({
   logOut: publicProcedure.query(async ({ ctx }) => {
@@ -31,7 +34,70 @@ export const auth = router({
     return redirect(302, '/login')
   }),
 
-  resendEmailVerification: publicProcedure.query(async ({ ctx }) => {
+  verifyPhone: publicProcedure
+    .input(
+      z.object({
+        code: z.string().length(8),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { cookies, locals } = ctx
+      const sessionId = locals.session?.id
+      const { code } = input
+
+      if (!sessionId) {
+        return {
+          error: 'Not authenticated',
+          data: null,
+        }
+      }
+
+      const { user } = await lucia.validateSession(sessionId)
+      if (!user) {
+        return {
+          error: 'Not authenticated',
+          data: null,
+        }
+      }
+
+      const validCode = await userController.verifyVerificationCode(user, code)
+
+      if (!validCode) {
+        return {
+          error: 'Invalid code',
+          data: null,
+        }
+      }
+
+      if (validCode !== 'phone') {
+        return {
+          error: 'Not a valid phone code',
+          data: null,
+        }
+      }
+
+      await lucia.invalidateUserSessions(user.id)
+      await userController.updateUser(user.id, {
+        phoneVerified: true,
+      })
+
+      const session = await lucia.createSession(user.id, {})
+      const sessionCookie = lucia.createSessionCookie(session.id)
+      cookies.set(sessionCookie.name, sessionCookie.value, {
+        path: '.',
+        ...sessionCookie.attributes,
+      })
+
+      return {
+        data: {
+          message: 'Phone verified',
+          success: true,
+        },
+        error: null,
+      }
+    }),
+
+  resendPhoneVerification: publicProcedure.query(async ({ ctx }) => {
     const { locals } = ctx
 
     const localUser = locals.user
@@ -42,13 +108,14 @@ export const auth = router({
       }
     }
 
-    const verificationCode = await userController.generateEmailVerificationCode(
+    const verificationCode = await userController.generateVerificationCode(
       localUser.id,
-      localUser.email,
+      { email: localUser.email },
     )
-    await sendMail(
-      localUser.email,
-      emailTemplate.verificationCode(verificationCode),
+    await sendSMS(
+      localUser.phone,
+      `Your verification code for ${website.siteShortTitle}: ${verificationCode}`,
+      'Verification CODE',
     )
 
     return {
@@ -82,14 +149,18 @@ export const auth = router({
         }
       }
 
-      const validCode = await userController.verifyVerificationCode(
-        user,
-        code,
-      )
+      const validCode = await userController.verifyVerificationCode(user, code)
 
       if (!validCode) {
         return {
           error: 'Invalid code',
+          data: null,
+        }
+      }
+
+      if (validCode !== 'email') {
+        return {
+          error: 'Not a valid email code',
           data: null,
         }
       }
@@ -114,6 +185,32 @@ export const auth = router({
         error: null,
       }
     }),
+
+  resendEmailVerification: publicProcedure.query(async ({ ctx }) => {
+    const { locals } = ctx
+
+    const localUser = locals.user
+
+    if (!localUser) {
+      return {
+        message: 'Not authenticated',
+      }
+    }
+
+    const verificationCode = await userController.generateVerificationCode(
+      localUser.id,
+      { email: localUser.email },
+    )
+    await sendMail(
+      localUser.email,
+      emailTemplate.verificationCode(verificationCode),
+    )
+
+    return {
+      message: 'Verification email sent',
+    }
+  }),
+
   resetPassword: publicProcedure
     .input(z.object({ email: z.string().email() }))
     .query(async ({ input, ctx }) => {

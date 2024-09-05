@@ -6,7 +6,7 @@ import {
   // customType,
 } from 'drizzle-orm/sqlite-core'
 import { sql, relations } from 'drizzle-orm'
-import {  mapTable } from '../map'
+import { mapTable } from '../map'
 export const DEFAULT_USER_PERMISSIONS: UserPermissions = {
   role: 'user',
 } as const
@@ -22,6 +22,10 @@ export const userTable = sqliteTable('user', {
   username: text('username').notNull().unique(),
   email: text('email').notNull().unique(),
   emailVerified: integer('email_verified', { mode: 'boolean' })
+    .notNull()
+    .default(false),
+  phone: text('phone').unique().notNull(),
+  phoneVerified: integer('phone_verified', { mode: 'boolean' })
     .notNull()
     .default(false),
   password_hash: text('password_hash').notNull(),
@@ -48,6 +52,8 @@ export interface DatabaseUser {
   username: string
   email: string
   emailVerified: boolean
+  phone: string
+  phoneVerified: boolean
   permissions: UserPermissions
   used_credits: number
   max_credits: number
@@ -68,6 +74,23 @@ export const sessionTable = sqliteTable('session', {
   expiresAt: integer('expires_at').notNull(),
 })
 
+export type VerificationType = PhoneVerification | EmailVerification
+type EmailVerification = {
+  email: string
+}
+type PhoneVerification = { phone: string }
+
+export function isVerificationPhone(
+  ver: VerificationType,
+): ver is PhoneVerification {
+  return 'phone' in ver
+}
+
+export function isVerificationEmail(
+  ver: VerificationType,
+): ver is EmailVerification {
+  return 'email' in ver
+}
 export const userVerificationCodeTable = sqliteTable('user_verification_code', {
   id: integer('id').notNull().primaryKey({ autoIncrement: true }),
   code: text('code').notNull(),
@@ -76,7 +99,7 @@ export const userVerificationCodeTable = sqliteTable('user_verification_code', {
     .references(() => userTable.id, {
       onDelete: 'cascade',
     }),
-  email: text('email').notNull(),
+  type: text('type', { mode: 'json' }).notNull().$type<VerificationType>(),
   expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
 })
 
@@ -100,4 +123,3 @@ export const magicLinkTable = sqliteTable('magic_link', {
   email: text('email').notNull(),
   expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
 })
-

@@ -21,8 +21,10 @@ export const lucia = new Lucia(adapter, {
       permissions: attributes.permissions,
       email: attributes.email,
       email_verified: attributes.emailVerified,
-      used_credits : attributes.used_credits,
-      max_credits : attributes.max_credits
+      phone: attributes.phone,
+      phone_verified: attributes.phoneVerified,
+      used_credits: attributes.used_credits,
+      max_credits: attributes.max_credits,
     }
   },
 })

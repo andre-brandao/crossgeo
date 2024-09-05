@@ -5,9 +5,11 @@ import { hash } from '@node-rs/argon2'
 import { LibsqlError } from '@libsql/client'
 
 import type { Actions, PageServerLoad } from './$types'
-import { emailTemplate, sendMail } from '$lib/server/email'
+// import { emailTemplate, sendMail } from '$lib/server/email'
 
 import { user } from '$db/controller'
+import { website } from '$lib/config'
+import { sendSMS } from '$lib/server/aws/sns'
 
 export const load: PageServerLoad = async event => {
   if (event.locals.user) {
@@ -22,6 +24,7 @@ export const actions: Actions = {
     const username = formData.get('username')
     const password = formData.get('password')
     const email = formData.get('email')
+    const phone = formData.get('phone')
     if (
       typeof username !== 'string' ||
       username.length < 3 ||
@@ -29,7 +32,16 @@ export const actions: Actions = {
       !/^[a-z0-9_-]+$/.test(username)
     ) {
       return fail(400, {
+        success: false,
         message: 'Invalid username',
+      })
+    }
+
+    const [existsUsername] = await user.getUserByUsername(username)
+    if (existsUsername) {
+      return fail(400, {
+        success: false,
+        message: 'Username already in use',
       })
     }
     if (
@@ -38,6 +50,7 @@ export const actions: Actions = {
       password.length > 255
     ) {
       return fail(400, {
+        success: false,
         message: 'Invalid password',
       })
     }
@@ -48,7 +61,29 @@ export const actions: Actions = {
       !email.includes('@')
     ) {
       return fail(400, {
+        success: false,
+
         message: 'Invalid email',
+      })
+    }
+    const [existsEmail] = await user.getUserByEmail(email)
+    if (existsEmail) {
+      return fail(400, {
+        success: false,
+        message: 'Email already in use',
+      })
+    }
+    if (typeof phone !== 'string') {
+      return fail(400, {
+        success: false,
+        message: 'Invalid Phone',
+      })
+    }
+    const [existsPhone] = await user.getUserByPhone(phone)
+    if (existsPhone) {
+      return fail(400, {
+        success: false,
+        message: 'Phone number already in use',
       })
     }
 
@@ -66,16 +101,30 @@ export const actions: Actions = {
         id: userId,
         username,
         email,
+        phone,
         emailVerified: false,
         password_hash: passwordHash,
         permissions: user.DEFAULT_USER_PERMISSIONS,
       })
 
-      const verificationCode = await user.generateEmailVerificationCode(
-        userId,
-        email,
-      )
-      await sendMail(email, emailTemplate.verificationCode(verificationCode))
+      // const verificationCode = await user.generateEmailVerificationCode(
+      //   userId,
+      //   email,
+      // )
+      // await sendMail(email, emailTemplate.verificationCode(verificationCode))
+      const verificationCode = await user.generateVerificationCode(userId, {
+        phone,
+      })
+
+      try {
+        await sendSMS(
+          userId,
+          `${website.siteShortTitle} verification code : ${verificationCode}`,
+          'Verification',
+        )
+      } catch (error) {
+        console.error(error)
+      }
 
       const session = await lucia.createSession(userId, {})
       const sessionCookie = lucia.createSessionCookie(session.id)
@@ -84,16 +133,19 @@ export const actions: Actions = {
         ...sessionCookie.attributes,
       })
     } catch (e) {
+      console.error(e)
+
       if (e instanceof LibsqlError && e.code === 'SQLITE_CONSTRAINT_UNIQUE') {
         return fail(400, {
+          success: false,
           message: 'Username or Email already used',
         })
       }
-      console.error(e)
       return fail(500, {
+        success: false,
         message: 'An unknown error occurred',
       })
     }
-    return redirect(302, '/verify-email')
+    return redirect(302, '/verify-phone')
   },
 }
