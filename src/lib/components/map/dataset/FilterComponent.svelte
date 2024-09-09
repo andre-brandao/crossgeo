@@ -6,7 +6,8 @@
     Operator,
   } from '$lib/components/map/dataset'
   import ComplexFilterComponent from './ComplexFilter.svelte'
-    import * as m from '$msgs'
+  import * as m from '$msgs'
+  import { toast } from 'svelte-sonner'
 
   export let fields: string[] = []
   export let query: Query[]
@@ -18,7 +19,10 @@
   export let filterValue = ''
 
   function addSimpleFilter() {
-    
+    // if label exists return
+    if (query.find(q => q.value === filterValue)) {
+      return toast.error('Duplicate Label')
+    }
     if (filterField && filterOperator && filterValue) {
       const newFilter: SimpleQuery = {
         field: filterField,
@@ -50,10 +54,14 @@
   }
 </script>
 
-<div class=" p-3 bg-base-100 rounded-lg shadow-lg flex flex-col space-y-4 items-center">
-  <div class="w-full flex justify-between gap-2 flex-col xl:flex-row">
-
-    <select bind:value={filterField} class="select select-primary w-full sm:w-auto">
+<div
+  class=" flex flex-col items-center space-y-4 rounded-lg bg-base-100 p-3 shadow-lg"
+>
+  <div class="flex w-full flex-col justify-between gap-2 xl:flex-row">
+    <select
+      bind:value={filterField}
+      class="select select-primary w-full sm:w-auto"
+    >
       <option value="" disabled selected>{m.select_field()}</option>
       {#each fields as field}
         <option value={field}>{field}</option>
@@ -86,9 +94,12 @@
         type="text"
         bind:value={filterValue}
         placeholder="Value"
-        class="input input-primary w-full sm:w-auto "
+        class="input input-primary w-full sm:w-auto"
       />
-      <button on:click={addSimpleFilter} class="btn btn-primary w-full sm:w-auto">
+      <button
+        on:click={addSimpleFilter}
+        class="btn btn-primary w-full sm:w-auto"
+      >
         {m.add_filter()}
       </button>
     {/if}
@@ -96,15 +107,23 @@
 
   <ul class="w-full space-y-2">
     {#each query as filter, index}
-      <li class="p-2 bg-primary-50 rounded flex flex-col gap-2 xl:flex-row sm:items-center sm:justify-between">
+      <li
+        class="bg-primary-50 flex flex-col gap-2 rounded p-2 sm:items-center sm:justify-between xl:flex-row"
+      >
         {#if 'field' in filter}
-          <select bind:value={filter.field} class="select select-bordered w-full sm:w-auto">
+          <select
+            bind:value={filter.field}
+            class="select select-bordered w-full sm:w-auto"
+          >
             <option value="" disabled selected>{m.select_field()}</option>
             {#each fields as field}
               <option value={field}>{field}</option>
             {/each}
           </select>
-          <select bind:value={filter.operator} class="select select-bordered w-full sm:w-auto">
+          <select
+            bind:value={filter.operator}
+            class="select select-bordered w-full sm:w-auto"
+          >
             <option value="eq">=</option>
             <option value="neq">!=</option>
             <option value="gt">></option>
@@ -117,18 +136,25 @@
             type="text"
             bind:value={filter.value}
             placeholder="Value"
-            class="input input-bordered w-full sm:w-auto "
+            class="input input-bordered w-full sm:w-auto"
           />
-          <button on:click={() => removeFilter(index)} class="btn btn-error w-full sm:w-auto">
+          <button
+            on:click={() => removeFilter(index)}
+            class="btn btn-error w-full sm:w-auto"
+          >
             {m.remove()}
           </button>
         {:else}
           <ComplexFilterComponent
             {fields}
             bind:query={filter}
-            onQueryChange={newFilter => handleComplexFilterChange(index, newFilter)}
+            onQueryChange={newFilter =>
+              handleComplexFilterChange(index, newFilter)}
           />
-          <button on:click={() => removeFilter(index)} class="btn btn-error w-full sm:w-auto">
+          <button
+            on:click={() => removeFilter(index)}
+            class="btn btn-error w-full sm:w-auto"
+          >
             {m.remove()} CF
           </button>
         {/if}
@@ -136,4 +162,3 @@
     {/each}
   </ul>
 </div>
-
