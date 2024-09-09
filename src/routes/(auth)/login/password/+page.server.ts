@@ -87,8 +87,8 @@ export const actions: Actions = {
       ...sessionCookie.attributes,
     })
 
-    if (!existingUser.emailVerified) {
-      return redirect(302, '/verify-email')
+    if (!existingUser.phoneVerified) {
+      return redirect(302, '/verify-phone')
     }
 
     return redirect(302, '/')
