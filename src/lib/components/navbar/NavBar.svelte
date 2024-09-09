@@ -53,6 +53,7 @@
       <div class="mx-2 flex-1 px-2 gap-2">
         <a href="/" class="btn btn-ghost text-xl max-sm:hidden">
           {website.siteShortTitle}
+          <div class="badge badge-secondary">BETA</div>
         </a>
 
         <Breadcrumbs />
