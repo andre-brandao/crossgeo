@@ -171,37 +171,40 @@
   <div class="mx-2 my-2 flex justify-between">
     <div class="flex flex-wrap items-center justify-center gap-2">
       <button
-        class="btn {isMapActive ? 'btn-primary' : 'btn-secondary'}"
+        class="btn {isMapActive ? 'btn-primary' : 'btn-accent'}"
         on:click={() => {
           if (canToggle(isMapActive)) {
             isMapActive = !isMapActive
           }
         }}
       >
-        {@html isMapActive ? icons.hide() : icons.show()}
-        {isMapActive ? m.hide_map() : m.show_map()}
+      {@html icons.map()}
+        <!-- {@html isMapActive ? icons.map() : icons.show()} -->
+        <!-- {isMapActive ? m.hide_map() : m.show_map()} -->
       </button>
       <button
-        class="btn {isTableActive ? 'btn-primary' : 'btn-secondary'}"
+        class="btn {isTableActive ? 'btn-primary' : 'btn-accent'}"
         on:click={() => {
           if (canToggle(isTableActive)) {
             isTableActive = !isTableActive
           }
         }}
       >
-        {@html isTableActive ? icons.hide() : icons.show()}
-        {isTableActive ? m.hide_table() : m.show_table()}
+      {@html icons.table()}
+        <!-- {@html isTableActive ? icons.table() : icons.show()} -->
+        <!-- {isTableActive ? m.hide_table() : m.show_table()} -->
       </button>
       <button
-        class="btn {isChartActive ? 'btn-primary' : 'btn-secondary'}"
+        class="btn {isChartActive ? 'btn-primary' : 'btn-accent'}"
         on:click={() => {
           if (canToggle(isChartActive)) {
             isChartActive = !isChartActive
           }
         }}
       >
-        {@html isChartActive ? icons.hide() : icons.show()}
-        {isChartActive ? m.hide_chart() : m.show_chart()}
+      {@html icons.chart2()}
+        <!-- {@html isChartActive ? icons.chart2() : icons.show()} -->
+        <!-- {isChartActive ? m.hide_chart() : m.show_chart()} -->
       </button>
 
       <!-- <h1 class="font-bold">{m.share()}:</h1> -->
@@ -347,7 +350,7 @@
           >
             {#if charts.length > 0}
               {#each charts as chart}
-                <div class="rounded-md border">
+                <div class="rounded-md">
                   <SvChartQuery
                     dataset={filtered_data}
                     {...chart}
