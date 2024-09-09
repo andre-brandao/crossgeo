@@ -18,7 +18,7 @@
             <p class="block max-w-xl mt-4 ">Sua solução definitiva para transformar dados geoespaciais em insights valiosos. Com nossa plataforma intuitiva e poderosa, você pode visualizar, interpretar e tomar decisões informadas com facilidade. </p>
 
             <div class="mt-6 flex justify-end">
-                <a href="/"
+                <a href="/login"
                     class="btn btn-primary">
                     <span class="mx-2">
                         Comece agora! 

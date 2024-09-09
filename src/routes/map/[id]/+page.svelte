@@ -120,7 +120,7 @@
   function modalCreateNewChart() {
     modal.open(EditChart, {
       chart: {
-        title: 'New Chart',
+        title: m.new_chart(),
         filters: [],
         type: 'bar',
       },

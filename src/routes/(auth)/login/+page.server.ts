@@ -9,7 +9,7 @@ import { emailTemplate, sendMail } from '$lib/server/email'
 
 export const load: PageServerLoad = async event => {
   if (event.locals.user) {
-    return redirect(302, '/')
+    return redirect(302, '/map')
   }
   return {}
 }
