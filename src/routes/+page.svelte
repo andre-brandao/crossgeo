@@ -7,6 +7,7 @@
 
   import HeroGlobe from '$lib/components/landing-page/hero/HeroGlobe.svelte'
   import GetInTouch from '$lib/components/landing-page/contact/GetInTouch.svelte'
+  import CallToAction from '$lib/components/landing-page/CallToAction.svelte'
   
 </script>
 
@@ -36,6 +37,8 @@
   <!-- <Carousel /> -->
 
   <!-- <Carousel2 /> -->
+
+  <CallToAction/>
 
   <GetInTouch></GetInTouch>
 
