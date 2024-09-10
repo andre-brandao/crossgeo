@@ -1,5 +1,4 @@
 <script lang="ts">
-
   import { trpc } from '$trpc/client'
   import { page } from '$app/stores'
 
@@ -9,10 +8,10 @@
 
   let { datasets } = data
 
-  datasets = [
-    ...datasets,
-    { id: 3, name: 'Test', fields_info: { fields: ['test'] } },
-  ]
+  // datasets = [
+  //   ...datasets,
+  //   { id: 3, name: 'Test', fields_info: { fields: ['test'] } },
+  // ]
 
   import ParsedTable from '$lib/components/table/ParsedTable.svelte'
   import Papa from 'papaparse'
@@ -31,6 +30,7 @@
   let csv_headers: string[] = []
   let csv_data: any[] = []
   let adress_field: string = ''
+  let fileInput: HTMLInputElement
 
   let latLongInfo = {
     lat_field: '',
@@ -171,7 +171,7 @@
   }
 </script>
 
-<div class="container mx-auto mt-5">
+<div class="container mx-auto my-5">
   <h1 class="mb-5 text-center text-4xl font-medium">{m.create_a_map()}</h1>
   <!-- Responsive grid layout -->
   <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -195,34 +195,49 @@
           id="name"
           class="input input-bordered"
           bind:value={name}
-          placeholder="Enter map name"
+          placeholder={m.map_name()}
         />
       </div>
 
       {#if datasets.length > 0}
+      <h1>Seus datasets antigos:</h1>
         <div class="flex flex-wrap gap-3">
           {#each datasets as set}
             <button
               on:click={() => (selectedDatasetId = set.id)}
               class:selected={selectedDatasetId === set.id}
-              class="max-w-80 rounded-lg bg-secondary p-4 text-secondary-content shadow-md hover:shadow-lg"
+              class="max-w-80 rounded-lg bg-secondary p-3 text-secondary-content shadow-md transition hover:shadow-lg"
             >
-              <p class="text-xl font-semibold">{set.name}</p>
-              <div class="mt-2 text-gray-500">
-                <p class="whitespace-normal break-words">
-                  Campos: {set.fields_info.fields.join(' ')}
-                </p>
-              </div>
+              <p class="text-xl font-bold">{set.name}</p>
             </button>
           {/each}
-          <div class="flex items-center justify-center">
+
+          {#each datasets as set}
+            {#if selectedDatasetId === set.id}
+              <div class="mt-2 w-full">
+                <p class="whitespace-normal break-words">
+                  <strong>Campos do dataset {set.name}:</strong>
+                  {set.fields_info.fields.join(', ')}
+                </p>
+              </div>
+            {/if}
+          {/each}
+          <div class="flex w-full items-center justify-center">
             <!-- TODO open file picker: make input hidden, bind:this={fileInput}  na funcao usar fileInput.click -->
-            <button class="btn btn-info btn-lg btn-wide">Add dataset</button>
+            <button
+              class="btn btn-info w-full"
+              on:click={() => {
+                selectedDatasetId = null
+                fileInput.click()
+                }}
+            >
+             {m.add_dataset()}
+            </button>
           </div>
         </div>
       {/if}
 
-      <div class="form-control">
+      <div class="form-control hidden">
         <label for="csv" class="label">
           <span class="label-text">{m.csv_file()}</span>
         </label>
@@ -233,11 +248,12 @@
           class="file-input"
           accept=".csv"
           placeholder="Choose CSV file"
+          bind:this={fileInput}
           on:change={e => onFileChange(e)}
         />
       </div>
 
-      {#if csv_headers.length > 0}
+      {#if csv_headers.length > 0 && !selectedDatasetId}
         <!-- geocoding type select -->
         <div class="form-control">
           <label for="geocodingType" class="label">
@@ -309,21 +325,26 @@
             </div>
           </div>
         {/if}
-      {:else}
+      {:else if !selectedDatasetId}
         <div class="flex justify-center">
           <p class="badge badge-info text-center text-info-content">
             {m.select_file()}
           </p>
         </div>
       {/if}
-
-      <button class="btn btn-primary" on:click={createMap} disabled={isLoading}>
-        {#if isLoading}
-          <Loading />
-        {:else}
-          <span>{m.submit()}</span>
-        {/if}
-      </button>
+      {#if csv_headers.length > 0 || selectedDatasetId}
+        <button
+          class="btn btn-primary"
+          on:click={createMap}
+          disabled={isLoading}
+        >
+          {#if isLoading}
+            <Loading />
+          {:else}
+            <span>{m.submit()}</span>
+          {/if}
+        </button>
+      {/if}
       {#if isLoading}
         <p class="text-center text-warning">
           {m.geocoding_slow()}
