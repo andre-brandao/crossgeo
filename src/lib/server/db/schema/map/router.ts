@@ -211,6 +211,55 @@ export const mapa = router({
       }
     }),
 
+  createMapDataset: publicProcedure
+    .use(middleware.auth)
+    .use(middleware.logged)
+    .input(
+      z.object({
+        map: z.object({
+          name: z.string(),
+        }),
+        data_id: z.number(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { user } = ctx.locals
+      const { map, data_id } = input
+
+      if (!user) {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'User not found',
+        })
+      }
+
+      const dataset = await mapController.getDataById(data_id)
+
+      if (!dataset) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Dataset not found',
+        })
+      }
+
+      const onePoint = await mapController.getOnePointFromData(data_id)
+
+      const [newMap] = await mapController
+        .insertMap({
+          created_by: user.id,
+          name: map.name,
+          lat: onePoint?.lat,
+          long: onePoint?.long,
+        })
+        .returning()
+
+      await mapController.addDataToMap(newMap.id, data_id)
+      return {
+        success: true,
+        map: newMap,
+      }
+    }),
+
   addPointsGeocoding: publicProcedure
     .use(middleware.auth)
     .use(middleware.logged)

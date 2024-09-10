@@ -1,6 +1,18 @@
 <script lang="ts">
+
   import { trpc } from '$trpc/client'
   import { page } from '$app/stores'
+
+  import type { PageData } from './$types'
+
+  export let data: PageData
+
+  let { datasets } = data
+
+  datasets = [
+    ...datasets,
+    { id: 3, name: 'Test', fields_info: { fields: ['test'] } },
+  ]
 
   import ParsedTable from '$lib/components/table/ParsedTable.svelte'
   import Papa from 'papaparse'
@@ -12,6 +24,8 @@
   import type { AddressInfo, LatLongInfo, FieldsInfo } from '$db/schema'
 
   let isLoading = false
+
+  let selectedDatasetId: number | null = null
 
   let file: File
   let csv_headers: string[] = []
@@ -118,35 +132,34 @@
           return
         }
         toast.info('Geocoding by lat long')
-     
 
         try {
           const points = csv_data
-          .map(d => ({
-            lat: d[latLongInfo.lat_field] as number,
-            lng: d[latLongInfo.long_field] as number,
-            meta: d,
-          }))
-          .filter(d => d.lat && d.lng)
-        console.log(points)
-        const resp = await trpc($page).map.createMapLatLong.mutate({
-          map: {
-            fields_info: {
-              lat_field: latLongInfo.lat_field,
-              long_field: latLongInfo.long_field,
-              fields: csv_headers,
+            .map(d => ({
+              lat: d[latLongInfo.lat_field] as number,
+              lng: d[latLongInfo.long_field] as number,
+              meta: d,
+            }))
+            .filter(d => d.lat && d.lng)
+          console.log(points)
+          const resp = await trpc($page).map.createMapLatLong.mutate({
+            map: {
+              fields_info: {
+                lat_field: latLongInfo.lat_field,
+                long_field: latLongInfo.long_field,
+                fields: csv_headers,
+              },
+              name,
             },
-            name,
-          },
-          raw_points: points,
-        })
-        if (resp.success) {
-          goto('/map/' + resp.map.id)
-        }
+            raw_points: points,
+          })
+          if (resp.success) {
+            goto('/map/' + resp.map.id)
+          }
         } catch (error: any) {
           toast.error(error.message)
         }
-      
+
         break
       }
       default:
@@ -185,6 +198,29 @@
           placeholder="Enter map name"
         />
       </div>
+
+      {#if datasets.length > 0}
+        <div class="flex flex-wrap gap-3">
+          {#each datasets as set}
+            <button
+              on:click={() => (selectedDatasetId = set.id)}
+              class:selected={selectedDatasetId === set.id}
+              class="max-w-80 rounded-lg bg-secondary p-4 text-secondary-content shadow-md hover:shadow-lg"
+            >
+              <p class="text-xl font-semibold">{set.name}</p>
+              <div class="mt-2 text-gray-500">
+                <p class="whitespace-normal break-words">
+                  Campos: {set.fields_info.fields.join(' ')}
+                </p>
+              </div>
+            </button>
+          {/each}
+          <div class="flex items-center justify-center">
+            <!-- TODO open file picker: make input hidden, bind:this={fileInput}  na funcao usar fileInput.click -->
+            <button class="btn btn-info btn-lg btn-wide">Add dataset</button>
+          </div>
+        </div>
+      {/if}
 
       <div class="form-control">
         <label for="csv" class="label">
@@ -306,7 +342,7 @@
       <p class=" text-sm">
         {m.preview_csv()}
       </p>
-      <div class=" mt-2 overflow-auto max-h-[500px]">
+      <div class=" mt-2 max-h-[500px] overflow-auto">
         {#if csv_data && csv_headers}
           <ParsedTable
             data={{
@@ -324,3 +360,9 @@
     </div>
   </div>
 </div>
+
+<style>
+  .selected {
+    background-color: #f3f4f6;
+  }
+</style>

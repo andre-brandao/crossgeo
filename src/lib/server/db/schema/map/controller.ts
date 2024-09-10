@@ -108,6 +108,11 @@ function getDataById(data_id: SelectData['id']) {
   })
 }
 
+function getOnePointFromData(id: SelectData['id']) {
+  return db.query.mapPointTable.findFirst({
+    where: t => eq(t.data_id, id),
+  })
+}
 function getMapByID(map_id: SelectMap['id']) {
   return db.query.mapTable.findFirst({
     where: t => eq(t.id, map_id),
@@ -125,7 +130,10 @@ async function canUserAccessData(data_id: SelectData['id'], user: User | null) {
   if (!data) return false
   return data.created_by === user?.id
 }
-async function canUserAccessChart(chart_id: SelectData['id'], user: User | null) {
+async function canUserAccessChart(
+  chart_id: SelectData['id'],
+  user: User | null,
+) {
   const chart = await db.query.chartTable.findFirst({
     where: t => eq(t.id, chart_id),
   })
@@ -148,6 +156,7 @@ export const map = {
   getUserMaps,
   getMapByID,
   getDataById,
+  getOnePointFromData,
   getUserData,
   addDataToMap,
   removeDataFromMap,
