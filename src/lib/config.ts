@@ -25,8 +25,8 @@ export const website = {
   twitterUsername: 'Crossgeo',
   twitterPage: 'https://twitter.com/crossgeo',
   instagramPageName: 'Crossgeo',
-  instagramPage: 'https://www.instagram.com/crossgeo',
-  linkedinPage: 'https://www.linkedin.com/in/crossgeo',
+  instagramPage: 'https://www.instagram.com/crossgeo_',
+  linkedinPage: 'https://www.linkedin.com/company/crossgeo/about',
   youtubePageName: 'Crossgeo',
   youtubePage: 'https://www.youtube.com/crossgeo',
 
