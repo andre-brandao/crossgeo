@@ -116,5 +116,6 @@
   "here": "aqui",
   "to_create": "para criar o primeiro",
   "new_chart": "Novo gráfico",
-  "add_dataset": "Adicionar dataset"
+  "add_dataset": "Adicionar dataset",
+  "reset_here": "Redefinir aqui"
 }

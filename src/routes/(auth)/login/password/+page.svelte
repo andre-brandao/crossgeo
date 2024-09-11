@@ -5,6 +5,7 @@
   import Info from '$lib/components/Info.svelte'
 
   import type { ActionData } from './$types'
+  import { icons } from '$lib/utils'
 
   export let form: ActionData
 </script>
@@ -16,37 +17,36 @@
   })}
 />
 
-<main class="flex min-h-[90vh] items-center justify-center bg-base-200">
-  <div class="w-full max-w-sm rounded-lg bg-base-100 p-8 shadow-lg">
-    <h1 class="text-center text-2xl font-semibold">{m.title_sign_in()}</h1>
+
+    <!-- <h1 class="text-center text-2xl font-semibold">{m.title_sign_in()}</h1> -->
     <form method="post" use:enhance class="mt-6 flex flex-col gap-4">
+      <!-- {#if form}
+        <Info {...form} />
+      {/if} -->
+      <div>
+        <label class="input input-bordered flex items-center gap-2">
+          {@html icons.email()}
+          <input name="email" id="email" type="email" class="grow" placeholder="Email" />
+        </label>
+      </div>
+      <div>
+        <label class="input input-bordered flex items-center gap-2">
+          {@html icons.key()}
+          <input
+            class="grow"
+            type="password"
+            name="password"
+            id="password"
+          />
+        </label>
+      </div>
+      <button class="btn btn-primary mt-4 w-full">{m.continu()}</button>
+      <!-- <p class=" mt-2 text-center text-sm">{form?.message ?? ''}</p> -->
       {#if form}
         <Info {...form} />
       {/if}
-      <div>
-        <label for="email" class="block text-sm font-medium">Email</label>
-        <input
-          class="input input-bordered mt-1 w-full"
-          name="email"
-          id="email"
-          type="email"
-        />
-      </div>
-      <div>
-        <label for="password" class="block text-sm font-medium">
-          {m.password()}
-        </label>
-        <input
-          class="input input-bordered mt-1 w-full"
-          type="password"
-          name="password"
-          id="password"
-        />
-      </div>
-      <button class="btn btn-primary mt-4 w-full">{m.continu()}</button>
-      <p class=" mt-2 text-center text-sm">{form?.message ?? ''}</p>
     </form>
-    <p class="mt-4 text-center text-sm">
+    <p class=" text-center text-sm mt-4">
       {m.dont_have_acc()}
       <a href="/signup" class="text-primary hover:underline">
         {m.create_an_acc()}
@@ -55,10 +55,8 @@
 
     {#if form?.message}
       <p class="mt-2 text-center text-sm">
-        Forgot your password?
-
-        <a href="/reset-password" class="link">Reset it here</a>
+        {m.forgot_password()}
+        <a href="/reset-password" class="text-primary hover:underline">{m.reset_here()}</a>
       </p>
     {/if}
-  </div>
-</main>
+
