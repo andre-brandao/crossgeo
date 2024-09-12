@@ -5,7 +5,7 @@
 
   let isLoading = false
 
-  import type { ActionData } from './$types'
+  import type { ActionData } from '../../login/$types'
   import Info from '$lib/components/Info.svelte'
   import { icons } from '$lib/utils'
 
