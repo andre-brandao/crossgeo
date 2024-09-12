@@ -46,7 +46,7 @@ export function isValidEmail(email: string): boolean {
 }
 
 function insertUser(user: InsertUser) {
-  return db.insert(userTable).values(user).run()
+  return db.insert(userTable).values(user)
 }
 
 function updateUser(userId: SelectUser['id'], user: Partial<SelectUser>) {

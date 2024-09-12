@@ -245,20 +245,20 @@
               </div>
             {/if}
           {/each}
-          <div class="flex w-full items-center justify-center">
-            <!-- TODO open file picker: make input hidden, bind:this={fileInput}  na funcao usar fileInput.click -->
-            <button
-              class="btn btn-info w-full"
-              on:click={() => {
-                selectedDatasetId = null
-                fileInput.click()
-              }}
-            >
-              {m.add_dataset()}
-            </button>
-          </div>
         </div>
-      {/if}
+        {/if}
+        <div class="flex w-full items-center justify-center">
+          <!-- TODO open file picker: make input hidden, bind:this={fileInput}  na funcao usar fileInput.click -->
+          <button
+            class="btn btn-info w-full"
+            on:click={() => {
+              selectedDatasetId = null
+              fileInput.click()
+            }}
+          >
+            {m.add_dataset()}
+          </button>
+        </div>
 
       <div class="form-control hidden">
         <label for="csv" class="label">
