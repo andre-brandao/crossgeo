@@ -8,11 +8,6 @@
 
   let { datasets } = data
 
-  // datasets = [
-  //   ...datasets,
-  //   { id: 3, name: 'Test', fields_info: { fields: ['test'] } },
-  // ]
-
   import ParsedTable from '$lib/components/table/ParsedTable.svelte'
   import Papa from 'papaparse'
   import { toast } from 'svelte-sonner'
@@ -37,7 +32,7 @@
     long_field: '',
   }
 
-  let geocodingType: 'address' | 'lat_long' = 'address'
+  let geocodingType: 'address' | 'dataset' | 'lat_long' = 'address'
 
   let name = ''
   function parseCSV(csvText: string) {
@@ -85,14 +80,16 @@
       return
     }
 
-    if (!csv_data.length) {
-      toast.error('No data available. Please upload a CSV file.')
-      return
+    if(selectedDatasetId){
+      geocodingType = 'dataset'
     }
-    isLoading = true
 
     switch (geocodingType) {
       case 'address': {
+        if (!csv_data.length) {
+          toast.error('No data available. Please upload a CSV file.')
+          return
+        }
         if (!adress_field) {
           toast.error('Address field is required')
           return
@@ -107,6 +104,7 @@
         console.log(points)
 
         try {
+          isLoading = true
           const resp = await trpc($page).map.creteMapGeocoding.mutate({
             map: {
               fields_info: {
@@ -127,6 +125,10 @@
         break
       }
       case 'lat_long': {
+        if (!csv_data.length) {
+          toast.error('No data available. Please upload a CSV file.')
+          return
+        }
         if (!latLongInfo.lat_field || !latLongInfo.long_field) {
           toast.error('Latitude and Longitude fields are required')
           return
@@ -142,6 +144,7 @@
             }))
             .filter(d => d.lat && d.lng)
           console.log(points)
+          isLoading = true
           const resp = await trpc($page).map.createMapLatLong.mutate({
             map: {
               fields_info: {
@@ -160,6 +163,26 @@
           toast.error(error.message)
         }
 
+        break
+      }
+      case 'dataset': {
+        if (!selectedDatasetId) {
+          return toast.error('Nenhum dataset selecionado!')
+        }
+        try {
+          isLoading = true
+          const resp = await trpc($page).map.createMapDataset.mutate({
+            map: {
+              name,
+            },
+            data_id: selectedDatasetId,
+          })
+          if (resp.success) {
+            goto('/map/' + resp.map.id)
+          }
+        } catch (error: any) {
+          toast.error(error.message)
+        }
         break
       }
       default:
@@ -200,7 +223,7 @@
       </div>
 
       {#if datasets.length > 0}
-      <h1>Seus datasets antigos:</h1>
+        <h1>Seus datasets:</h1>
         <div class="flex flex-wrap gap-3">
           {#each datasets as set}
             <button
@@ -229,9 +252,9 @@
               on:click={() => {
                 selectedDatasetId = null
                 fileInput.click()
-                }}
+              }}
             >
-             {m.add_dataset()}
+              {m.add_dataset()}
             </button>
           </div>
         </div>
