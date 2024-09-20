@@ -138,8 +138,8 @@
         try {
           const points = csv_data
             .map(d => ({
-              lat: d[latLongInfo.lat_field] as number,
-              lng: d[latLongInfo.long_field] as number,
+              lat: Number(d[latLongInfo.lat_field]) ,
+              lng: Number(d[latLongInfo.long_field]) ,
               meta: d,
             }))
             .filter(d => d.lat && d.lng)
