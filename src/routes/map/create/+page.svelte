@@ -16,6 +16,7 @@
   import * as m from '$msgs'
 
   import type { AddressInfo, LatLongInfo, FieldsInfo } from '$db/schema'
+  import { icons } from '$lib/utils'
 
   let isLoading = false
 
@@ -224,16 +225,27 @@
 
       {#if datasets.length > 0}
         <h1>Seus datasets:</h1>
-        <div class="flex flex-wrap gap-3">
-          {#each datasets as set}
+        <div class="flex flex-wrap">
+          <div class="grid grid-cols-3 gap-2 w-full items-center">
+            {#each datasets as set}
+              <button
+                on:click={() => (selectedDatasetId = set.id)}
+                class:selected={selectedDatasetId === set.id}
+                class=" rounded-lg bg-secondary py-3 px-2 text-secondary-content shadow-md transition hover:shadow-lg"
+              >
+                <p class="text-sm font-bold">{set.name}</p>
+              </button>
+            {/each}
             <button
-              on:click={() => (selectedDatasetId = set.id)}
-              class:selected={selectedDatasetId === set.id}
-              class="max-w-80 rounded-lg bg-secondary p-3 text-secondary-content shadow-md transition hover:shadow-lg"
+              class="rounded-lg bg-info py-3 px-2 text-info-content shadow-md transition hover:shadow-l flex justify-center items-center"
+              on:click={() => {
+                selectedDatasetId = null
+                fileInput.click()
+              }}
             >
-              <p class="text-xl font-bold">{set.name}</p>
+            {@html icons.plus()}
             </button>
-          {/each}
+          </div>
 
           {#each datasets as set}
             {#if selectedDatasetId === set.id}
@@ -247,8 +259,8 @@
           {/each}
         </div>
         {/if}
-        <div class="flex w-full items-center justify-center">
-          <!-- TODO open file picker: make input hidden, bind:this={fileInput}  na funcao usar fileInput.click -->
+        <!-- <div class="flex w-full items-center justify-center">
+
           <button
             class="btn btn-info w-full"
             on:click={() => {
@@ -258,7 +270,7 @@
           >
             {m.add_dataset()}
           </button>
-        </div>
+        </div> -->
 
       <div class="form-control hidden">
         <label for="csv" class="label">

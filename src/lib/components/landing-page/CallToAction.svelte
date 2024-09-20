@@ -1,6 +1,7 @@
 <script lang="ts">
 
   import { icons } from "$lib/utils"
+      import * as m from '$msgs'
 
 </script>
 
@@ -12,16 +13,16 @@
 
         <div class="flex flex-col items-center mt-6 xl:items-start xl:w-1/2 xl:mt-0">
             <h2 class="text-2xl font-semibold tracking-tight  xl:text-3xl max-w-xl ">
-                Transforme dados em decisões Inteligentes com Crossgeo! 🌍
+                {m.smart_decisions()} 🌍
             </h2>
 
-            <p class="block max-w-xl mt-4 ">Sua solução definitiva para transformar dados geoespaciais em insights valiosos. Com nossa plataforma intuitiva e poderosa, você pode visualizar, interpretar e tomar decisões informadas com facilidade. </p>
+            <p class="block max-w-xl mt-4 ">{m.your_solution()} </p>
 
             <div class="mt-6 flex justify-end">
                 <a href="/login"
                     class="btn btn-primary">
                     <span class="mx-2">
-                        Comece agora! 
+                        {m.start_now()}
                     </span>
                     {@html icons.globe()}
                 </a>
