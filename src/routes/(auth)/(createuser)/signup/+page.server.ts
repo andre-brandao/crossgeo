@@ -97,7 +97,7 @@ export const actions: Actions = {
     const userId = generateId(15)
 
     try {
-      user.insertUser({
+      await user.insertUser({
         id: userId,
         username,
         email,
@@ -107,11 +107,6 @@ export const actions: Actions = {
         permissions: user.DEFAULT_USER_PERMISSIONS,
       })
 
-      // const verificationCode = await user.generateEmailVerificationCode(
-      //   userId,
-      //   email,
-      // )
-      // await sendMail(email, emailTemplate.verificationCode(verificationCode))
       const verificationCode = await user.generateVerificationCode(userId, {
         phone,
       })
