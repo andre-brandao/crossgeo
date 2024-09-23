@@ -258,7 +258,7 @@
               /> -->
                 <Map
                   {locations}
-                  initailZoom={12}
+                  initailZoom={map.zoom ?? 12}
                   initialLocation={[map.lat ?? 1, map.long ?? 1]}
                   lasso_selected={handleLassoSelected}
                 />

@@ -6,7 +6,7 @@
 
   export let data: PageData
 
-  let { datasets } = data
+  let { datasets, public_datasets } = data
 
   import ParsedTable from '$lib/components/table/ParsedTable.svelte'
   import Papa from 'papaparse'
@@ -81,7 +81,7 @@
       return
     }
 
-    if(selectedDatasetId){
+    if (selectedDatasetId) {
       geocodingType = 'dataset'
     }
 
@@ -139,8 +139,8 @@
         try {
           const points = csv_data
             .map(d => ({
-              lat: Number(d[latLongInfo.lat_field]) ,
-              lng: Number(d[latLongInfo.long_field]) ,
+              lat: Number(d[latLongInfo.lat_field]),
+              lng: Number(d[latLongInfo.long_field]),
               meta: d,
             }))
             .filter(d => d.lat && d.lng)
@@ -226,24 +226,75 @@
       {#if datasets.length > 0}
         <h1>Seus datasets:</h1>
         <div class="flex flex-wrap">
-          <div class="grid grid-cols-3 gap-2 w-full items-center">
+          <div class="grid w-full grid-cols-3 items-center gap-2">
             {#each datasets as set}
               <button
                 on:click={() => (selectedDatasetId = set.id)}
                 class:selected={selectedDatasetId === set.id}
-                class=" rounded-lg bg-secondary py-3 px-2 text-secondary-content shadow-md transition hover:shadow-lg"
+                class=" rounded-lg bg-secondary px-2 py-3 text-secondary-content shadow-md transition hover:shadow-lg"
               >
                 <p class="text-sm font-bold">{set.name}</p>
               </button>
             {/each}
             <button
-              class="rounded-lg bg-info py-3 px-2 text-info-content shadow-md transition hover:shadow-l flex justify-center items-center"
+              class="hover:shadow-l flex items-center justify-center rounded-lg bg-info px-2 py-3 text-info-content shadow-md transition"
               on:click={() => {
                 selectedDatasetId = null
                 fileInput.click()
               }}
             >
-            {@html icons.plus()}
+              {@html icons.plus()}
+            </button>
+          </div>
+
+          <p>Public Datasets:</p>
+          <div class="grid w-full grid-cols-3 items-center gap-2">
+            {#each public_datasets as set}
+              <button
+                on:click={() => (selectedDatasetId = set.id)}
+                class:selected={selectedDatasetId === set.id}
+                class=" rounded-lg bg-secondary px-2 py-3 text-secondary-content shadow-md transition hover:shadow-lg"
+              >
+                <p class="text-sm font-bold">{set.name}</p>
+              </button>
+            {/each}
+          </div>
+
+          {#each datasets as set}
+            {#if selectedDatasetId === set.id}
+              <div class="mt-2 w-full">
+                <p class="whitespace-normal break-words">
+                  <strong>Campos do dataset {set.name}:</strong>
+                  {set.fields_info.fields.join(', ')}
+                </p>
+              </div>
+            {/if}
+          {/each}
+        </div>
+      {:else}
+        <h1>
+          Você não possui nenhum dataset, crie um a partir de um arquivo CSV ou
+          utilize um dataset publico.:
+        </h1>
+        <div class="flex flex-wrap">
+          <div class="grid w-full grid-cols-3 items-center gap-2">
+            {#each public_datasets as set}
+              <button
+                on:click={() => (selectedDatasetId = set.id)}
+                class:selected={selectedDatasetId === set.id}
+                class=" rounded-lg bg-secondary px-2 py-3 text-secondary-content shadow-md transition hover:shadow-lg"
+              >
+                <p class="text-sm font-bold">{set.name}</p>
+              </button>
+            {/each}
+            <button
+              class="hover:shadow-l flex items-center justify-center rounded-lg bg-info px-2 py-3 text-info-content shadow-md transition"
+              on:click={() => {
+                selectedDatasetId = null
+                fileInput.click()
+              }}
+            >
+              {@html icons.plus()}
             </button>
           </div>
 
@@ -258,8 +309,8 @@
             {/if}
           {/each}
         </div>
-        {/if}
-        <!-- <div class="flex w-full items-center justify-center">
+      {/if}
+      <!-- <div class="flex w-full items-center justify-center">
 
           <button
             class="btn btn-info w-full"

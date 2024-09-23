@@ -19,7 +19,7 @@ import {
 } from '$db/schema'
 
 import { type User } from 'lucia'
-import { and, eq } from 'drizzle-orm'
+import { and, count, eq } from 'drizzle-orm'
 
 function insertPoints(data: InsertMapPoint | InsertMapPoint[]) {
   if (Array.isArray(data)) {
@@ -95,7 +95,18 @@ function getUserMaps(user_id: SelectUser['id']) {
     where: t => eq(t.created_by, user_id),
   })
 }
-
+function countUserMaps(user_id: SelectUser['id']) {
+  return db
+    .select({ count: count() })
+    .from(mapTable)
+    .where(eq(mapTable.created_by, user_id))
+}
+function countUserDatasets(user_id: SelectUser['id']) {
+  return db
+    .select({ count: count() })
+    .from(dataTable)
+    .where(eq(dataTable.created_by, user_id))
+}
 function getUserData(user_id: SelectUser['id']) {
   return db.query.dataTable.findMany({
     where: t => eq(t.created_by, user_id),
@@ -161,4 +172,11 @@ export const map = {
   addDataToMap,
   removeDataFromMap,
   queryMapWithPoints,
+  countUserMaps,
+  countUserDatasets,
+
+  getPublicData: db
+    .select()
+    .from(dataTable)
+    .where(eq(dataTable.created_by, 'vjrq1xz47vwhbxc')),
 }

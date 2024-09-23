@@ -425,7 +425,7 @@ export const mapa = router({
       if (!canEdit) {
         throw new TRPCError({
           code: 'UNAUTHORIZED',
-          message: 'You do not have permission to edit this map',
+          message: 'You do not have permission to edit this dataset',
         })
       }
       // @ts-expect-error cant infer type

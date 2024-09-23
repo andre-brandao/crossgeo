@@ -8,7 +8,10 @@ export const load = (async ({ locals }) => {
   }
 
   const datasets = await map.getUserData(user.id)
+
+  const public_datasets = await map.getPublicData
   return {
     datasets,
+    public_datasets,
   }
 }) satisfies PageServerLoad

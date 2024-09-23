@@ -24,6 +24,7 @@ export const mapTable = sqliteTable('map', {
 
   lat: real('latitude'), //center lat
   long: real('longitude'), //center long
+  zoom: real('zoom').default(12), //zoom level
 })
 
 export const mapRelations = relations(mapTable, ({ one, many }) => ({
@@ -137,7 +138,9 @@ import type { Query } from '$lib/components/map/dataset'
 export const chartTable = sqliteTable('chart', {
   id: integer('id').notNull().primaryKey({ autoIncrement: true }),
   created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
-  created_by : text('created_by').notNull().references(() => userTable.id),
+  created_by: text('created_by')
+    .notNull()
+    .references(() => userTable.id),
   data_id: integer('data_id')
     .notNull()
     .references(() => dataTable.id, {
