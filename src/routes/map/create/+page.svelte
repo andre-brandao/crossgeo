@@ -441,16 +441,16 @@
     <!-- Table Section -->
 
     <div class="card border p-5">
-      <h1
-        class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight"
-      >
-        {m.map_data()}
-      </h1>
-      <p class=" text-sm">
-        {m.preview_csv()}
-      </p>
-      <div class=" mt-2 max-h-[500px] overflow-auto">
-        {#if csv_data && csv_headers}
+      {#if csv_data.length > 0 && csv_headers}
+        <h1
+          class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight"
+        >
+          {m.map_data()}
+        </h1>
+        <p class=" text-sm">
+          {m.preview_csv()}
+        </p>
+        <div class=" mt-2 max-h-[500px] overflow-auto">
           <ParsedTable
             data={{
               headers: csv_headers,
@@ -458,12 +458,16 @@
             }}
             selectedRow={s => (adress_field = s)}
           />
-        {:else}
-          <div class="p-5 text-center">
-            <p>{m.no_data()}</p>
-          </div>
-        {/if}
-      </div>
+        </div>
+      {:else}
+        <h1 class="mb-3 text-xl">Tutorial de como criar um mapa no CrossGeo</h1>
+        <iframe
+          src="https://www.youtube.com/embed/QFxyhZPprdI"
+          title="Tutorial"
+          frameborder="0"
+          class="min-h-72"
+        ></iframe>
+      {/if}
     </div>
   </div>
 </div>
