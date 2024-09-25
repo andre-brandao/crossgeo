@@ -151,7 +151,7 @@ export const emailTemplate = {
                 overflow: hidden;
               }
               .header {
-                background-color: #007bff;
+                background-color: #1EB854;
                 color: #ffffff;
                 padding: 20px;
                 padding-top: 100px;
@@ -175,7 +175,7 @@ export const emailTemplate = {
                 margin: 20px 0;
               }
               .button {
-                background-color: #007bff;
+                background-color: #1EB854;
                 color: #ffffff;
                 padding: 10px 20px;
                 text-decoration: none;
@@ -194,10 +194,10 @@ export const emailTemplate = {
                 padding-bottom: 0px;
               }
               .text-blu {
-                color: #007bff;
+                color: #1EB854;
               }
               .quadrado {
-                background-color: #007bff;
+                background-color: #1EB854;
                 border-radius: 10px;
               }
               .white {
@@ -281,7 +281,7 @@ export const emailTemplate = {
                 margin: 20px 0;
               }
               .button {
-                background-color: #007bff;
+                background-color: #1EB854;
                 color: #ffffff;
                 padding: 10px 20px;
                 text-decoration: none;
@@ -368,7 +368,7 @@ export const emailTemplate = {
                 margin: 20px 0;
               }
               .button {
-                background-color: #007bff;
+                background-color: #1EB854;
                 color: #ffffff;
                 padding: 10px 20px;
                 text-decoration: none;

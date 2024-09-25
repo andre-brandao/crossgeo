@@ -32,5 +32,5 @@ export const website = {
 
   emailCoverUrl:
     'https://raw.githubusercontent.com/andrebrandao/template/main/src/lib/assets/home/bg-email.jpg',
-  emailColor: '#007bff',
+  emailColor: '#1EB854',
 }
