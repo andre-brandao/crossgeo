@@ -31,6 +31,6 @@ export const website = {
   youtubePage: 'https://www.youtube.com/crossgeo',
 
   emailCoverUrl:
-    'https://raw.githubusercontent.com/andrebrandao/template/main/src/lib/assets/home/bg-email.jpg',
+    'https://raw.githubusercontent.com/andre-brandao/crossgeo/refs/heads/main/static/bg-email.jpg',
   emailColor: '#1EB854',
 }
