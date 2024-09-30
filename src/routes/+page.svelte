@@ -43,7 +43,9 @@
   <!-- <Carousel /> -->
 
   <!-- <Carousel2 /> -->
-  <MapsExample {maps} GOOGLE_MAPS_KEY={data.GOOGLE_MAPS_KEY}/>
+   {#if maps.length>0}
+     <MapsExample {maps} GOOGLE_MAPS_KEY={data.GOOGLE_MAPS_KEY}/>
+   {/if}
 
   <CallToAction/>
 
