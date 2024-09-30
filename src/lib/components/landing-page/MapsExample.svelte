@@ -18,7 +18,7 @@
             >
               <img
                 src={map.lat && map.long
-                  ? `${static_map_url}?size=400x300&zoom=12&center=${map.lat},${map.long}&key=${GOOGLE_MAPS_KEY}`
+                  ? `https://raw.githubusercontent.com/andre-brandao/crossgeo/refs/heads/main/static/landing-page/map.PNG`
                   : 'https://generated.vusercontent.net/placeholder.svg'}
                 alt="{map.name} Image"
                 width="400"
