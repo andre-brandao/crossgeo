@@ -247,7 +247,7 @@
             </button>
           </div>
 
-          <p>Public Datasets:</p>
+          <p>Datasets públicos:</p>
           <div class="grid w-full grid-cols-3 items-center gap-2">
             {#each public_datasets as set}
               <button
@@ -264,7 +264,7 @@
             {#if selectedDatasetId === set.id}
               <div class="mt-2 w-full">
                 <p class="whitespace-normal break-words">
-                  <strong>Campos do dataset {set.name}:</strong>
+                  <strong>{m.data_set_fields()} {set.name}:</strong>
                   {set.fields_info.fields.join(', ')}
                 </p>
               </div>
@@ -273,8 +273,7 @@
         </div>
       {:else}
         <h1>
-          Você não possui nenhum dataset, crie um a partir de um arquivo CSV ou
-          utilize um dataset publico.:
+          {m.you_do_not_have()}
         </h1>
         <div class="flex flex-wrap">
           <div class="grid w-full grid-cols-3 items-center gap-2">

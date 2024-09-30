@@ -12,14 +12,14 @@
         </div>
 
         <div class="flex flex-col items-center mt-6 xl:items-start xl:w-1/2 xl:mt-0">
-            <h2 class="text-2xl font-semibold tracking-tight  xl:text-3xl max-w-xl ">
-                {m.smart_decisions()} 🌍
+            <h2 class="inline-flex animate-text-gradient bg-gradient-to-r from-primary via-secondary to-primary bg-[200%_auto] bg-clip-text text-2xl py-2 font-semibold tracking-tight  xl:text-4xl max-w-xl text-transparent">
+                {m.smart_decisions()} 
             </h2>
 
             <p class="block max-w-xl mt-4 ">{m.your_solution()} </p>
 
             <div class="mt-6 flex justify-end">
-                <a href="/login"
+                <a href="/map/1"
                     class="btn btn-primary">
                     <span class="mx-2">
                         {m.start_now()}
