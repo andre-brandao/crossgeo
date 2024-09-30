@@ -15,6 +15,8 @@
   export let data: PageData
 
   let maps = data.user_maps
+
+  let GOOGLE_MAPS_KEY = data.GOOGLE_MAPS_KEY
 </script>
 
 <SEO
@@ -44,7 +46,7 @@
 
   <!-- <Carousel2 /> -->
    {#if maps.length>0}
-     <MapsExample {maps} GOOGLE_MAPS_KEY={data.GOOGLE_MAPS_KEY}/>
+     <MapsExample {maps} {GOOGLE_MAPS_KEY}/>
    {/if}
 
   <CallToAction/>
