@@ -1,9 +1,6 @@
 import { test, expect } from '@playwright/test';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 
 test('Login and attempt to upload map without name', async ({ page }) => {
   // Navegar para a página de login
@@ -31,7 +28,10 @@ test('Login and attempt to upload map without name', async ({ page }) => {
 
   // Clicar no botão de upload e selecionar o arquivo
   await page.locator('.hover\\:shadow-l').click();
-  await page.locator('.hover\\:shadow-l').setInputFiles(filePath);
+  await page.setInputFiles('input[type="file"]', filePath);
+
+//   const form = await page.getByRole('form');
+//     await form.setInputFiles('input[type="file"]', filePath);
 
   // Clicar no botão de envio sem preencher o nome do mapa
   await page.getByRole('button', { name: 'Enviar' }).click();
@@ -47,3 +47,4 @@ test('Login and attempt to upload map without name', async ({ page }) => {
   const isVisible = await errorToast.isVisible();
   expect(isVisible).toBeTruthy();
 });
+
