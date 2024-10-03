@@ -85,8 +85,8 @@
       <option value="gte">>=</option>
       <option value="lte">{'<='}</option>
       <option value="contains">{m.contains()}</option>
-      <!-- <option value="and">AND</option> -->
-      <!-- <option value="or">OR</option> -->
+      <!-- <option value="and">AND</option>
+      <option value="or">OR</option> -->
     </select>
 
     {#if filterOperator !== 'and' && filterOperator !== 'or'}
