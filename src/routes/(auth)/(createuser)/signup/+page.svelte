@@ -47,7 +47,7 @@
         </label>
        
       </div>
-      <div>
+      <!-- <div>
         <label for="phone"  class="input input-bordered flex items-center gap-2">
           {@html icons.phone()}
           <input
@@ -68,7 +68,7 @@
                 }}
           />
         </label>
-      </div>
+      </div> -->
       <div>
         <label class="input input-bordered flex items-center gap-2">
           {@html icons.email()}
