@@ -29,8 +29,8 @@ export const actions: Actions = {
     if (
       typeof username !== 'string' ||
       username.length < 3 ||
-      username.length > 31 ||
-      !/^[a-z0-9_-]+$/.test(username)
+      username.length > 50
+      // !/^[a-z0-9_-]+$/.test(username)
     ) {
       return fail(400, {
         success: false,
