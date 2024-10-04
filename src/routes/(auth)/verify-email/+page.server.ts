@@ -14,16 +14,16 @@ export const load = (async ({ locals }) => {
     return redirect(302, '/myprofile')
   }
 
-  const verificationCode = await userController.generateVerificationCode(
-    user.id,
-    { email: user.email },
-  )
+  // const verificationCode = await userController.generateVerificationCode(
+  //   user.id,
+  //   { email: user.email },
+  // )
 
-  try {
-    await sendMail(user.email, emailTemplate.verificationCode(verificationCode))
-  } catch (error) {
-    console.error(error)
-  }
+  // try {
+  //   await sendMail(user.email, emailTemplate.verificationCode(verificationCode))
+  // } catch (error) {
+  //   console.error(error)
+  // }
 
   return {}
 }) satisfies PageServerLoad
