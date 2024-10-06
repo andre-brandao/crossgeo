@@ -1,4 +1,4 @@
-import { eq, desc } from 'drizzle-orm';
+import { eq, desc, sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
 import { userTable, userVerificationCodeTable } from '../src/lib/server/db/schema/user';
@@ -42,6 +42,7 @@ export async function getVerificationCodeForTesting(username: string): Promise<s
   }
 }
 
+
 export async function deleteUserForTesting(username: string): Promise<void> {
   console.log('Deletando usuário de teste:', username);
   try {
@@ -68,6 +69,56 @@ export async function deleteUserForTesting(username: string): Promise<void> {
     console.log(`Usuário '${username}' e dados associados foram deletados com sucesso.`);
   } catch (error) {
     console.error('Erro ao deletar usuário de teste:', error);
+    throw error;
+  }
+
+
+
+
+}
+
+// export async function verifyNumberEmail(username: string): Promise<void> {
+//   console.log('Verificando email e número de telefone para o usuário:', username);
+//   try {
+//     const result = await db
+//       .update(userTable)
+//       .set({ 
+//         emailVerified: true,
+//         phoneVerified: true,  // Assumindo que existe um campo phoneVerified
+//         phone: "1"
+//       })
+//       .where(eq(userTable.username, username));
+
+//     if (result.rowsAffected === 0) {
+//       console.log(`Usuário '${username}' não encontrado.`);
+//     } else {
+//       console.log(`Email e número de telefone verificados para o usuário '${username}'.`);
+//     }
+//   } catch (error) {
+//     console.error('Erro ao verificar email e número de telefone:', error);
+//     throw error;
+//   }
+// }
+const VERIFICATION_BONUS_CREDITS = 500;
+export async function verifyNumberEmail(username: string): Promise<void> {
+  console.log('Verificando email e número de telefone para o usuário:', username);
+  try {
+    const result = await db
+      .update(userTable)
+      .set({
+        emailVerified: true,  
+        phoneVerified: true,
+        max_credits: sql`${userTable.max_credits} + ${VERIFICATION_BONUS_CREDITS}`
+      })
+      .where(eq(userTable.username, username));
+
+    if (result.rowsAffected === 0) {
+      console.log(`Usuário '${username}' não encontrado.`);
+    } else {
+      console.log(`Email e número de telefone verificados e créditos adicionados para o usuário '${username}'.`);
+    }
+  } catch (error) {
+    console.error('Erro ao verificar email e número de telefone e adicionar créditos:', error);
     throw error;
   }
 }
