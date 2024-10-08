@@ -15,12 +15,11 @@ export const mapa = router({
   creteMapGeocoding: publicProcedure
     .use(middleware.auth)
     .use(middleware.logged)
-    .use(middleware.phoneVerified)
+    // .use(middleware.phoneVerified)
     .input(
       z.object({
         map: z.object({
           name: z.string(),
-          group_id: z.number().optional(),
           fields_info: z.object({
             address_field: z.string(),
             fields: z.string().array(),
@@ -130,7 +129,7 @@ export const mapa = router({
   createMapLatLong: publicProcedure
     .use(middleware.auth)
     .use(middleware.logged)
-    .use(middleware.phoneVerified)
+    // .use(middleware.phoneVerified)
     .input(
       z.object({
         map: z.object({

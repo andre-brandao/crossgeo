@@ -8,8 +8,9 @@ import type { Actions, PageServerLoad } from './$types'
 // import { emailTemplate, sendMail } from '$lib/server/email'
 
 import { user } from '$db/controller'
-import { website } from '$lib/config'
-import { sendSMS } from '$lib/server/aws/sns'
+// import { website } from '$lib/config'
+// import { sendSMS } from '$lib/server/aws/sns'
+import { emailTemplate, sendMail } from '$lib/server/email'
 
 export const load: PageServerLoad = async event => {
   if (event.locals.user) {
@@ -24,12 +25,12 @@ export const actions: Actions = {
     const username = formData.get('username')
     const password = formData.get('password')
     const email = formData.get('email')
-    const phone = formData.get('phone')
+    // const phone = formData.get('phone')
     if (
       typeof username !== 'string' ||
       username.length < 3 ||
-      username.length > 31 ||
-      !/^[a-z0-9_-]+$/.test(username)
+      username.length > 50
+      // !/^[a-z0-9_-]+$/.test(username)
     ) {
       return fail(400, {
         success: false,
@@ -73,19 +74,19 @@ export const actions: Actions = {
         message: 'Email already in use',
       })
     }
-    if (typeof phone !== 'string') {
-      return fail(400, {
-        success: false,
-        message: 'Invalid Phone',
-      })
-    }
-    const [existsPhone] = await user.getUserByPhone(phone)
-    if (existsPhone) {
-      return fail(400, {
-        success: false,
-        message: 'Phone number already in use',
-      })
-    }
+    // if (typeof phone !== 'string') {
+    //   return fail(400, {
+    //     success: false,
+    //     message: 'Invalid Phone',
+    //   })
+    // }
+    // const [existsPhone] = await user.getUserByPhone(phone)
+    // if (existsPhone) {
+    //   return fail(400, {
+    //     success: false,
+    //     message: 'Phone number already in use',
+    //   })
+    // }
 
     const passwordHash = await hash(password, {
       // recommended minimum parameters
@@ -101,25 +102,31 @@ export const actions: Actions = {
         id: userId,
         username,
         email,
-        phone,
+        phone: 'null:' + email,
         emailVerified: false,
         password_hash: passwordHash,
         permissions: user.DEFAULT_USER_PERMISSIONS,
       })
 
       const verificationCode = await user.generateVerificationCode(userId, {
-        phone,
+        email,
       })
 
       try {
-        await sendSMS(
-          phone,
-          `${website.siteShortTitle} verification code : ${verificationCode}`,
-          'Verification',
-        )
+        sendMail(email, emailTemplate.verificationCode(verificationCode))
       } catch (error) {
         console.error(error)
       }
+
+      // try {
+      //   await sendSMS(
+      //     phone,
+      //     `${website.siteShortTitle} verification code : ${verificationCode}`,
+      //     'Verification',
+      //   )
+      // } catch (error) {
+      //   console.error(error)
+      // }
 
       const session = await lucia.createSession(userId, {})
       const sessionCookie = lucia.createSessionCookie(session.id)
@@ -141,6 +148,6 @@ export const actions: Actions = {
         message: 'An unknown error occurred',
       })
     }
-    return redirect(302, '/verify-phone')
+    return redirect(302, '/verify-email')
   },
 }

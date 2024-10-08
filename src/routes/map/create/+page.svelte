@@ -247,7 +247,7 @@
             </button>
           </div>
 
-          <p>Public Datasets:</p>
+          <p>Datasets públicos:</p>
           <div class="grid w-full grid-cols-3 items-center gap-2">
             {#each public_datasets as set}
               <button
@@ -264,7 +264,7 @@
             {#if selectedDatasetId === set.id}
               <div class="mt-2 w-full">
                 <p class="whitespace-normal break-words">
-                  <strong>Campos do dataset {set.name}:</strong>
+                  <strong>{m.data_set_fields()} {set.name}:</strong>
                   {set.fields_info.fields.join(', ')}
                 </p>
               </div>
@@ -273,8 +273,7 @@
         </div>
       {:else}
         <h1>
-          Você não possui nenhum dataset, crie um a partir de um arquivo CSV ou
-          utilize um dataset publico.:
+          {m.you_do_not_have()}
         </h1>
         <div class="flex flex-wrap">
           <div class="grid w-full grid-cols-3 items-center gap-2">
@@ -441,16 +440,16 @@
     <!-- Table Section -->
 
     <div class="card border p-5">
-      <h1
-        class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight"
-      >
-        {m.map_data()}
-      </h1>
-      <p class=" text-sm">
-        {m.preview_csv()}
-      </p>
-      <div class=" mt-2 max-h-[500px] overflow-auto">
-        {#if csv_data && csv_headers}
+      {#if csv_data.length > 0 && csv_headers}
+        <h1
+          class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight"
+        >
+          {m.map_data()}
+        </h1>
+        <p class=" text-sm">
+          {m.preview_csv()}
+        </p>
+        <div class=" mt-2 max-h-[500px] overflow-auto">
           <ParsedTable
             data={{
               headers: csv_headers,
@@ -458,12 +457,16 @@
             }}
             selectedRow={s => (adress_field = s)}
           />
-        {:else}
-          <div class="p-5 text-center">
-            <p>{m.no_data()}</p>
-          </div>
-        {/if}
-      </div>
+        </div>
+      {:else}
+        <h1 class="mb-3 text-xl">Tutorial de como criar um mapa no CrossGeo</h1>
+        <iframe
+          src="https://www.youtube.com/embed/QFxyhZPprdI"
+          title="Tutorial"
+          frameborder="0"
+          class="min-h-72"
+        ></iframe>
+      {/if}
     </div>
   </div>
 </div>

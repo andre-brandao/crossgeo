@@ -35,7 +35,7 @@
         <span class="lg:text-xl md:text-lg text-base tracking-widest">{m.hero_text()}</span>
         <div class="flex w-full gap-2 mt-6 lg:flex-row flex-col">
     
-          <a href="/map/create" class="relative inline-flex overflow-hidden p-px">
+          <a href="/signup" class="relative inline-flex overflow-hidden p-px">
             <span
               class="btn btn-primary inline-flex h-full w-full cursor-pointer items-center justify-center px-4 py-2 text-base lg:text-lg font-medium backdrop-blur-3xl"
             >

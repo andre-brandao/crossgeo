@@ -151,7 +151,7 @@ export const emailTemplate = {
                 overflow: hidden;
               }
               .header {
-                background-color: #007bff;
+                background-color: #1EB854;
                 color: #ffffff;
                 padding: 20px;
                 padding-top: 100px;
@@ -175,7 +175,7 @@ export const emailTemplate = {
                 margin: 20px 0;
               }
               .button {
-                background-color: #007bff;
+                background-color: #1EB854;
                 color: #ffffff;
                 padding: 10px 20px;
                 text-decoration: none;
@@ -194,10 +194,10 @@ export const emailTemplate = {
                 padding-bottom: 0px;
               }
               .text-blu {
-                color: #007bff;
+                color: #1EB854;
               }
               .quadrado {
-                background-color: #007bff;
+                background-color: #1EB854;
                 border-radius: 10px;
               }
               .white {
@@ -281,7 +281,7 @@ export const emailTemplate = {
                 margin: 20px 0;
               }
               .button {
-                background-color: #007bff;
+                background-color: #1EB854;
                 color: #ffffff;
                 padding: 10px 20px;
                 text-decoration: none;
@@ -322,7 +322,85 @@ export const emailTemplate = {
     return {
       subject: `Login para ${website.siteShortTitle}`,
       text: `Clique no link para fazer login: ${magic_link}`,
-      html: `Clique no link para fazer login: <a href="${magic_link}">${magic_link}</a>`,
+      html: `<!DOCTYPE html>
+        <html lang="pt-BR">
+          <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Redefinição de Senha</title>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+              }
+              .email-container {
+                max-width: 600px;
+                margin: 20px auto;
+                background-color: #ffffff;
+                border: 1px solid #dddddd;
+                border-radius: 5px;
+                overflow: hidden;
+              }
+              .header {
+                background-color: ${website.emailColor};
+                color: #ffffff;
+                padding: 20px;
+                padding-top: 100px;
+                padding-bottom: 100px;
+                text-align: center;
+                background-image: url("${website.emailCoverUrl}");
+                background-size: cover;
+                background-blend-mode: overlay;
+              }
+              .header h1 {
+                margin: 0;
+              }
+              .content {
+                padding: 20px;
+              }
+              .content p {
+                line-height: 1.6;
+              }
+              .button-container {
+                text-align: center;
+                margin: 20px 0;
+              }
+              .button {
+                background-color: #1EB854;
+                color: #ffffff;
+                padding: 10px 20px;
+                text-decoration: none;
+                border-radius: 5px;
+              }
+              .footer {
+                background-color: #f4f4f4;
+                color: #777777;
+                padding: 10px;
+                text-align: center;
+                font-size: 12px;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="email-container">
+              <div class="header">
+                <h1>${website.siteTitle}</h1>
+              </div>
+              <div class="content">
+                <p>Clique no link abaixo para acessar o site:</p>
+                <div class="button-container">
+                  <a href="${magic_link}" class="button">Acessar CrossGeo</a>
+                </div>
+                <p>Atenciosamente,<br />Equipe ${website.siteTitle}</p>
+              </div>
+              <div class="footer">
+                <p>&copy; Todos os direitos reservados.</p>
+              </div>
+            </div>
+          </body>
+        </html>`,
     }
   },
 }

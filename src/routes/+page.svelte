@@ -1,4 +1,4 @@
-<script>
+<script lang='ts'>
   import SEO, { getSEOProps } from '$lib/components/SEO/index.svelte'
 
   import Features3 from '$lib/components/landing-page/features/Features3.svelte'
@@ -8,7 +8,15 @@
   import HeroGlobe from '$lib/components/landing-page/hero/HeroGlobe.svelte'
   import GetInTouch from '$lib/components/landing-page/contact/GetInTouch.svelte'
   import CallToAction from '$lib/components/landing-page/CallToAction.svelte'
-  
+
+  import type { PageData } from './$types'
+  import MapsExample from '$lib/components/landing-page/MapsExample.svelte'
+
+  export let data: PageData
+
+  let maps = data.user_maps
+
+  let GOOGLE_MAPS_KEY = data.GOOGLE_MAPS_KEY
 </script>
 
 <SEO
@@ -37,8 +45,12 @@
   <!-- <Carousel /> -->
 
   <!-- <Carousel2 /> -->
+   {#if maps.length>0}
+     <MapsExample {maps} {GOOGLE_MAPS_KEY}/>
+   {/if}
 
   <CallToAction/>
+
 
   <GetInTouch></GetInTouch>
 

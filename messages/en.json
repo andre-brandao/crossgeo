@@ -120,5 +120,6 @@
   "reset_here": "Reset it here",
   "smart_decisions": "Turn data into smart decisions with Crossgeo!",
   "your_solution": "Your ultimate solution for transforming geospatial data into valuable insights. With our intuitive and powerful platform, you can visualize, interpret, and make informed decisions with ease.",
-  "start_now": "Start now! "
+  "start_now": "Start now!",
+  "you_do_not_have": "You don't have any dataset, create one from a CSV file or\r\nuse a public dataset:"
 }
