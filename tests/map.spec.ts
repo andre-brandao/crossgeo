@@ -130,7 +130,7 @@ test('Login and attempt to upload map without name', async ({ page }) => {
   expect(await page.getByRole('alert').isHidden()).toBeTruthy();
 
   // Aguarda e clica no link "Começar"
-  await page.waitForSelector('role=link[name="Começar"]');
+//   await page.waitForSelector('role=link[name="Começar"]');
   await page.getByRole('link', { name: 'Começar' }).click();
   await page.waitForLoadState('load'); // Aguarda o carregamento da nova página
 
