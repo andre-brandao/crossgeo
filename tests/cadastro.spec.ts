@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { deleteUserForTesting } from './utils';
 import { getVerificationCodeForTesting } from './utils';
 
@@ -27,7 +27,7 @@ async function fillForm(page, user) {
   await page.locator('#password').press('Enter');
 }
 
-async function clearForm(page) {
+async function clearForm(page: Page) {
   await page.getByPlaceholder('Usuario').fill('');
   await page.getByPlaceholder('Email').fill('');
   await page.locator('#phone').fill('');
