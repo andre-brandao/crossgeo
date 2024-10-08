@@ -1,19 +1,18 @@
 import { test, expect, type Page } from '@playwright/test';
 import { deleteUserForTesting } from './utils';
-import { getVerificationCodeForTesting } from './utils';
 
 
 
 const validUser = {
   username: 'andreimock',
-  phone: '+55 (31) 98858-1887',
+  // phone: '+55 (31) 98858-1887',
   email: 'teste.valido@hotmail.com',
   password: 'senha_forte@10'
 };
 
 const invalidUser = {
   username: 'andrei@', // Nome de usuário inválido
-  phone: '+55 (31) 98858-1887',
+  // phone: '+55 (31) 98858-1887',
   email: 'teste.valido@hotmail.com',
   password: 'senha' 
 }
@@ -21,7 +20,7 @@ const invalidUser = {
 
 async function fillForm(page, user) {
   await page.getByPlaceholder('Usuario').fill(user.username);
-  await page.locator('#phone').fill(user.phone);
+  // await page.locator('#phone').fill(user.phone);
   await page.getByPlaceholder('Email').fill(user.email);
   await page.locator('#password').fill(user.password);
   await page.locator('#password').press('Enter');
@@ -30,7 +29,7 @@ async function fillForm(page, user) {
 async function clearForm(page: Page) {
   await page.getByPlaceholder('Usuario').fill('');
   await page.getByPlaceholder('Email').fill('');
-  await page.locator('#phone').fill('');
+  // await page.locator('#phone').fill('');
   await page.locator('#password').fill('');
 }
 test('should show an error message for invalid password', async ({ page }) => {

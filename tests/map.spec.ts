@@ -44,6 +44,7 @@ test.beforeAll(async () => {
   console.log('Usuário de teste criado:', testUser.id)
   await new Promise(r => setTimeout(r, 500))
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const insertedUser = await userController.insertUser({
       id: testUser.id,
       username: testUser.username,
@@ -98,6 +99,9 @@ test.afterAll(async () => {
 //   await expect(page.getByText('Map name is required')).toBeVisible()
 // })
 
+
+
+//npx playwright test --debug
 
 test('Login and attempt to upload map without name', async ({ page }) => {
   // Aguarda o carregamento completo da página
