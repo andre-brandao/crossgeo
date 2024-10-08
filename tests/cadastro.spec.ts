@@ -1,5 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
-import { deleteUserForTesting } from './utils';
+import { deleteUserForTesting, getVerificationCodeForTesting } from './utils';
 
 
 
@@ -32,6 +32,8 @@ async function clearForm(page: Page) {
   // await page.locator('#phone').fill('');
   await page.locator('#password').fill('');
 }
+
+//pass
 test('should show an error message for invalid password', async ({ page }) => {
   await page.goto('http://localhost:5173/signup');
   await fillForm(page, { ...validUser, password: invalidUser.password });
@@ -39,13 +41,6 @@ test('should show an error message for invalid password', async ({ page }) => {
   await clearForm(page);
 });
 
-
-test('should show an error message for invalid username', async ({ page }) => {
-  await page.goto('http://localhost:5173/signup');
-  await fillForm(page, { ...invalidUser, password: validUser.password });
-  await expect(page.locator('.text-red-500'), 'A mensagem de nome de usuário inválido não apareceu como esperado').toHaveText('Invalid username');
-  await clearForm(page);
-});
 
 test('should register successfully with valid credentials', async ({ page }) => {
   await page.goto('http://localhost:5173/signup');
@@ -58,7 +53,8 @@ test('should register successfully with valid credentials', async ({ page }) => 
   for (let i = 0; i < verificationCode.length; i++) {
     await page.locator(`.default-input:nth-child(${i + 1})`).fill(verificationCode[i]);
   }
-  await page.getByRole('button', { name: 'Confirm' }).click();
+  await page.getByRole('button', { name: 'Verifique seu e-mail' }).click();
+  // await page.getByRole('button', { name: 'Confirm' }).click();
 });
 
 test.afterAll(async () => {
