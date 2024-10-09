@@ -4,6 +4,7 @@ import { deleteUserForTesting, verifyNumberEmail } from './utils'
 import type { InsertUser } from '$lib/server/db/schema'
 import { hash } from '@node-rs/argon2'
 import { generateId } from 'lucia'
+import fs from 'fs/promises'
 
 // Interface estendida para incluir a senha em texto claro
 interface TestUser extends InsertUser {
@@ -72,80 +73,128 @@ test.afterAll(async () => {
     }
   }
 })
+
+//npx playwright test --debug
+
 // test('Login and attempt to upload map without name', async ({ page }) => {
 //   await page.goto('http://localhost:5173/login')
+//   await page.waitForLoadState('load')
+//   await page.waitForSelector('role=tab[name="Entrar com senha"]')
 //   await page.getByRole('tab', { name: 'Entrar com senha' }).click()
+//   await page.waitForSelector('input[placeholder="Email"]', {
+//     state: 'visible',
+//     timeout: 5000,
+//   })
+//   await page.waitForTimeout(1000)
 //   await page.getByPlaceholder('Email').fill(testUser.email)
-//   await page.locator('#password').click()
+//   await page.waitForSelector('#password', { state: 'visible' })
 //   await page.locator('#password').fill(testUser.plainTextPassword)
 //   await page.locator('#password').press('Enter')
-//   expect(page.getByRole('alert').isHidden()).toBeTruthy()
+//   expect(await page.getByRole('alert').isHidden()).toBeTruthy()
 //   await page.getByRole('link', { name: 'Começar' }).click()
-
+//   await page.waitForLoadState('load')
 //   const filePath = 'E:/Projetos/crossgeo/tests/testData/divinopolis.csv'
-
-//   // Use setInputFiles directly without clicking the button first
+//   await page.getByRole('link', { name: 'Criar novo mapa Clique aqui' }).click()
 //   await page.setInputFiles('input[type="file"]', filePath)
-
-//   // Handle any dialog that might appear
-//   page.once('dialog', dialog => {
-//     console.log(dialog.message())
-//     dialog.accept()
-//   })
-
 //   await page.locator('label').filter({ hasText: 'Campo de endereço' }).click()
 //   await page.getByLabel('Campo de endereço').selectOption('endereco completo')
 //   await page.getByRole('button', { name: 'Enviar' }).click()
 //   await expect(page.getByText('Map name is required')).toBeVisible()
 // })
 
+// test('Upload CSV and verify number of map points', async ({ page }) => {
+//   // Leia o arquivo CSV e conte o número de instâncias
+//   const csvData = await fs.readFile(
+//     'E:/Projetos/crossgeo/tests/testData/divinopolis.csv',
+//     'utf-8',
+//   )
+//   const csvLines = csvData.split('\n')
+//   const numInstances = csvLines.length - 1
+//   console.log('Número de instâncias no CSV:', numInstances)
+
+//   await page.goto('http://localhost:5173/login')
+//   await page.waitForLoadState('load')
+//   await page.waitForSelector('role=tab[name="Entrar com senha"]')
+//   await page.getByRole('tab', { name: 'Entrar com senha' }).click()
+//   await page.waitForSelector('input[placeholder="Email"]', {
+//     state: 'visible',
+//     timeout: 5000,
+//   })
+//   await page.waitForTimeout(1000)
+//   await page.getByPlaceholder('Email').fill(testUser.email)
+//   await page.waitForSelector('#password', { state: 'visible' })
+//   await page.locator('#password').fill(testUser.plainTextPassword)
+//   await page.locator('#password').press('Enter')
+//   expect(await page.getByRole('alert').isHidden()).toBeTruthy()
+//   await page.getByRole('link', { name: 'Começar' }).click()
+//   await page.waitForLoadState('load')
+
+//   // Faça o upload do arquivo CSV e aguarde até que o mapa seja renderizado
+//   await page.getByRole('link', { name: 'Criar novo mapa Clique aqui' }).click()
+//   await page.setInputFiles(
+//     'input[type="file"]',
+//     'E:/Projetos/crossgeo/tests/testData/divinopolis.csv',
+//   )
+//   await page.locator('label').filter({ hasText: 'Campo de endereço' }).click()
+//   await page.getByLabel('Campo de endereço').selectOption('endereco completo')
+//   await page.getByPlaceholder('Nome do mapa').fill('Test Map')
+//   await page.getByRole('button', { name: 'Enviar' }).click()
+//   await page.waitForSelector('.leaflet-pane.leaflet-marker-pane')
+
+//   // Conte o número de pontos no mapa
+//   const markers = page.locator('.leaflet-marker-icon.map-marker')
+//   const numMarkers = await markers.count()
+
+//   // Verifique se o número de pontos no mapa corresponde ao número de instâncias no CSV
+//   expect(numMarkers).toBe(numInstances)
+// })
 
 
-//npx playwright test --debug
+test('Upload CSV and verify number of map points', async ({ page }) => {
+  // Leia o arquivo CSV e conte o número de instâncias
+  const csvData = await fs.readFile(
+    'E:/Projetos/crossgeo/tests/testData/divinopolis.csv',
+    'utf-8',
+  )
+  const csvLines = csvData.split('\n')
+  const numInstances = csvLines.length - 1
+  console.log('Número de instâncias no CSV:', numInstances)
 
-test('Login and attempt to upload map without name', async ({ page }) => {
-  // Aguarda o carregamento completo da página
-  await page.goto('http://localhost:5173/login');
-  await page.waitForLoadState('load'); // Aguarda até que a página seja totalmente carregada
+  await page.goto('http://localhost:5173/login')
+  await page.waitForLoadState('load')
+  await page.waitForSelector('role=tab[name="Entrar com senha"]')
+  await page.getByRole('tab', { name: 'Entrar com senha' }).click()
+  await page.waitForSelector('input[placeholder="Email"]', {
+    state: 'visible',
+    timeout: 5000,
+  })
+  await page.waitForTimeout(1000)
+  await page.getByPlaceholder('Email').fill(testUser.email)
+  await page.waitForSelector('#password', { state: 'visible' })
+  await page.locator('#password').fill(testUser.plainTextPassword)
+  await page.locator('#password').press('Enter')
+  expect(await page.getByRole('alert').isHidden()).toBeTruthy()
+  await page.getByRole('link', { name: 'Começar' }).click()
+  await page.waitForLoadState('load')
 
-  // Aguarda o botão/tab de "Entrar com senha" estar visível e clicável
-  await page.waitForSelector('role=tab[name="Entrar com senha"]');
-  await page.getByRole('tab', { name: 'Entrar com senha' }).click();
-
-  // Aguarda o campo de Email estar visível antes de preenchê-lo
-  await page.waitForSelector('input[placeholder="Email"]', { state: 'visible', timeout: 5000 });
-  
-  // Espera um pouco mais de tempo antes de preencher
-  await page.waitForTimeout(1000); 
-  
-  // Preenche o campo de Email
-  await page.getByPlaceholder('Email').fill(testUser.email);
-
-  // Aguarda o campo de senha estar visível e interativo antes de preenchê-lo
-  await page.waitForSelector('#password', { state: 'visible' });
-  await page.locator('#password').fill(testUser.plainTextPassword);
-  await page.locator('#password').press('Enter');
-
-  // Verifica se o alerta está oculto
-  expect(await page.getByRole('alert').isHidden()).toBeTruthy();
-
-  // Aguarda e clica no link "Começar"
-//   await page.waitForSelector('role=link[name="Começar"]');
-  await page.getByRole('link', { name: 'Começar' }).click();
-  await page.waitForLoadState('load'); // Aguarda o carregamento da nova página
-
-  const filePath = 'E:/Projetos/crossgeo/tests/testData/divinopolis.csv';
-
-  // Usa setInputFiles diretamente sem clicar no botão primeiro
-  await page.setInputFiles('input[type="file"]', filePath);
-
-
+  // Faça o upload do arquivo CSV e aguarde até que o mapa seja renderizado
+  await page.getByRole('link', { name: 'Criar novo mapa Clique aqui' }).click()
+  await page.setInputFiles(
+    'input[type="file"]',
+    'E:/Projetos/crossgeo/tests/testData/divinopolis.csv',
+  )
   await page.locator('label').filter({ hasText: 'Campo de endereço' }).click()
   await page.getByLabel('Campo de endereço').selectOption('endereco completo')
-  // await page.getByRole('button', { name: 'Enviar' }).click()
-  await page.locator('button', { hasText: 'Enviar' }).nth(1).click();
-  await expect(page.getByText('Map name is required')).toBeVisible()
+  await page.getByPlaceholder('Nome do mapa').fill('Test Map')
+  await page.getByRole('button', { name: 'Enviar' }).click()
 
+  // Aguarde até que os pontos do mapa estejam visíveis
+  await page.waitForSelector('.leaflet-marker-icon.map-marker', { state: 'visible' });
 
+  // Conte o número de pontos no mapa
+  const numMarkers = await page.locator('.leaflet-marker-icon.map-marker').count();
+  console.log('Número de pontos no mapa:', numMarkers);
+
+  // Verifique se o número de pontos no mapa corresponde ao número de instâncias no CSV
+  expect(numMarkers).toBe(numInstances-1);
 });
-
