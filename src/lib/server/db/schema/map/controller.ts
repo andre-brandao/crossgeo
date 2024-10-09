@@ -119,6 +119,14 @@ function getDataById(data_id: SelectData['id']) {
   })
 }
 
+function getDataWithPointsById(data_id: SelectData['id']) {
+  return db.query.dataTable.findFirst({
+    where: t => eq(t.id, data_id),
+    // TODO: Limit made by select
+    with: {points : true, made_by : true}
+  })
+}
+
 function getOnePointFromData(id: SelectData['id']) {
   return db.query.mapPointTable.findFirst({
     where: t => eq(t.data_id, id),
@@ -174,6 +182,7 @@ export const map = {
   queryMapWithPoints,
   countUserMaps,
   countUserDatasets,
+  getDataWithPointsById,
 
   getPublicData: db
     .select()
