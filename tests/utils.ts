@@ -3,6 +3,8 @@ import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
 import { userTable, userVerificationCodeTable } from '../src/lib/server/db/schema/user';
 import * as schema from '../src/lib/server/db/schema';
+import { map } from '../src/lib/server/db/schema/map/controller';
+import { mapTable, mapDataTable, mapPointTable, dataTable } from '../src/lib/server/db/schema/map';
 
 const client = createClient({
   url: process.env.DATABASE_URL || 'file:local.db',
@@ -42,11 +44,60 @@ export async function getVerificationCodeForTesting(username: string): Promise<s
   }
 }
 
+export async function deleteUserMaps(userId: string): Promise<void> {
+  console.log('Deletando mapas do usuário:', userId);
+  try {
+    const userMaps = await map.getUserMaps(userId);
+
+    for (const userMap of userMaps) {
+      await db.delete(mapDataTable).where(eq(mapDataTable.map_id, userMap.id));
+      await db.delete(mapTable).where(eq(mapTable.id, userMap.id));
+    }
+
+    console.log(`Mapas do usuário '${userId}' foram deletados com sucesso.`);
+  } catch (error) {
+    console.error('Erro ao deletar mapas do usuário:', error);
+    throw error;
+  }
+}
+
+export async function deleteUserPoints(userId: string): Promise<void> {
+  console.log('Deletando pontos do usuário:', userId);
+  try {
+    const userDataIds = await db
+      .select({ id: dataTable.id })
+      .from(dataTable)
+      .where(eq(dataTable.created_by, userId));
+
+    await db
+      .delete(mapPointTable)
+      .where(sql`${mapPointTable.data_id} IN (${userDataIds.map(data => data.id).join(', ')})`)
+      .execute();
+
+    console.log(`Pontos do usuário '${userId}' foram deletados com sucesso.`);
+  } catch (error) {
+    console.error('Erro ao deletar pontos do usuário:', error);
+    throw error;
+  }
+}
+
+export async function deleteUserData(userId: string): Promise<void> {
+  console.log('Deletando dados do usuário:', userId);
+  try {
+    await db.delete(dataTable).where(eq(dataTable.created_by, userId)).execute();
+
+    console.log(`Dados do usuário '${userId}' foram deletados com sucesso.`);
+  } catch (error) {
+    console.error('Erro ao deletar dados do usuário:', error);
+    throw error;
+  }
+}
+
+
 
 export async function deleteUserForTesting(username: string): Promise<void> {
   console.log('Deletando usuário de teste:', username);
   try {
-  
     const user = await db.select({ id: userTable.id })
       .from(userTable)
       .where(eq(userTable.username, username))
@@ -57,6 +108,9 @@ export async function deleteUserForTesting(username: string): Promise<void> {
       return;
     }
 
+    await deleteUserMaps(user.id);
+    await deleteUserPoints(user.id);
+    await deleteUserData(user.id);
 
     await db.delete(userVerificationCodeTable)
       .where(eq(userVerificationCodeTable.userId, user.id))
@@ -71,11 +125,43 @@ export async function deleteUserForTesting(username: string): Promise<void> {
     console.error('Erro ao deletar usuário de teste:', error);
     throw error;
   }
-
-
-
-
 }
+
+
+
+// export async function deleteUserForTesting(username: string): Promise<void> {
+//   console.log('Deletando usuário de teste:', username);
+//   try {
+  
+//     const user = await db.select({ id: userTable.id })
+//       .from(userTable)
+//       .where(eq(userTable.username, username))
+//       .get();
+
+//     if (!user) {
+//       console.log(`Usuário '${username}' não encontrado. Nada para deletar.`);
+//       return;
+//     }
+
+
+//     await db.delete(userVerificationCodeTable)
+//       .where(eq(userVerificationCodeTable.userId, user.id))
+//       .execute();
+
+//     await db.delete(userTable)
+//       .where(eq(userTable.id, user.id))
+//       .execute();
+
+//     console.log(`Usuário '${username}' e dados associados foram deletados com sucesso.`);
+//   } catch (error) {
+//     console.error('Erro ao deletar usuário de teste:', error);
+//     throw error;
+//   }
+
+
+
+
+// }
 
 // export async function verifyNumberEmail(username: string): Promise<void> {
 //   console.log('Verificando email e número de telefone para o usuário:', username);
