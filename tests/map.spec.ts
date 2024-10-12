@@ -5,6 +5,7 @@ import type { InsertUser } from '$lib/server/db/schema'
 import { hash } from '@node-rs/argon2'
 import { generateId } from 'lucia'
 import fs from 'fs/promises'
+import * as path from 'path'
 
 // Interface estendida para incluir a senha em texto claro
 interface TestUser extends InsertUser {
@@ -77,9 +78,13 @@ test.afterAll(async () => {
 
 
 test('Upload CSV and verify number of map points', async ({ page }) => {
+
+  // console.log(process.cwd())
+  // return
   // Leia o arquivo CSV e conte o número de instâncias
+  const csvFilePath = path.resolve('tests/testData/divinopolis.csv')
   const csvData = await fs.readFile(
-    'E:/Projetos/crossgeo/tests/testData/divinopolis.csv',
+    csvFilePath,
     'utf-8',
   )
   const csvLines = csvData.split('\n')
@@ -107,7 +112,7 @@ test('Upload CSV and verify number of map points', async ({ page }) => {
   await page.getByRole('link', { name: 'Criar novo mapa Clique aqui' }).click()
   await page.setInputFiles(
     'input[type="file"]',
-    'E:/Projetos/crossgeo/tests/testData/divinopolis.csv',
+    csvFilePath,
   )
   await page.locator('label').filter({ hasText: 'Campo de endereço' }).click()
   await page.getByLabel('Campo de endereço').selectOption('endereco completo')
