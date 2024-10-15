@@ -43,7 +43,14 @@ test('Testando se a compra de GeoPoints leva para o site da Stripe', async ({
   await page.locator('#password').fill(testUser.password)
   await page.getByRole('button', { name: 'Continuar' }).click()
   await page.goto('http://localhost:5173/checkout')
+
+  // Verificando se a mensagem de erro é encontrada
+  const errorMessage = await page.locator('text=500 Something went wrong').isVisible()
+  expect(errorMessage).toBe(false)
+
   await page.getByRole('button', { name: '+1000' }).click()
   await page.getByRole('button', { name: 'Checkout' }).click()
+
+  // Verificando se o site da Stripe carrega
   await page.waitForURL(new RegExp('https://checkout\\.stripe\\.com/.*'), {timeout: 10000})
 })
