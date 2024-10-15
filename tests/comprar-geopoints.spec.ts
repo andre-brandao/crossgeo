@@ -45,5 +45,5 @@ test('Testando se a compra de GeoPoints leva para o site da Stripe', async ({
   await page.goto('http://localhost:5173/checkout')
   await page.getByRole('button', { name: '+1000' }).click()
   await page.getByRole('button', { name: 'Checkout' }).click()
-  expect(page.url().startsWith('https://checkout.stripe.com')).toBe(true)
+  await page.waitForURL(new RegExp('https://checkout\\.stripe\\.com/.*'), {timeout: 10000})
 })
