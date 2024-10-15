@@ -134,7 +134,7 @@ test('Testando se a soma e a subtração dos GeoPoints para a compra estão corr
 
   /**
    * Realiza a subtração de um valor à variável sum, verificando se está correto.
-   * Valor a ser subtraído. Valores permitidos: 1000, 100, 50.
+   * @param value Valor a ser subtraído. Valores permitidos: 1000, 100, 50.
    */
   async function subtractValueToSum(value: number) {
     // Adicionando value
