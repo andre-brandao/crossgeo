@@ -21,7 +21,11 @@ const testUser = new User(
  */
 test.beforeAll(async () => {
   // Adicionando usuário de teste ao banco de dados
-  await userController.insertUser(await testUser.toInsertUser())
+  try {
+    await userController.insertUser(await testUser.toInsertUser())
+  } catch (e) {
+    console.error(e)
+  }
 })
 
 /**
@@ -29,7 +33,11 @@ test.beforeAll(async () => {
  */
 test.afterAll(async () => {
   // Apagando o usuário criado
-  await deleteUserForTesting(testUser.username)
+  try {
+      await deleteUserForTesting(testUser.username)
+  } catch (e) {
+    console.error(e)
+  }
 })
 
 /**
