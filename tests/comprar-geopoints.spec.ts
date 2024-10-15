@@ -101,3 +101,77 @@ test('Testando se a compra de GeoPoints leva para o site da Stripe', async ({
   // Verificando se o site da Stripe carrega
   await page.waitForURL(new RegExp('https://checkout\\.stripe\\.com/.*'), {timeout: 10000})
 })
+
+test('Testando se a soma e a subtração dos GeoPoints para a compra estão corretas', async ({page}) => {
+
+  // Indo para a página de checkout
+  await goToCheckoutPage(page)
+
+  // Seletor do valor da soma na página
+  const sumSelector = "body > div > div.drawer > div.drawer-content.flex.h-screen.flex-col.overflow-hidden > div.h-full.overflow-scroll.overflow-x-auto > main > div.mb-5 > p"
+
+  // Variável para a soma
+  let sum = 200
+
+  // Verificando se o valor está correto
+  expect(parseInt(await page.locator(sumSelector).innerText())).toBe(sum)
+
+  /**
+   * Realiza a adição de um valor à variável sum, verificando se está correto.
+   * @param value Valor a ser somado. Valores permitidos: 1000, 100, 50.
+   */
+  async function addValueToSum(value: number) {
+    // Adicionando value
+    await page.getByRole('button', { name: `+${value}` }).click()
+    sum += value
+
+    // Esperando 1 segundo
+    await page.waitForTimeout(1000)
+
+    // Verificando se o valor está correto
+    expect(parseInt(await page.locator(sumSelector).innerText())).toBe(sum)
+  }
+
+  /**
+   * Realiza a subtração de um valor à variável sum, verificando se está correto.
+   * Valor a ser subtraído. Valores permitidos: 1000, 100, 50.
+   */
+  async function subtractValueToSum(value: number) {
+    // Adicionando value
+    await page.getByRole('button', { name: `-${value}` }).click()
+    sum -= value
+
+    // Esperando 1 segundo
+    await page.waitForTimeout(1000)
+
+    // Verificando se o valor está correto
+    expect(parseInt(await page.locator(sumSelector).innerText())).toBe(sum)
+  }
+
+  // Adicionando 1000
+  await addValueToSum(1000)
+
+  // Adicionando 100
+  await addValueToSum(100)
+
+  // Adicionando 50
+  await addValueToSum(50)
+
+  // Subtraindo 100
+  await subtractValueToSum(100)
+
+  // Subtraindo 1000
+  await subtractValueToSum(1000)
+
+  // Subtraindo 50
+  await subtractValueToSum(50)
+
+  // Verificando se foi para 200
+  expect(parseInt(await page.locator(sumSelector).innerText())).toBe(200)
+
+  // Subtraindo 200
+  await subtractValueToSum(100)
+  await subtractValueToSum(100)
+
+  await page.pause()
+})
