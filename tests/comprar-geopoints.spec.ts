@@ -60,8 +60,8 @@ async function goToCheckoutPage(page: Page) {
   // Realizando login
   await insertCredentialsLoginPage(page)
 
-  // Esperando 5 segundos
-  await page.waitForTimeout(5000)
+  // Esperando 1 segundo
+  await page.waitForTimeout(1000)
 
   // Indo para as compras
   await page.goto('http://localhost:5173/checkout')
@@ -86,14 +86,14 @@ test('Testando se a compra de GeoPoints leva para o site da Stripe', async ({
   // Indo para a página de checkout
   await goToCheckoutPage(page)
 
-  // Esperando 5 segundos
-  await page.waitForTimeout(5000)
+  // Esperando 1 segundo
+  await page.waitForTimeout(1000)
 
   // Adicionando 1000 GeoPoints
   await page.getByRole('button', { name: '+1000' }).click()
 
-  // Esperando 5 segundos
-  await page.waitForTimeout(5000)
+  // Esperando 1 segundos
+  await page.waitForTimeout(1000)
 
   // Realizando a compra
   await page.getByRole('button', { name: 'Checkout' }).click()
