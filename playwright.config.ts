@@ -8,4 +8,6 @@ export default defineConfig({
     stdout: 'pipe',
     stderr: 'pipe',
   },
+  testDir: 'tests',
+  testMatch: /(.+\.)?(test|spec)\.[jt]s/,
 });
