@@ -32,6 +32,9 @@ test.afterAll(async () => {
   await deleteUserForTesting(testUser.username)
 })
 
+/**
+ * Realiza o teste se a compre de GeoPoints leva para o site da Stripe.
+ */
 test('Testando se a compra de GeoPoints leva para o site da Stripe', async ({
   page,
 }) => {
