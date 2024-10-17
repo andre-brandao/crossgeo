@@ -28,7 +28,7 @@ async function createTestUser(): Promise<TestUser> {
     id: generateId(15),
     username: 'usuarioTeste',
     phone: '+55 (31) 98858-1887',
-    email: 'dsda@hotmail.com',
+    email: 'testing@hotmail.com',
     password_hash: passwordHash,
     emailVerified: true,
     phoneVerified: true,
@@ -120,7 +120,7 @@ test('Upload CSV and verify number of map points', async ({ page }) => {
   await page.getByRole('button', { name: 'Enviar' }).click()
 
   // Aguarde até que os pontos do mapa estejam visíveis
-  await page.waitForSelector('.leaflet-marker-icon.map-marker', { state: 'visible' });
+  await page.waitForSelector('.leaflet-marker-icon.map-marker', { state: 'visible', timeout: 30000 });
 
   // Conte o número de pontos no mapa
   const numMarkers = await page.locator('.leaflet-marker-icon.map-marker').count();
